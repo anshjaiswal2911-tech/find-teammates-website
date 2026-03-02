@@ -19,7 +19,8 @@ import {
     MessageSquare,
     Calendar,
     RotateCcw,
-    Filter
+    Filter,
+    Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router';
@@ -30,9 +31,6 @@ import { generateMatches, simulateMutualLike } from '../lib/matchingAlgorithm';
 import { Match as MatchType, User as UserType } from '../lib/types';
 import { addActivity } from '../lib/userStats';
 
-// ─────────────────────────────────────────────
-// Confetti Particle
-// ─────────────────────────────────────────────
 const ConfettiParticle = ({ delay, x, color }: { delay: number; x: number; color: string }) => (
     <motion.div
         className="absolute top-0 rounded-sm pointer-events-none"
@@ -43,9 +41,15 @@ const ConfettiParticle = ({ delay, x, color }: { delay: number; x: number; color
     />
 );
 
-// ─────────────────────────────────────────────
-// Match Celebration Overlay
-// ─────────────────────────────────────────────
+const SparkBurst = () => (
+    <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: [0, 1.5, 2], opacity: [0, 0.8, 0] }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="absolute inset-0 z-0 bg-gradient-radial from-yellow-400 via-purple-500/30 to-transparent rounded-full"
+    />
+);
+
 const MatchCelebration = ({
     match,
     currentUser,
@@ -57,10 +61,17 @@ const MatchCelebration = ({
     onStartChat: () => void;
     onKeepSwiping: () => void;
 }) => {
-    const colors = ['#7C3AED', '#A855F7', '#EC4899', '#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
-    const particles = Array.from({ length: 35 }, (_, i) => ({
+    const colors = ['#7C3AED', '#A855F7', '#EC4899', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#FFD700'];
+
+    useEffect(() => {
+        const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+        audio.volume = 0.4;
+        audio.play().catch(e => console.log('Audio play failed:', e));
+    }, []);
+
+    const particles = Array.from({ length: 60 }, (_, i) => ({
         id: i,
-        delay: Math.random() * 0.8,
+        delay: Math.random() * 1.2,
         x: Math.random() * 100,
         color: colors[Math.floor(Math.random() * colors.length)],
     }));
@@ -70,172 +81,131 @@ const MatchCelebration = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
         >
-            {/* Confetti */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 {particles.map(p => (
                     <ConfettiParticle key={p.id} delay={p.delay} x={p.x} color={p.color} />
                 ))}
             </div>
 
-            {/* Card */}
             <motion.div
-                initial={{ scale: 0.4, opacity: 0, y: 60 }}
+                initial={{ scale: 0.4, opacity: 0, y: 100 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.85, opacity: 0, y: 20 }}
-                transition={{ type: 'spring', damping: 18, stiffness: 220, delay: 0.1 }}
-                className="relative bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden"
+                transition={{ type: 'spring', damping: 15, stiffness: 200 }}
+                className="relative max-w-sm w-full"
             >
-                {/* Brand top bar */}
-                <div className="h-1.5 bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899]" />
-
-                <div className="p-8 text-center">
-                    {/* Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.35 }}
-                        className="inline-flex items-center gap-2 bg-purple-50 text-purple-600 text-[10px] font-black tracking-widest uppercase px-4 py-1.5 rounded-full border border-purple-100 mb-5"
-                    >
-                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse" />
-                        New Connection Found
-                    </motion.div>
-
-                    {/* Title */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.7 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.4, type: 'spring', stiffness: 280 }}
-                        className="mb-7"
-                    >
-                        <p className="text-4xl font-black text-gray-900 tracking-tighter leading-none">
-                            IT'S A{' '}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#A855F7]">TEAM</span>
-                        </p>
-                        <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#A855F7] to-[#EC4899] tracking-tighter leading-none">
-                            MATCH!
-                        </p>
-                    </motion.div>
-
-                    {/* Avatars */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                        className="flex justify-center items-center mb-7"
-                    >
-                        {/* You */}
-                        <div className="w-20 h-20 rounded-full border-4 border-white shadow-xl overflow-hidden bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center text-white text-2xl font-black z-10">
-                            {currentUser?.name?.charAt(0) || 'Y'}
-                        </div>
-
-                        {/* Pulsing heart */}
+                <SparkBurst />
+                <div className="relative bg-white rounded-[3rem] shadow-2xl overflow-hidden border-8 border-white">
+                    <div className="h-2 bg-gradient-to-r from-[#7C3AED] via-[#FFD700] to-[#EC4899] animate-gradient-x" />
+                    <div className="p-10 text-center">
                         <motion.div
-                            className="w-10 h-10 bg-gradient-to-br from-[#7C3AED] to-[#EC4899] rounded-full flex items-center justify-center -mx-2 z-20 shadow-xl"
-                            animate={{ scale: [1, 1.25, 1] }}
-                            transition={{ duration: 0.8, repeat: Infinity }}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.4, type: 'spring' }}
+                            className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 text-[10px] font-black tracking-widest uppercase px-5 py-2 rounded-full shadow-lg mb-6"
                         >
-                            <Heart size={18} fill="white" className="text-white" />
+                            <Sparkles size={14} className="animate-spin-slow" />
+                            Perfect Connection Found
                         </motion.div>
 
-                        {/* Matched user */}
-                        <div className="w-20 h-20 rounded-full border-4 border-white shadow-xl overflow-hidden z-10">
-                            <img
-                                src={match.user.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(match.user.name)}&background=7C3AED&color=fff&size=200`}
-                                alt={match.user.name}
-                                className="w-full h-full object-cover"
-                                referrerPolicy="no-referrer"
-                                onError={(e) => {
-                                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(match.user.name)}&background=7C3AED&color=fff&size=200`;
-                                }}
-                            />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.7 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="mb-8"
+                        >
+                            <h2 className="text-5xl font-black text-gray-900 tracking-tighter leading-none mb-1">
+                                IT'S A <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">MATCH!</span>
+                            </h2>
+                            <div className="flex justify-center gap-1">
+                                {[...Array(3)].map((_, i) => (
+                                    <motion.div
+                                        key={i}
+                                        animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.3 }}
+                                    >
+                                        <Star size={12} className="text-yellow-400 fill-yellow-400" />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="flex justify-center items-center mb-10 relative"
+                        >
+                            <div className="w-24 h-24 rounded-full border-4 border-white shadow-2xl overflow-hidden z-10 -mr-4 bg-gray-100">
+                                <img
+                                    src={currentUser.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=7C3AED&color=fff&size=200`}
+                                    alt="You"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+
+                            <motion.div
+                                className="w-14 h-14 bg-gradient-to-br from-pink-500 to-red-500 rounded-full flex items-center justify-center z-20 shadow-xl border-4 border-white"
+                                animate={{ scale: [1, 1.3, 1], rotate: [0, 15, -15, 0] }}
+                                transition={{ duration: 1.2, repeat: Infinity }}
+                            >
+                                <Heart size={24} fill="white" className="text-white" />
+                            </motion.div>
+
+                            <div className="w-24 h-24 rounded-full border-4 border-white shadow-2xl overflow-hidden z-10 -ml-4 bg-gray-100">
+                                <img
+                                    src={match.user.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(match.user.name)}&background=7C3AED&color=fff&size=200`}
+                                    alt={match.user.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.7 }}
+                            className="mb-8"
+                        >
+                            <p className="text-gray-900 font-bold text-xl leading-tight">
+                                <span className="text-purple-600">{match.user.name.split(' ')[0]}</span> matched with you!
+                            </p>
+                            <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mt-2">
+                                Shared Interests: {match.skillOverlap.slice(0, 2).join(' • ')}
+                            </p>
+                        </motion.div>
+
+                        <div className="space-y-4">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={onStartChat}
+                                className="w-full h-16 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-black rounded-[20px] flex items-center justify-center gap-3 shadow-[0_10px_30px_-5px_rgba(124,58,237,0.4)] text-lg"
+                            >
+                                <MessageSquare size={22} />
+                                SEND MESSAGE
+                                <Zap size={18} fill="currentColor" />
+                            </motion.button>
+                            <button
+                                onClick={onKeepSwiping}
+                                className="w-full h-14 text-gray-500 font-black tracking-widest text-[10px] hover:text-gray-900 transition-colors"
+                            >
+                                KEEP SEARCHING
+                            </button>
                         </div>
-                    </motion.div>
-
-                    {/* Message */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                        className="mb-2"
-                    >
-                        <p className="text-gray-900 font-bold text-lg leading-snug">
-                            You and{' '}
-                            <span className="text-[#7C3AED]">{match.user.name.split(' ')[0]}</span>{' '}
-                            are ready to build something great together.
-                        </p>
-                    </motion.div>
-
-                    {/* Shared interests */}
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.65 }}
-                        className="text-gray-400 text-sm mb-7 leading-relaxed"
-                    >
-                        {match.skillOverlap.length > 0
-                            ? `Both of you share `
-                            : `You complement each other with `}
-                        {match.skillOverlap.length > 0
-                            ? match.skillOverlap.slice(0, 2).map((s, i) => (
-                                <span key={s}>
-                                    <span className="font-bold text-gray-700">{s}</span>
-                                    {i < Math.min(1, match.skillOverlap.length - 1) ? ' and ' : ''}
-                                </span>
-                            ))
-                            : match.complementarySkills.slice(0, 2).map((s, i) => (
-                                <span key={s}>
-                                    <span className="font-bold text-gray-700">{s}</span>
-                                    {i === 0 ? ' & ' : ''}
-                                </span>
-                            ))}
-                        {' '}skills.
-                    </motion.p>
-
-                    {/* Compatibility badge */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.7, type: 'spring' }}
-                        className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 font-black text-sm px-4 py-2 rounded-xl border border-emerald-100 mb-6"
-                    >
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                        {match.compatibilityScore}% Compatibility Score
-                    </motion.div>
-
-                    {/* Buttons */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.75 }}
-                        className="space-y-3"
-                    >
-                        <button
-                            onClick={onStartChat}
-                            className="w-full bg-gradient-to-r from-[#7C3AED] to-[#A855F7] text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                        >
-                            <MessageSquare size={20} />
-                            Start Chatting
-                        </button>
-                        <button
-                            onClick={onKeepSwiping}
-                            className="w-full border-2 border-gray-200 text-gray-700 font-black py-4 rounded-2xl hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                        >
-                            Keep Swiping
-                        </button>
-                    </motion.div>
-
-                    {/* Footer note */}
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.9 }}
-                        className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-5"
-                    >
-                        © CollabNest Discovery · Matching students since 2024
-                    </motion.p>
+                    </div>
                 </div>
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mt-8 text-center"
+                >
+                    © CollabNest Discovery · Matching students since 2024
+                </motion.p>
             </motion.div>
         </motion.div>
     );
