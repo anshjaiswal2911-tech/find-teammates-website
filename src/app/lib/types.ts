@@ -33,6 +33,8 @@ export interface Match {
   skillOverlap: string[];
   complementarySkills: string[];
   isSuperLike?: boolean;
+  mutualConnections?: number;
+  timeAdvantage?: string;
 }
 
 export interface SkillGapAnalysis {
