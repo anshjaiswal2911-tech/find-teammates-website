@@ -94,10 +94,12 @@ export function Teams() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [showProjectsModal, setShowProjectsModal] = useState(false);
+  const [showCreateProjectForm, setShowCreateProjectForm] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
+  const [newProjectTitle, setNewProjectTitle] = useState('');
   const [isInviting, setIsInviting] = useState(false);
 
   const handleCreateTeam = () => {
@@ -127,6 +129,38 @@ export function Teams() {
     setShowCreateModal(false);
     setNewTeamName('');
     setNewTeamDescription('');
+  };
+
+  const handleCreateProject = () => {
+    if (!newProjectTitle.trim() || !selectedTeam) return;
+
+    const newProject: Project = {
+      id: `p-${Date.now()}`,
+      title: newProjectTitle,
+      status: 'Idea',
+      tech: ['React', 'Tailwind'], // Default stack
+    };
+
+    setTeams(prevTeams => prevTeams.map(t => {
+      if (t.id === selectedTeam.id) {
+        return {
+          ...t,
+          projectList: [newProject, ...t.projectList],
+          projects: t.projects + 1
+        };
+      }
+      return t;
+    }));
+
+    // Update selected team for immediate UI reflect
+    setSelectedTeam(prev => prev ? {
+      ...prev,
+      projectList: [newProject, ...prev.projectList],
+      projects: prev.projects + 1
+    } : null);
+
+    setNewProjectTitle('');
+    setShowCreateProjectForm(false);
   };
 
   const handleDeleteTeam = (teamId: string) => {
@@ -349,7 +383,10 @@ export function Teams() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4"
-          onClick={() => setShowProjectsModal(false)}
+          onClick={() => {
+            setShowProjectsModal(false);
+            setShowCreateProjectForm(false);
+          }}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -375,31 +412,80 @@ export function Teams() {
             </div>
 
             <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 no-scrollbar">
-              {selectedTeam.projectList.length > 0 ? (
-                selectedTeam.projectList.map((project) => (
-                  <div key={project.id} className="p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 hover:bg-white transition-all hover:shadow-lg group">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-lg font-black text-gray-800 tracking-tight">{project.title}</h4>
-                      <Badge className={`rounded-xl px-3 py-1 text-[10px] font-black uppercase ${project.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
-                        project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
-                          'bg-gray-100 text-gray-700'
-                        }`}>
-                        {project.status}
-                      </Badge>
+              {showCreateProjectForm ? (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="bg-gray-50 p-8 rounded-[2rem] border-2 border-green-100"
+                >
+                  <h3 className="text-lg font-black text-gray-900 mb-4">Launch New Project</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-[10px] font-black uppercase text-gray-400 block mb-2">Project Title</label>
+                      <Input
+                        placeholder="e.g., Solar Analytics Pro"
+                        value={newProjectTitle}
+                        onChange={(e) => setNewProjectTitle(e.target.value)}
+                        className="rounded-xl border-gray-200 py-6"
+                      />
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map(t => (
-                        <span key={t} className="text-[10px] font-bold text-gray-400 bg-white px-3 py-1 rounded-lg border border-gray-100">
-                          {t}
-                        </span>
-                      ))}
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleCreateProject}
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-black rounded-xl py-6"
+                      >
+                        Create Project
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowCreateProjectForm(false)}
+                        className="px-6 rounded-xl font-bold text-gray-400"
+                      >
+                        Cancel
+                      </Button>
                     </div>
                   </div>
-                ))
+                </motion.div>
+              ) : selectedTeam.projectList.length > 0 ? (
+                <>
+                  <Button
+                    onClick={() => setShowCreateProjectForm(true)}
+                    className="w-full bg-green-50 text-green-600 hover:bg-green-100 border-2 border-dashed border-green-200 font-black py-4 rounded-2xl mb-4"
+                  >
+                    <Plus className="size-4 mr-2" />
+                    Startup New Project
+                  </Button>
+                  {selectedTeam.projectList.map((project) => (
+                    <div key={project.id} className="p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 hover:bg-white transition-all hover:shadow-lg group">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-lg font-black text-gray-800 tracking-tight">{project.title}</h4>
+                        <Badge className={`rounded-xl px-3 py-1 text-[10px] font-black uppercase ${project.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
+                          project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                          {project.status}
+                        </Badge>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map(t => (
+                          <span key={t} className="text-[10px] font-bold text-gray-400 bg-white px-3 py-1 rounded-lg border border-gray-100">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
               ) : (
                 <div className="text-center py-12 bg-gray-50 rounded-[2rem] border-dashed border-2 border-gray-200">
-                  <p className="text-gray-400 font-bold mb-2">No projects started yet</p>
-                  <Button variant="ghost" className="text-blue-600 font-black hover:bg-blue-50">Startup New Project +</Button>
+                  <p className="text-gray-400 font-bold mb-4">No projects started yet</p>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setShowCreateProjectForm(true)}
+                    className="text-blue-600 font-black hover:bg-blue-50"
+                  >
+                    Startup New Project +
+                  </Button>
                 </div>
               )}
             </div>
@@ -564,3 +650,4 @@ export function Teams() {
     </DashboardLayout>
   );
 }
+
