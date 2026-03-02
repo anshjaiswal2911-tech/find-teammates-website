@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Users, 
+import {
+  Users,
   Plus,
   Crown,
   Mail,
@@ -26,7 +26,7 @@ import { Input } from '../components/ui/input';
 interface TeamMember {
   id: string;
   name: string;
-  role: 'Leader' | 'Member';
+  role: 'Leader' | 'Member' | 'Pending';
   skills: string[];
   avatar: string;
   online: boolean;
@@ -75,8 +75,12 @@ export function Teams() {
   const { user } = useAuth();
   const [teams, setTeams] = useState(mockTeams);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
+  const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
+  const [isInviting, setIsInviting] = useState(false);
 
   const handleCreateTeam = () => {
     if (!newTeamName.trim()) return;
@@ -110,6 +114,38 @@ export function Teams() {
     if (confirm('Are you sure you want to delete this team?')) {
       setTeams(teams.filter(team => team.id !== teamId));
     }
+  };
+
+  const handleInvite = () => {
+    if (!inviteEmail.trim() || !selectedTeamId) return;
+
+    setIsInviting(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      setTeams(prevTeams => prevTeams.map(team => {
+        if (team.id === selectedTeamId) {
+          const newMember: TeamMember = {
+            id: `pending-${Date.now()}`,
+            name: inviteEmail.split('@')[0],
+            role: 'Pending',
+            skills: ['Invited'],
+            avatar: inviteEmail.charAt(0).toUpperCase(),
+            online: false,
+          };
+          return {
+            ...team,
+            members: [...team.members, newMember]
+          };
+        }
+        return team;
+      }));
+
+      setIsInviting(false);
+      setShowInviteModal(false);
+      setInviteEmail('');
+      alert(`Invitation sent to ${inviteEmail}!`);
+    }, 1200);
   };
 
   return (
@@ -169,7 +205,7 @@ export function Teams() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4"
           onClick={() => setShowCreateModal(false)}
         >
           <motion.div
@@ -179,7 +215,7 @@ export function Teams() {
             className="bg-white rounded-2xl p-8 max-w-md w-full"
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Team</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
@@ -191,7 +227,7 @@ export function Teams() {
                   onChange={(e) => setNewTeamName(e.target.value)}
                 />
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
                   Description
@@ -218,11 +254,81 @@ export function Teams() {
         </motion.div>
       )}
 
+      {/* Invite Member Modal */}
+      {showInviteModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4"
+          onClick={() => setShowInviteModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-[2.5rem] p-10 max-w-md w-full shadow-2xl relative overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-purple-600" />
+
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                <UserPlus size={28} />
+              </div>
+              <div>
+                <h2 className="text-2xl font-black text-gray-900 tracking-tight">Invite Teammate</h2>
+                <p className="text-sm text-gray-500 font-medium">Add amazing talent to your team</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
+                  Email or Username
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <Input
+                    placeholder="teammate@example.com"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    className="pl-12 py-6 rounded-2xl border-gray-100 bg-gray-50/50 focus:bg-white transition-all font-medium"
+                    onKeyPress={(e) => e.key === 'Enter' && handleInvite()}
+                  />
+                </div>
+              </div>
+
+              <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100/50 mb-2">
+                <p className="text-xs text-blue-700 font-medium leading-relaxed">
+                  💡 Tip: Invitations are sent instantly. Once they accept, they'll show up in your active members list.
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <Button
+                  onClick={handleInvite}
+                  disabled={!inviteEmail.trim() || isInviting}
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-6 rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                >
+                  {isInviting ? (
+                    <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    'Send Invitation'
+                  )}
+                </Button>
+                <Button variant="ghost" onClick={() => setShowInviteModal(false)} className="px-6 rounded-2xl font-bold text-gray-400 hover:text-gray-600">
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       {/* Teams Grid */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-2">
         {teams.map((team, index) => {
           const isLeader = team.members.some(m => m.name === 'You' && m.role === 'Leader');
-          
+
           return (
             <motion.div
               key={team.id}
@@ -230,75 +336,83 @@ export function Teams() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="hover:shadow-xl transition-shadow h-full">
-                <CardHeader>
+              <Card className="hover:shadow-2xl transition-all duration-300 h-full rounded-[2.5rem] border-gray-100 overflow-hidden group">
+                <CardHeader className="bg-white group-hover:bg-gray-50/50 transition-colors">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-xl mb-2 flex items-center gap-2">
+                      <CardTitle className="text-2xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-2">
                         {team.name}
-                        {isLeader && <Crown className="h-5 w-5 text-yellow-600" />}
+                        {isLeader && (
+                          <div className="bg-yellow-50 p-1 rounded-lg">
+                            <Crown className="h-5 w-5 text-yellow-600" />
+                          </div>
+                        )}
                       </CardTitle>
-                      <p className="text-sm text-gray-600">{team.description}</p>
+                      <p className="text-sm text-gray-500 font-medium leading-relaxed">{team.description}</p>
                     </div>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" className="rounded-xl hover:bg-gray-100">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-8">
                   {/* Team Stats */}
-                  <div className="grid grid-cols-3 gap-3 mb-6 p-4 bg-gray-50 rounded-lg">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900">{team.members.length}</div>
-                      <div className="text-xs text-gray-600">Members</div>
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="p-4 bg-gray-50 rounded-3xl border border-gray-100 text-center">
+                      <div className="text-2xl font-black text-gray-900">{team.members.length}</div>
+                      <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-1">Members</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">{team.projects}</div>
-                      <div className="text-xs text-gray-600">Projects</div>
+                    <div className="p-4 bg-blue-50/50 rounded-3xl border border-blue-100/50 text-center">
+                      <div className="text-2xl font-black text-blue-600">{team.projects}</div>
+                      <div className="text-[10px] uppercase font-bold text-blue-400 tracking-widest mt-1">Projects</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">
+                    <div className="p-4 bg-emerald-50/50 rounded-3xl border border-emerald-100/50 text-center">
+                      <div className="text-2xl font-black text-emerald-600">
                         {Math.floor((Date.now() - team.createdAt.getTime()) / (1000 * 60 * 60 * 24))}
                       </div>
-                      <div className="text-xs text-gray-600">Days</div>
+                      <div className="text-[10px] uppercase font-bold text-emerald-400 tracking-widest mt-1">Days Up</div>
                     </div>
                   </div>
 
                   {/* Members */}
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-3">Team Members</div>
-                    <div className="space-y-2">
+                  <div className="mb-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Team Roster</h4>
+                      <Badge variant="outline" className="rounded-full px-3 py-0.5 border-gray-200 text-gray-500 font-bold">{team.members.length} Active</Badge>
+                    </div>
+                    <div className="space-y-3">
                       {team.members.map((member) => (
-                        <div key={member.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50">
+                        <div key={member.id} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
                           <div className="relative">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                            <div className={`h-12 w-12 rounded-2xl ${member.role === 'Pending' ? 'bg-gray-100' : 'bg-gradient-to-br from-blue-500 to-purple-600'} flex items-center justify-center text-white font-black text-lg shadow-inner overflow-hidden`}>
                               {member.avatar}
                             </div>
                             {member.online && (
-                              <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white" />
+                              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-[3px] border-white shadow-sm" />
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-gray-900">{member.name}</span>
+                              <span className="font-bold text-gray-900 tracking-tight">{member.name}</span>
                               {member.role === 'Leader' && (
-                                <Badge variant="secondary" className="text-xs">
-                                  <Crown className="h-3 w-3 mr-1" />
-                                  Leader
-                                </Badge>
+                                <span className="bg-yellow-50 text-yellow-700 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-yellow-100">
+                                  Lead
+                                </span>
+                              )}
+                              {member.role === 'Pending' && (
+                                <span className="bg-gray-50 text-gray-500 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-gray-100 animate-pulse">
+                                  Pending
+                                </span>
                               )}
                             </div>
-                            <div className="flex flex-wrap gap-1 mt-1">
+                            <div className="flex flex-wrap gap-2 mt-1">
                               {member.skills.slice(0, 2).map((skill) => (
-                                <span key={skill} className="text-xs text-gray-600">
+                                <span key={skill} className="text-[10px] font-bold text-gray-400 bg-gray-100/50 px-2 py-0.5 rounded-lg border border-gray-200/30">
                                   {skill}
                                 </span>
                               ))}
-                              {member.skills.length > 2 && (
-                                <span className="text-xs text-gray-500">
-                                  +{member.skills.length - 2} more
-                                </span>
-                              )}
                             </div>
                           </div>
                         </div>
@@ -306,39 +420,32 @@ export function Teams() {
                     </div>
                   </div>
 
-                  {/* Tags */}
-                  {team.tags.length > 0 && (
-                    <div className="mb-4">
-                      <div className="flex flex-wrap gap-2">
-                        {team.tags.map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
                   {/* Actions */}
-                  <div className="flex gap-2 pt-4 border-t border-gray-200">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      <UserPlus className="h-4 w-4 mr-2" />
+                  <div className="flex gap-3 mt-auto">
+                    <Button
+                      onClick={() => {
+                        setSelectedTeamId(team.id);
+                        setShowInviteModal(true);
+                      }}
+                      className="flex-1 bg-white border-2 border-gray-100 text-gray-900 font-black rounded-2xl py-6 hover:bg-gray-50 hover:border-blue-100 hover:text-blue-600 transition-all shadow-sm"
+                    >
+                      <UserPlus className="h-5 w-5 mr-2" />
                       Invite
                     </Button>
+                    <Button
+                      variant="outline"
+                      className="rounded-2xl px-6 border-2 border-gray-100 text-gray-500 hover:text-gray-900 hover:border-gray-200 font-bold"
+                    >
+                      View Projects
+                    </Button>
                     {isLeader && (
-                      <>
-                        <Button variant="outline" size="sm">
-                          <Settings className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDeleteTeam(team.id)}
-                          className="text-red-600 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleDeleteTeam(team.id)}
+                        className="rounded-2xl px-6 border-2 border-red-50 text-red-100 hover:text-red-600 hover:border-red-100 hover:bg-red-50/30 group"
+                      >
+                        <Trash2 className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                      </Button>
                     )}
                   </div>
                 </CardContent>
@@ -349,12 +456,14 @@ export function Teams() {
       </div>
 
       {teams.length === 0 && (
-        <Card className="p-12 text-center">
-          <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No teams yet</h3>
-          <p className="text-gray-600 mb-6">Create your first team to start collaborating</p>
-          <Button onClick={() => setShowCreateModal(true)}>
-            <Plus className="h-5 w-5 mr-2" />
+        <Card className="p-16 text-center rounded-[3rem] border-dashed border-2 border-gray-200 bg-gray-50/50">
+          <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl text-gray-400 border border-gray-100">
+            <Users size={32} />
+          </div>
+          <h3 className="text-2xl font-black text-gray-900 mb-2">Build Your Dream Team</h3>
+          <p className="text-gray-500 font-medium mb-8 max-w-sm mx-auto">Great things are never done by one person. Start by creating a team or joining one.</p>
+          <Button onClick={() => setShowCreateModal(true)} className="bg-gradient-to-r from-blue-600 to-purple-600 font-black px-10 py-7 rounded-2xl shadow-xl shadow-blue-500/20 hover:scale-105 transition-all">
+            <Plus className="h-5 w-5 mr-3" />
             Create Your First Team
           </Button>
         </Card>
