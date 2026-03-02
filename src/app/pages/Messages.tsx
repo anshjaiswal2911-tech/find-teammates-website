@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Search, 
-  Send, 
-  MoreVertical, 
-  Phone, 
+import {
+  Search,
+  Send,
+  MoreVertical,
+  Phone,
   Video,
   Paperclip,
   Smile,
@@ -95,6 +95,44 @@ export function Messages() {
   const [messageText, setMessageText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Check for newly matched partner from localStorage
+  useEffect(() => {
+    const newPartnerData = localStorage.getItem('newChatPartner');
+    if (newPartnerData) {
+      try {
+        const partner = JSON.parse(newPartnerData);
+
+        // Check if conversation already exists
+        const existingConv = conversations.find(c => c.userId === partner.id);
+
+        if (existingConv) {
+          setSelectedConversation(existingConv);
+        } else {
+          // Create a new conversation object
+          const newConv: Conversation = {
+            id: `conv_${Date.now()}`,
+            userId: partner.id,
+            userName: partner.name,
+            userAvatar: partner.image || partner.name.charAt(0), // Fallback to initial
+            lastMessage: 'You matched! Say hello.',
+            lastMessageTime: new Date(),
+            unreadCount: 0,
+            online: true,
+            messages: []
+          };
+
+          setConversations(prev => [newConv, ...prev]);
+          setSelectedConversation(newConv);
+        }
+
+        // Clean up
+        localStorage.removeItem('newChatPartner');
+      } catch (e) {
+        console.error('Error parsing newChatPartner:', e);
+      }
+    }
+  }, []);
+
   const handleSendMessage = () => {
     if (!messageText.trim() || !selectedConversation) return;
 
@@ -177,15 +215,26 @@ export function Messages() {
                   key={conv.id}
                   whileHover={{ backgroundColor: '#F9FAFB' }}
                   onClick={() => setSelectedConversation(conv)}
-                  className={`p-4 cursor-pointer border-b border-gray-100 ${
-                    selectedConversation?.id === conv.id ? 'bg-blue-50' : ''
-                  }`}
+                  className={`p-4 cursor-pointer border-b border-gray-100 ${selectedConversation?.id === conv.id ? 'bg-blue-50' : ''
+                    }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="relative">
-                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold flex-shrink-0">
-                        {conv.userAvatar}
-                      </div>
+                      {conv.userAvatar && (conv.userAvatar.startsWith('http') || conv.userAvatar.startsWith('/') || conv.userAvatar.includes('data:image')) ? (
+                        <img
+                          src={conv.userAvatar}
+                          alt={conv.userName}
+                          className="h-12 w-12 rounded-full object-cover border border-gray-100"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(conv.userName)}&background=7C3AED&color=fff`;
+                          }}
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                          {conv.userAvatar}
+                        </div>
+                      )}
                       {conv.online && (
                         <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white" />
                       )}
@@ -223,9 +272,21 @@ export function Messages() {
               <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                      {selectedConversation.userAvatar}
-                    </div>
+                    {selectedConversation.userAvatar && (selectedConversation.userAvatar.startsWith('http') || selectedConversation.userAvatar.startsWith('/') || selectedConversation.userAvatar.includes('data:image')) ? (
+                      <img
+                        src={selectedConversation.userAvatar}
+                        alt={selectedConversation.userName}
+                        className="h-10 w-10 rounded-full object-cover border border-gray-100"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedConversation.userName)}&background=7C3AED&color=fff`;
+                        }}
+                      />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                        {selectedConversation.userAvatar}
+                      </div>
+                    )}
                     {selectedConversation.online && (
                       <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white" />
                     )}
@@ -265,11 +326,10 @@ export function Messages() {
                     >
                       <div className={`max-w-md ${isMe ? 'order-2' : 'order-1'}`}>
                         <div
-                          className={`rounded-2xl px-4 py-2 ${
-                            isMe
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-white text-gray-900 border border-gray-200'
-                          }`}
+                          className={`rounded-2xl px-4 py-2 ${isMe
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-white text-gray-900 border border-gray-200'
+                            }`}
                         >
                           <p className="text-sm">{message.text}</p>
                         </div>
