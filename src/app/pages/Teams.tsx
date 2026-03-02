@@ -23,6 +23,13 @@ import { DashboardLayout } from '../components/DashboardLayout';
 import { useAuth } from '../contexts/AuthContext';
 import { Input } from '../components/ui/input';
 
+interface Project {
+  id: string;
+  title: string;
+  status: 'In Progress' | 'Completed' | 'Idea';
+  tech: string[];
+}
+
 interface TeamMember {
   id: string;
   name: string;
@@ -37,7 +44,8 @@ interface Team {
   name: string;
   description: string;
   members: TeamMember[];
-  projects: number;
+  projectList: Project[];
+  projects: number; // Counter for stats
   createdAt: Date;
   tags: string[];
 }
@@ -52,6 +60,11 @@ const mockTeams: Team[] = [
       { id: 'm2', name: 'Priya Patel', role: 'Member', skills: ['Python', 'TensorFlow', 'AI/ML'], avatar: 'P', online: true },
       { id: 'm3', name: 'Rahul Verma', role: 'Member', skills: ['Backend', 'MongoDB', 'Express'], avatar: 'R', online: false },
     ],
+    projectList: [
+      { id: 'p1', title: 'BrainWave AI', status: 'In Progress', tech: ['React', 'Python'] },
+      { id: 'p2', title: 'SmartRecruiter', status: 'Completed', tech: ['Node.js', 'PostgreSQL'] },
+      { id: 'p3', title: 'VisionX', status: 'Idea', tech: ['TensorFlow', 'OpenCV'] }
+    ],
     projects: 3,
     createdAt: new Date('2026-02-01'),
     tags: ['AI/ML', 'Full Stack', 'Hackathon'],
@@ -65,6 +78,10 @@ const mockTeams: Team[] = [
       { id: 'm4', name: 'Karthik Reddy', role: 'Leader', skills: ['Solidity', 'Ethereum', 'Web3'], avatar: 'K', online: true },
       { id: 'm5', name: 'Sneha Gupta', role: 'Member', skills: ['Smart Contracts', 'DeFi'], avatar: 'S', online: true },
     ],
+    projectList: [
+      { id: 'p4', title: 'DeFi Swap', status: 'Completed', tech: ['Solidity', 'React'] },
+      { id: 'p5', title: 'NFT Marketplace', status: 'In Progress', tech: ['Web3.js', 'IPFS'] }
+    ],
     projects: 2,
     createdAt: new Date('2026-01-15'),
     tags: ['Blockchain', 'Web3', 'DeFi'],
@@ -76,7 +93,8 @@ export function Teams() {
   const [teams, setTeams] = useState(mockTeams);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
+  const [showProjectsModal, setShowProjectsModal] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
@@ -99,6 +117,7 @@ export function Teams() {
           online: true,
         },
       ],
+      projectList: [],
       projects: 0,
       createdAt: new Date(),
       tags: [],
@@ -117,14 +136,14 @@ export function Teams() {
   };
 
   const handleInvite = () => {
-    if (!inviteEmail.trim() || !selectedTeamId) return;
+    if (!inviteEmail.trim() || !selectedTeam) return;
 
     setIsInviting(true);
 
     // Simulate API call
     setTimeout(() => {
       setTeams(prevTeams => prevTeams.map(team => {
-        if (team.id === selectedTeamId) {
+        if (team.id === selectedTeam.id) {
           const newMember: TeamMember = {
             id: `pending-${Date.now()}`,
             name: inviteEmail.split('@')[0],
@@ -312,13 +331,83 @@ export function Teams() {
                   {isInviting ? (
                     <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    'Send Invitation'
+                    'Submit'
                   )}
                 </Button>
                 <Button variant="ghost" onClick={() => setShowInviteModal(false)} className="px-6 rounded-2xl font-bold text-gray-400 hover:text-gray-600">
                   Cancel
                 </Button>
               </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Projects Modal */}
+      {showProjectsModal && selectedTeam && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4"
+          onClick={() => setShowProjectsModal(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-[2.5rem] p-10 max-w-2xl w-full shadow-2xl relative overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-500 to-blue-500" />
+
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
+                  <Code2 size={28} />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black text-gray-900 tracking-tight">{selectedTeam.name}'s Projects</h2>
+                  <p className="text-sm text-gray-500 font-medium">Tracking progress and milestones</p>
+                </div>
+              </div>
+              <Button variant="ghost" onClick={() => setShowProjectsModal(false)} className="rounded-full h-10 w-10 p-0">
+                ✕
+              </Button>
+            </div>
+
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 no-scrollbar">
+              {selectedTeam.projectList.length > 0 ? (
+                selectedTeam.projectList.map((project) => (
+                  <div key={project.id} className="p-6 rounded-[2rem] border border-gray-100 bg-gray-50/50 hover:bg-white transition-all hover:shadow-lg group">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-lg font-black text-gray-800 tracking-tight">{project.title}</h4>
+                      <Badge className={`rounded-xl px-3 py-1 text-[10px] font-black uppercase ${project.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
+                        project.status === 'In Progress' ? 'bg-blue-100 text-blue-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                        {project.status}
+                      </Badge>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map(t => (
+                        <span key={t} className="text-[10px] font-bold text-gray-400 bg-white px-3 py-1 rounded-lg border border-gray-100">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-[2rem] border-dashed border-2 border-gray-200">
+                  <p className="text-gray-400 font-bold mb-2">No projects started yet</p>
+                  <Button variant="ghost" className="text-blue-600 font-black hover:bg-blue-50">Startup New Project +</Button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end pt-8">
+              <Button onClick={() => setShowProjectsModal(false)} className="bg-gray-900 text-white font-black px-10 py-6 rounded-2xl hover:bg-gray-800 transition-all">
+                Close
+              </Button>
             </div>
           </motion.div>
         </motion.div>
@@ -424,7 +513,7 @@ export function Teams() {
                   <div className="flex gap-3 mt-auto">
                     <Button
                       onClick={() => {
-                        setSelectedTeamId(team.id);
+                        setSelectedTeam(team);
                         setShowInviteModal(true);
                       }}
                       className="flex-1 bg-white border-2 border-gray-100 text-gray-900 font-black rounded-2xl py-6 hover:bg-gray-50 hover:border-blue-100 hover:text-blue-600 transition-all shadow-sm"
@@ -433,6 +522,10 @@ export function Teams() {
                       Invite
                     </Button>
                     <Button
+                      onClick={() => {
+                        setSelectedTeam(team);
+                        setShowProjectsModal(true);
+                      }}
                       variant="outline"
                       className="rounded-2xl px-6 border-2 border-gray-100 text-gray-500 hover:text-gray-900 hover:border-gray-200 font-bold"
                     >
