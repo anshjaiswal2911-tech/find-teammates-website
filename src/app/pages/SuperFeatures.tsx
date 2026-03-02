@@ -26,6 +26,7 @@ import {
   Eye,
   Calendar,
   X,
+  MoreVertical,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -490,7 +491,7 @@ function SkillAssessment() {
 
     addActivity(
       user?.email || 'default',
-      'quiz',
+      'resource',
       `Completed ${quizTitle}`,
       randomScore >= 90 ? 50 : randomScore >= 80 ? 30 : 20
     );
@@ -848,7 +849,7 @@ function MentorMatching() {
       alert('Please select a time slot first!');
       return;
     }
-    addActivity(user?.email || 'default', 'mentorship', `Booked session with ${selectedMentor.name}`, 40);
+    addActivity(user?.email || 'default', 'resource', `Booked session with ${selectedMentor.name}`, 40);
     setBookingStep(2);
     setTimeout(() => {
       setSelectedMentor(null);
@@ -969,75 +970,240 @@ function MentorMatching() {
 function LiveStudyRooms() {
   const { user } = useAuth();
   const [rooms, setRooms] = useState([
-    { id: '1', topic: 'React Interview Prep', participants: 12, host: 'Rahul', live: true },
-    { id: '2', topic: 'DSA Problem Solving', participants: 8, host: 'Priya', live: true },
-    { id: '3', topic: 'System Design Discussion', participants: 15, host: 'Arjun', live: true },
-    { id: '4', topic: 'ML Algorithms Study', participants: 6, host: 'Neha', live: false },
+    { id: '1', topic: 'React Interview Prep', participants: 12, host: 'Rahul', live: true, category: 'Frontend' },
+    { id: '2', topic: 'DSA Problem Solving', participants: 8, host: 'Priya', live: true, category: 'Algorithm' },
+    { id: '3', topic: 'System Design Discussion', participants: 15, host: 'Arjun', live: true, category: 'Architecture' },
+    { id: '4', topic: 'ML Algorithms Study', participants: 6, host: 'Neha', live: false, category: 'Data Science' },
   ]);
 
-  const joinRoom = (roomId: string, topic: string, isLive: boolean) => {
-    if (isLive) {
-      setRooms(rooms.map(r =>
-        r.id === roomId ? { ...r, participants: r.participants + 1 } : r
-      ));
+  const [activeRoom, setActiveRoom] = useState<any>(null);
+  const [isJoining, setIsJoining] = useState(false);
 
-      addActivity(
-        user?.email || 'default',
-        'collaboration',
-        `Joined study room: ${topic}`,
-        25
-      );
+  const joinRoom = (room: any) => {
+    if (room.live) {
+      setIsJoining(true);
+      // Simulate connection delay
+      setTimeout(() => {
+        setRooms(rooms.map(r =>
+          r.id === room.id ? { ...r, participants: r.participants + 1 } : r
+        ));
 
-      alert(`🎉 Joined "${topic}"!\n\n👥 ${rooms.find(r => r.id === roomId)?.participants! + 1} participants\n🎥 Starting video call...`);
+        addActivity(
+          user?.email || 'default',
+          'project',
+          `Joined study room: ${room.topic}`,
+          25
+        );
+        setActiveRoom(room);
+        setIsJoining(false);
+      }, 1500);
     } else {
       alert(`📅 This room is scheduled for later.\n\n✉️ We'll notify you when it starts!`);
     }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Video className="h-5 w-5 text-pink-600" />
-          Live Study Rooms
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid md:grid-cols-2 gap-4">
-          {rooms.map((room) => (
-            <div
-              key={room.id}
-              className={`border-2 rounded-lg p-4 ${room.live ? 'bg-red-50 border-red-300' : 'bg-gray-50 border-gray-300'
-                }`}
-            >
-              <div className="flex items-start justify-between mb-3">
-                <h4 className="font-semibold text-gray-900">{room.topic}</h4>
-                {room.live && (
-                  <Badge className="bg-red-600">
-                    <span className="animate-pulse mr-1">●</span> LIVE
+    <div className="space-y-6">
+      <Card className="border-none shadow-none bg-transparent">
+        <CardHeader className="px-0">
+          <CardTitle className="flex items-center gap-3 text-2xl font-black italic tracking-tighter uppercase">
+            <div className="p-2 bg-pink-100 rounded-xl text-pink-600">
+              <Video className="h-6 w-6" />
+            </div>
+            Live Study Hub
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="px-0">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {rooms.map((room) => (
+              <motion.div
+                key={room.id}
+                whileHover={{ y: -5 }}
+                className={`relative rounded-[32px] p-8 border-2 transition-all ${room.live
+                  ? 'bg-white border-pink-100 shadow-xl shadow-pink-500/5'
+                  : 'bg-gray-50/50 border-gray-100'
+                  }`}
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <Badge className={room.live ? 'bg-pink-500 animate-pulse' : 'bg-gray-400 opacity-50'}>
+                    {room.live ? '● LIVE' : 'UPCOMING'}
                   </Badge>
-                )}
-              </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                <span className="flex items-center gap-1">
-                  <Users className="h-4 w-4" />
-                  {room.participants}
-                </span>
-                <span>Host: {room.host}</span>
+                  <div className="flex -space-x-3">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-[10px] font-black text-gray-500 overflow-hidden">
+                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${room.id}${i}`} alt="user" />
+                      </div>
+                    ))}
+                    <div className="h-8 w-8 rounded-full border-2 border-white bg-pink-50 flex items-center justify-center text-[10px] font-black text-pink-600">
+                      +{room.participants}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <span className="text-[10px] font-black text-pink-500 uppercase tracking-widest">{room.category}</span>
+                  <h4 className="text-xl font-black text-gray-900 tracking-tight mt-1">{room.topic}</h4>
+                  <div className="flex items-center gap-2 mt-4 text-sm text-gray-500 font-medium">
+                    <div className="h-6 w-6 rounded-lg bg-gray-100 flex items-center justify-center">
+                      <Users className="h-3.5 w-3.5" />
+                    </div>
+                    <span>Hosted by <span className="text-gray-900 font-bold">{room.host}</span></span>
+                  </div>
+                </div>
+
+                <Button
+                  className={`w-full h-14 rounded-2xl font-black tracking-widest text-xs transition-all ${room.live
+                    ? 'bg-pink-600 hover:bg-pink-700 text-white shadow-lg shadow-pink-500/20'
+                    : 'bg-white border-2 border-gray-100 text-gray-400 hover:text-gray-600'
+                    }`}
+                  onClick={() => joinRoom(room)}
+                  disabled={isJoining}
+                >
+                  {isJoining && activeRoom?.id !== room.id ? (
+                    'CONNECTING...'
+                  ) : room.live ? (
+                    <>
+                      <Play className="h-4 w-4 mr-2" />
+                      JOIN NOW
+                    </>
+                  ) : (
+                    <>
+                      <Calendar className="h-4 w-4 mr-2" />
+                      NOTIFY ME
+                    </>
+                  )}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Real Working Room Modal */}
+      <AnimatePresence>
+        {activeRoom && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black flex flex-col"
+          >
+            {/* Header */}
+            <div className="p-6 flex items-center justify-between border-b border-white/10">
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-xl bg-pink-500 flex items-center justify-center">
+                  <Video className="text-white h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-white font-black tracking-tight">{activeRoom.topic}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="text-pink-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-pink-500 animate-pulse" />
+                      LIVE
+                    </span>
+                    <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest">
+                      {activeRoom.participants} PARTICIPANTS
+                    </span>
+                  </div>
+                </div>
               </div>
               <Button
-                className="w-full"
-                variant={room.live ? 'default' : 'outline'}
-                onClick={() => joinRoom(room.id, room.topic, room.live)}
+                variant="outline"
+                className="rounded-full h-12 px-6 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white font-black"
+                onClick={() => setActiveRoom(null)}
               >
-                <Play className="h-4 w-4 mr-2" />
-                {room.live ? 'Join Now' : 'Notify Me'}
+                LEAVE SESSION
               </Button>
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col md:flex-row overflow-hidden p-6 gap-6">
+              {/* Video Grid */}
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
+                {/* Your Video */}
+                <div className="aspect-video bg-gray-900 rounded-3xl overflow-hidden relative group border-2 border-pink-500/50">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Users className="h-16 w-16 text-white/10" />
+                  </div>
+                  <div className="absolute bottom-4 left-4 h-8 px-3 rounded-full bg-black/50 backdrop-blur-md flex items-center text-white text-[10px] font-black uppercase border border-white/10">
+                    YOU (ME)
+                  </div>
+                </div>
+
+                {/* Other Participants */}
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="aspect-video bg-gray-900 rounded-3xl overflow-hidden relative group">
+                    <img
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=peer${i}`}
+                      className="w-full h-full object-cover opacity-20 grayscale"
+                      alt="peer"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="h-16 w-16 rounded-full bg-white/5 flex items-center justify-center">
+                        <Video className="h-6 w-6 text-white/20" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-4 left-4 h-8 px-3 rounded-full bg-black/50 backdrop-blur-md flex items-center text-white text-[10px] font-black uppercase border border-white/10">
+                      PARTICIPANT {i + 1}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Chat Sidebar */}
+              <div className="w-full md:w-80 bg-white/5 rounded-[40px] flex flex-col border border-white/10 p-6">
+                <div className="flex items-center gap-2 mb-6">
+                  <MessageCircle className="text-pink-500 h-5 w-5" />
+                  <h4 className="text-white font-black uppercase tracking-widest text-xs">LIVE CHAT</h4>
+                </div>
+                <div className="flex-1 space-y-4 overflow-y-auto no-scrollbar mb-6">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-pink-500 uppercase">RAHUL (HOST)</span>
+                    <p className="text-xs text-white/70 bg-white/5 p-3 rounded-2xl rounded-tl-none leading-relaxed">Let's start by discussing the virtual DOM concepts. Anyone wants to go first?</p>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-indigo-400 uppercase">NEHA</span>
+                    <p className="text-xs text-white/70 bg-white/5 p-3 rounded-2xl rounded-tl-none leading-relaxed">I have a question about fiber architecture!</p>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-green-400 uppercase">SYSTEM</span>
+                    <p className="text-xs italic text-white/30">You joined the session</p>
+                  </div>
+                </div>
+                <div className="mt-auto relative">
+                  <input
+                    type="text"
+                    placeholder="Type message..."
+                    className="w-full bg-white/10 border-none rounded-2xl px-4 py-4 text-sm text-white focus:ring-2 focus:ring-pink-500 focus:outline-none placeholder:text-white/20"
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 bg-pink-600 rounded-xl flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform">
+                    <Zap className="h-4 w-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Controls */}
+            <div className="p-8 flex items-center justify-center gap-6">
+              <div className="flex gap-4">
+                <button className="h-16 w-16 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/10">
+                  <Activity className="h-6 w-6" />
+                </button>
+                <button className="h-16 w-16 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/10">
+                  <Users className="h-6 w-6" />
+                </button>
+                <button className="h-16 w-16 rounded-full bg-pink-600 flex items-center justify-center text-white hover:bg-pink-700 transition-all shadow-xl shadow-pink-500/20">
+                  <Sparkles className="h-6 w-6" />
+                </button>
+                <button className="h-16 w-16 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-black/60 transition-all border border-white/10">
+                  <MoreVertical className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
