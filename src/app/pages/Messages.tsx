@@ -136,6 +136,9 @@ export function Messages() {
   const handleSendMessage = () => {
     if (!messageText.trim() || !selectedConversation) return;
 
+    const currentConvId = selectedConversation.id;
+    const currentConvUserId = selectedConversation.userId;
+
     const newMessage: Message = {
       id: `m${Date.now()}`,
       senderId: 'me',
@@ -145,7 +148,7 @@ export function Messages() {
     };
 
     setConversations(conversations.map(conv => {
-      if (conv.id === selectedConversation.id) {
+      if (conv.id === currentConvId) {
         return {
           ...conv,
           messages: [...conv.messages, newMessage],
@@ -164,6 +167,55 @@ export function Messages() {
     });
 
     setMessageText('');
+
+    // --- Simulated Auto-Reply ---
+    setTimeout(() => {
+      const replies = [
+        "That sounds like a great idea! Let's work on it tomorrow.",
+        "Got it! I'm really excited to collaborate with you. 🚀",
+        "Perfect! Should we set up a quick meeting to discuss details?",
+        "I was thinking the same thing actually. Let's make it happen!",
+        "Thanks for reaching out! I've been looking for someone with your skills.",
+        "Love the energy! I'm definitely in for this project.",
+        "Sounds like a plan! I'll look into some resources and get back to you.",
+        "Hey! That's awesome. Do you have a rough timeline in mind?",
+        "Absolutely! Let's build something amazing together."
+      ];
+
+      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+
+      const replyMessage: Message = {
+        id: `reply_${Date.now()}`,
+        senderId: currentConvUserId, // Other person's ID
+        text: randomReply,
+        timestamp: new Date(),
+        read: false,
+      };
+
+      setConversations(prev => prev.map(conv => {
+        if (conv.id === currentConvId) {
+          return {
+            ...conv,
+            messages: [...conv.messages, replyMessage],
+            lastMessage: randomReply,
+            lastMessageTime: new Date(),
+          };
+        }
+        return conv;
+      }));
+
+      setSelectedConversation(prev => {
+        if (prev && prev.id === currentConvId) {
+          return {
+            ...prev,
+            messages: [...prev.messages, replyMessage],
+            lastMessage: randomReply,
+            lastMessageTime: new Date(),
+          };
+        }
+        return prev;
+      });
+    }, 2500); // 2.5 second delay
   };
 
   const filteredConversations = conversations.filter(conv =>
