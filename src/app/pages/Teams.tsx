@@ -57,8 +57,8 @@ const mockTeams: Team[] = [
     description: 'Building cutting-edge AI solutions for real-world problems',
     members: [
       { id: 'm1', name: 'You', role: 'Leader', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'Y', online: true },
-      { id: 'm2', name: 'Priya Patel', role: 'Member', skills: ['Python', 'TensorFlow', 'AI/ML'], avatar: 'P', online: true },
-      { id: 'm3', name: 'Rahul Verma', role: 'Member', skills: ['Backend', 'MongoDB', 'Express'], avatar: 'R', online: false },
+      { id: 'm2', name: 'Priya Patel', role: 'Member', skills: ['Python', 'TensorFlow', 'AI/ML'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', online: true },
+      { id: 'm3', name: 'Rahul Verma', role: 'Member', skills: ['Backend', 'MongoDB', 'Express'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul', online: false },
     ],
     projectList: [
       { id: 'p1', title: 'BrainWave AI', status: 'In Progress', tech: ['React', 'Python'] },
@@ -75,8 +75,8 @@ const mockTeams: Team[] = [
     description: 'Exploring decentralized applications and blockchain technology',
     members: [
       { id: 'm1', name: 'You', role: 'Member', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'Y', online: true },
-      { id: 'm4', name: 'Karthik Reddy', role: 'Leader', skills: ['Solidity', 'Ethereum', 'Web3'], avatar: 'K', online: true },
-      { id: 'm5', name: 'Sneha Gupta', role: 'Member', skills: ['Smart Contracts', 'DeFi'], avatar: 'S', online: true },
+      { id: 'm4', name: 'Karthik Reddy', role: 'Leader', skills: ['Solidity', 'Ethereum', 'Web3'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karthik', online: true },
+      { id: 'm5', name: 'Sneha Gupta', role: 'Member', skills: ['Smart Contracts', 'DeFi'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha', online: true },
     ],
     projectList: [
       { id: 'p4', title: 'DeFi Swap', status: 'Completed', tech: ['Solidity', 'React'] },
@@ -561,8 +561,12 @@ export function Teams() {
                       {team.members.map((member) => (
                         <div key={member.id} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
                           <div className="relative">
-                            <div className={`h-12 w-12 rounded-2xl ${member.role === 'Pending' ? 'bg-gray-100' : 'bg-gradient-to-br from-blue-500 to-purple-600'} flex items-center justify-center text-white font-black text-lg shadow-inner overflow-hidden`}>
-                              {member.avatar}
+                            <div className={`h-12 w-12 rounded-2xl ${member.role === 'Pending' ? 'bg-gray-100' : 'bg-gradient-to-br from-blue-500 to-purple-600'} flex items-center justify-center text-white font-black text-lg shadow-inner overflow-hidden border-2 border-white`}>
+                              {member.avatar.startsWith('http') ? (
+                                <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                              ) : (
+                                member.avatar
+                              )}
                             </div>
                             {member.online && (
                               <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-[3px] border-white shadow-sm" />

@@ -106,6 +106,7 @@ export function Dashboard() {
             college: m.user.college,
             compatibility: m.compatibilityScore,
             avatar: m.user.name.charAt(0),
+            image: m.user.profileImage,
             status: Math.random() > 0.5 ? 'online' : 'offline'
           })));
         }
@@ -314,14 +315,15 @@ export function Dashboard() {
         college: m.user.college,
         compatibility: m.compatibilityScore,
         avatar: m.user.name.charAt(0),
+        image: m.user.profileImage,
         status: Math.random() > 0.5 ? 'online' : 'offline' // Status is simulated online/offline
       }));
     }
     return [
-      { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online' },
-      { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline' },
-      { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online' },
-      { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline' },
+      { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya' },
+      { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul' },
+      { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha' },
+      { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karthik' },
     ];
   });
 
@@ -745,8 +747,12 @@ export function Dashboard() {
                           className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
                         >
                           <div className="relative">
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                              {match.avatar}
+                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold overflow-hidden border-2 border-white shadow-sm">
+                              {match.image ? (
+                                <img src={match.image} alt={match.name} className="w-full h-full object-cover" />
+                              ) : (
+                                match.avatar
+                              )}
                             </div>
                             <div className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white ${match.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
                               }`} />
