@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Calendar, 
-  MapPin, 
+import {
+  Calendar,
+  MapPin,
   Users,
   Trophy,
   Clock,
@@ -171,7 +171,7 @@ export function Events() {
   const [events, setEvents] = useState<Event[]>(() => {
     const organizerEvents = localStorage.getItem('organizerEvents');
     const organizerEventsData = organizerEvents ? JSON.parse(organizerEvents) : [];
-    
+
     // Convert organizer events to match Event interface
     const convertedOrganizerEvents = organizerEventsData
       .filter((e: any) => e.status === 'Published') // Only show published events
@@ -199,9 +199,13 @@ export function Events() {
         views: e.views,
         maxParticipants: e.maxParticipants,
       }));
-    
-    // Merge with mock events
-    return [...convertedOrganizerEvents, ...mockEvents];
+
+    // Merge with mock events and apply bookmarks
+    const bookmarkedIds = JSON.parse(localStorage.getItem('bookmarkedEventIds') || '[]');
+    return [...convertedOrganizerEvents, ...mockEvents].map(e => ({
+      ...e,
+      bookmarked: e.bookmarked || bookmarkedIds.includes(e.id)
+    }));
   });
 
   // Listen for storage changes to update events in real-time
@@ -209,7 +213,7 @@ export function Events() {
     const handleStorageChange = () => {
       const organizerEvents = localStorage.getItem('organizerEvents');
       const organizerEventsData = organizerEvents ? JSON.parse(organizerEvents) : [];
-      
+
       const convertedOrganizerEvents = organizerEventsData
         .filter((e: any) => e.status === 'Published')
         .map((e: any) => ({
@@ -236,16 +240,20 @@ export function Events() {
           views: e.views,
           maxParticipants: e.maxParticipants,
         }));
-      
-      setEvents([...convertedOrganizerEvents, ...mockEvents]);
+
+      const bookmarkedIds = JSON.parse(localStorage.getItem('bookmarkedEventIds') || '[]');
+      setEvents([...convertedOrganizerEvents, ...mockEvents].map(e => ({
+        ...e,
+        bookmarked: e.bookmarked || bookmarkedIds.includes(e.id)
+      })));
     };
 
     // Listen for custom events (same-tab updates)
     window.addEventListener('eventsUpdated', handleStorageChange);
-    
+
     // Listen for storage events (cross-tab updates)
     window.addEventListener('storage', handleStorageChange);
-    
+
     return () => {
       window.removeEventListener('eventsUpdated', handleStorageChange);
       window.removeEventListener('storage', handleStorageChange);
@@ -256,6 +264,7 @@ export function Events() {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterMode, setFilterMode] = useState<string>('All');
   const [filterStatus, setFilterStatus] = useState<string>('All');
+  const [filterBookmarked, setFilterBookmarked] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
@@ -276,10 +285,23 @@ export function Events() {
   });
 
   const handleBookmark = (eventId: string) => {
-    setEvents(events.map(event => 
-      event.id === eventId ? { ...event, bookmarked: !event.bookmarked } : event
+    const isNowBookmarked = !events.find(e => e.id === eventId)?.bookmarked;
+
+    setEvents(events.map(event =>
+      event.id === eventId ? { ...event, bookmarked: isNowBookmarked } : event
     ));
-    showNotificationMessage('Bookmark updated!');
+
+    // Persist to localStorage
+    const bookmarkedIds = JSON.parse(localStorage.getItem('bookmarkedEventIds') || '[]');
+    let updatedIds;
+    if (isNowBookmarked) {
+      updatedIds = [...new Set([...bookmarkedIds, eventId])];
+    } else {
+      updatedIds = bookmarkedIds.filter((id: string) => id !== eventId);
+    }
+    localStorage.setItem('bookmarkedEventIds', JSON.stringify(updatedIds));
+
+    showNotificationMessage(isNowBookmarked ? 'Added to your bookmarks! 🔖' : 'Removed from bookmarks');
   };
 
   const handleRegisterClick = (event: Event) => {
@@ -289,7 +311,7 @@ export function Events() {
 
   const handleSubmitRegistration = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedEvent) return;
 
     // Create registration record
@@ -315,7 +337,7 @@ export function Events() {
     localStorage.setItem('eventRegistrations', JSON.stringify(registrations));
 
     // Update event registration status in Events page
-    setEvents(events.map(event => 
+    setEvents(events.map(event =>
       event.id === selectedEvent.id ? { ...event, registered: true } : event
     ));
 
@@ -369,12 +391,13 @@ export function Events() {
 
   const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         event.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      event.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesType = filterType === 'All' || event.type === filterType;
     const matchesMode = filterMode === 'All' || event.mode === filterMode;
     const matchesStatus = filterStatus === 'All' || event.status === filterStatus;
-    
-    return matchesSearch && matchesType && matchesMode && matchesStatus;
+    const matchesBookmark = !filterBookmarked || event.bookmarked;
+
+    return matchesSearch && matchesType && matchesMode && matchesStatus && matchesBookmark;
   });
 
   const getStatusColor = (status: string) => {
@@ -439,14 +462,18 @@ export function Events() {
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-purple-200 bg-purple-50">
+        <Card
+          className={`border-2 cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] ${filterBookmarked ? 'border-purple-500 bg-purple-100 shadow-md' : 'border-purple-200 bg-purple-50'}`}
+          onClick={() => setFilterBookmarked(!filterBookmarked)}
+        >
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-600 mb-1">Bookmarked</div>
                 <div className="text-3xl font-bold text-purple-600">{bookmarkedCount}</div>
+                {filterBookmarked && <span className="text-[10px] font-bold text-purple-500 uppercase tracking-wider">Active Filter</span>}
               </div>
-              <Bookmark className="h-12 w-12 text-purple-600 opacity-20" />
+              <Bookmark className={`h-12 w-12 text-purple-600 ${filterBookmarked ? 'fill-purple-600' : 'opacity-20'}`} />
             </div>
           </CardContent>
         </Card>
@@ -545,7 +572,7 @@ export function Events() {
                           <h3 className="text-xl font-bold text-gray-900 mb-1">{event.title}</h3>
                           <div className="text-sm text-gray-600">by {event.organizer}</div>
                         </div>
-                        <Badge className={`${getStatusColor(event.status)} border`}>
+                        <Badge className={`${getStatusColor(event.status || 'Upcoming')} border`}>
                           {event.status}
                         </Badge>
                       </div>
