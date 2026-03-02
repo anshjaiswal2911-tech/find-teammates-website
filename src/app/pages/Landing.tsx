@@ -1,12 +1,12 @@
 import { Link } from 'react-router';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { useRef } from 'react';
-import { 
-  Zap, 
-  Users, 
-  BookOpen, 
-  Sparkles, 
-  TrendingUp, 
+import {
+  Zap,
+  Users,
+  BookOpen,
+  Sparkles,
+  TrendingUp,
   Shield,
   ArrowRight,
   CheckCircle2,
@@ -25,44 +25,44 @@ import { Card } from '../components/ui/card';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const features = [
+const getFeatures = (t: (key: string) => string) => [
   {
     icon: Users,
-    title: 'AI-Powered Matching',
-    description: 'Find perfect teammates based on skills, interests, and compatibility scores',
+    title: t('landing.feature1.title'),
+    description: t('landing.feature1.desc'),
   },
   {
     icon: Sparkles,
-    title: 'Skill Gap Analysis',
-    description: 'Identify missing skills and get personalized learning paths for your dream role',
+    title: t('landing.feature2.title'),
+    description: t('landing.feature2.desc'),
   },
   {
     icon: BookOpen,
-    title: 'Curated Resources',
-    description: 'Access AI-recommended learning materials tailored to your skill level',
+    title: t('landing.feature3.title'),
+    description: t('landing.feature3.desc'),
   },
   {
     icon: Target,
-    title: 'Project Ideas',
-    description: 'Generate hackathon-ready project ideas with complete tech stacks',
+    title: t('landing.feature4.title'),
+    description: t('landing.feature4.desc'),
   },
   {
     icon: BarChart3,
-    title: 'Analytics Dashboard',
-    description: 'Track your progress, matches, and learning journey with detailed insights',
+    title: t('landing.feature5.title'),
+    description: t('landing.feature5.desc'),
   },
   {
     icon: Shield,
-    title: 'Verified Profiles',
-    description: 'Connect with real college developers in a trusted community',
+    title: t('landing.feature6.title'),
+    description: t('landing.feature6.desc'),
   },
 ];
 
-const stats = [
-  { label: 'Active Developers', value: '10K+' },
-  { label: 'Successful Matches', value: '50K+' },
-  { label: 'Projects Launched', value: '2.5K+' },
-  { label: 'Avg Compatibility', value: '85%' },
+const getStats = (t: (key: string) => string) => [
+  { label: t('landing.stat1.label'), value: '10K+' },
+  { label: t('landing.stat2.label'), value: '50K+' },
+  { label: t('landing.stat3.label'), value: '2.5K+' },
+  { label: t('landing.stat4.label'), value: '85%' },
 ];
 
 const floatingIcons = [
@@ -91,15 +91,17 @@ export function Landing() {
   const heroY = useTransform(smoothProgress, [0, 0.2], [0, -150]);
   const heroOpacity = useTransform(smoothProgress, [0, 0.15, 0.2], [1, 0.5, 0]);
   const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 0.9]);
-  
+
   // Features parallax
   const featuresY = useTransform(smoothProgress, [0.1, 0.4], [100, -50]);
-  
+
   // Stats parallax
   const statsY = useTransform(smoothProgress, [0.05, 0.25], [50, -30]);
   const statsScale = useTransform(smoothProgress, [0.05, 0.15], [0.9, 1]);
 
   const { t } = useLanguage();
+  const features = getFeatures(t);
+  const stats = getStats(t);
 
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden relative">
@@ -132,7 +134,7 @@ export function Landing() {
       </div>
 
       {/* Navigation */}
-      <motion.nav 
+      <motion.nav
         className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -140,7 +142,7 @@ export function Landing() {
       >
         <div className="mx-auto max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
-            <motion.div 
+            <motion.div
               className="flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400 }}
@@ -169,8 +171,8 @@ export function Landing() {
       {/* Hero Section with 3D Parallax */}
       <section className="px-6 py-20 relative">
         <motion.div
-          style={{ 
-            y: heroY, 
+          style={{
+            y: heroY,
             opacity: heroOpacity,
             scale: heroScale,
           }}
@@ -191,38 +193,37 @@ export function Landing() {
               className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700"
             >
               <Rocket className="h-4 w-4" />
-              Built for Hackathon Winners
+              {t('landing.hero.badge')}
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               className="mb-6 text-6xl font-bold tracking-tight text-gray-900"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Find Your Perfect
-              <motion.span 
+              {t('landing.hero.title1')}
+              <motion.span
                 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block"
-                animate={{ 
+                animate={{
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                 }}
                 transition={{ duration: 5, repeat: Infinity }}
                 style={{ backgroundSize: '200% auto' }}
               >
-                Dev Team
+                {t('landing.hero.title2')}
               </motion.span>
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="mx-auto mb-8 max-w-2xl text-xl text-gray-600"
             >
-              AI-powered platform connecting college developers through intelligent matching,
-              skill analysis, and curated resources. Build winning projects together.
+              {t('landing.hero.desc')}
             </motion.p>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -236,7 +237,7 @@ export function Landing() {
                   style={{ transformStyle: 'preserve-3d' }}
                 >
                   <Button size="lg" className="group">
-                    Start Matching
+                    {t('landing.hero.cta')}
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </motion.div>
@@ -247,7 +248,7 @@ export function Landing() {
                 style={{ transformStyle: 'preserve-3d' }}
               >
                 <Button size="lg" variant="outline">
-                  View Demo
+                  {t('landing.hero.demo')}
                 </Button>
               </motion.div>
             </motion.div>
@@ -263,8 +264,8 @@ export function Landing() {
                   initial={{ opacity: 0, y: 50, rotateX: -30 }}
                   animate={{ opacity: 1, y: 0, rotateX: 0 }}
                   transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                  whileHover={{ 
-                    scale: 1.1, 
+                  whileHover={{
+                    scale: 1.1,
                     rotateY: 10,
                     z: 30,
                   }}
@@ -301,23 +302,23 @@ export function Landing() {
           className="mx-auto max-w-7xl"
         >
           <div className="text-center mb-16">
-            <motion.h2 
+            <motion.h2
               className="text-4xl font-bold text-gray-900 mb-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              Everything You Need to Build Great Teams
+              {t('landing.features.title')}
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-gray-600"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Powered by AI to make collaboration seamless and effective
+              {t('landing.features.subtitle')}
             </motion.p>
           </div>
 
@@ -329,8 +330,8 @@ export function Landing() {
                 whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ 
-                  scale: 1.05, 
+                whileHover={{
+                  scale: 1.05,
                   rotateY: 5,
                   z: 30,
                   boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
@@ -338,7 +339,7 @@ export function Landing() {
                 style={{ transformStyle: 'preserve-3d' }}
               >
                 <Card className="p-6 h-full hover:shadow-xl transition-shadow">
-                  <motion.div 
+                  <motion.div
                     className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-600 mb-4"
                     whileHover={{ rotate: 360, scale: 1.2 }}
                     transition={{ duration: 0.6 }}
@@ -362,23 +363,23 @@ export function Landing() {
       <section className="px-6 py-20 relative">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <motion.h2 
+            <motion.h2
               className="text-4xl font-bold text-gray-900 mb-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              How CollabNest Works
+              {t('landing.how.title')}
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-gray-600"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Get started in minutes and find your dream team
+              {t('landing.how.subtitle')}
             </motion.p>
           </div>
 
@@ -386,18 +387,18 @@ export function Landing() {
             {[
               {
                 step: '01',
-                title: 'Create Your Profile',
-                description: 'Add your skills, interests, and what you\'re looking for in teammates',
+                title: t('landing.how.step1.title'),
+                description: t('landing.how.step1.desc'),
               },
               {
                 step: '02',
-                title: 'Get AI Matches',
-                description: 'Our algorithm finds perfect teammates based on compatibility scores',
+                title: t('landing.how.step2.title'),
+                description: t('landing.how.step2.desc'),
               },
               {
                 step: '03',
-                title: 'Build Together',
-                description: 'Connect, collaborate, and create amazing projects together',
+                title: t('landing.how.step3.title'),
+                description: t('landing.how.step3.desc'),
               },
             ].map((step, index) => (
               <motion.div
@@ -452,14 +453,14 @@ export function Landing() {
               <TrendingUp className="h-12 w-12 text-white mx-auto" />
             </motion.div>
             <h2 className="text-4xl font-bold text-white mb-6">
-              Join Thousands of Successful Developers
+              {t('landing.social.title')}
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Students from top colleges are already building winning projects with CollabNest
+              {t('landing.social.subtitle')}
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               {['IIT Delhi', 'BITS Pilani', 'IIT Bombay', 'NIT Trichy', 'VIT Vellore', 'IIIT Hyderabad'].map((college, index) => (
-                <motion.div 
+                <motion.div
                   key={college}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -486,10 +487,10 @@ export function Landing() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold text-white mb-6">
-              Ready to Build Your Dream Team?
+              {t('landing.cta.title')}
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Join CollabNest today and start collaborating with talented developers
+              {t('landing.cta.subtitle')}
             </p>
             <Link to="/signup">
               <motion.div
@@ -498,7 +499,7 @@ export function Landing() {
                 style={{ transformStyle: 'preserve-3d' }}
               >
                 <Button size="lg" variant="outline" className="bg-white text-blue-600 hover:bg-gray-50 border-0">
-                  Get Started for Free
+                  {t('landing.cta.button')}
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </motion.div>
@@ -519,10 +520,10 @@ export function Landing() {
                 <span className="font-bold text-gray-900">CollabNest</span>
               </div>
               <p className="text-sm text-gray-600">
-                AI-powered developer intelligence hub for college students
+                {t('landing.footer.desc')}
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Product</h3>
               <ul className="space-y-2 text-sm text-gray-600">
@@ -531,7 +532,7 @@ export function Landing() {
                 <li><a href="#" className="hover:text-blue-600">Demo</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
               <ul className="space-y-2 text-sm text-gray-600">
@@ -540,7 +541,7 @@ export function Landing() {
                 <li><a href="#" className="hover:text-blue-600">Careers</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Legal</h3>
               <ul className="space-y-2 text-sm text-gray-600">
@@ -550,9 +551,9 @@ export function Landing() {
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-12 border-t border-gray-200 pt-8 text-center text-sm text-gray-600">
-            © 2026 CollabNest. All rights reserved. Built for hackathon winners.
+            {t('landing.footer.rights')}
           </div>
         </div>
       </footer>

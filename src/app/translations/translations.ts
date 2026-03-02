@@ -25,7 +25,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.achievements': 'Achievements',
     'nav.login': 'Login',
     'nav.signup': 'Get Started',
-    
+
     // Common
     'common.search': 'Search',
     'common.filter': 'Filter',
@@ -47,7 +47,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'None',
     'common.or': 'or',
     'common.and': 'and',
-    
+
     // Home Page
     'home.title': 'CollabNest',
     'home.subtitle': 'AI-Powered Developer & Resource Intelligence Hub',
@@ -60,7 +60,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'Projects Created',
     'home.resourcesShared': 'Resources Shared',
     'home.eventsHosted': 'Events Hosted',
-    
+
     // Find Team
     'team.findTeammates': 'Find Teammates',
     'team.skills': 'Skills',
@@ -71,7 +71,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'View Profile',
     'team.sendMessage': 'Send Message',
     'team.addToTeam': 'Add to Team',
-    
+
     // Resources
     'resources.title': 'Learning Resources',
     'resources.categories': 'Categories',
@@ -82,7 +82,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'Premium',
     'resources.download': 'Download',
     'resources.bookmark': 'Bookmark',
-    
+
     // Events
     'events.title': 'Events',
     'events.upcoming': 'Upcoming Events',
@@ -100,7 +100,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'Online',
     'events.offline': 'Offline',
     'events.hybrid': 'Hybrid',
-    
+
     // Event Organizer
     'organizer.title': 'Event Organizer Dashboard',
     'organizer.createEvent': 'Create Event',
@@ -125,7 +125,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'Website URL',
     'organizer.contactEmail': 'Contact Email',
     'organizer.contactPhone': 'Contact Phone',
-    
+
     // Projects
     'projects.title': 'AI Project Ideas',
     'projects.generate': 'Generate Ideas',
@@ -135,7 +135,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'Category',
     'projects.startProject': 'Start Project',
     'projects.viewDetails': 'View Details',
-    
+
     // Leaderboard
     'leaderboard.title': 'Leaderboard',
     'leaderboard.rank': 'Rank',
@@ -144,7 +144,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'Projects',
     'leaderboard.contributions': 'Contributions',
     'leaderboard.achievements': 'Achievements',
-    
+
     // Profile
     'profile.title': 'Profile',
     'profile.edit': 'Edit Profile',
@@ -156,7 +156,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'Achievements',
     'profile.portfolio': 'Portfolio',
     'profile.socialLinks': 'Social Links',
-    
+
     // Dashboard
     'dashboard.title': 'Dashboard',
     'dashboard.overview': 'Overview',
@@ -164,32 +164,54 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'dashboard.notifications': 'Notifications',
     'dashboard.tasks': 'Tasks',
     'dashboard.progress': 'Progress',
-    
+
     // Super Features
     'super.title': 'Super Features Hub',
     'super.aiRecommended': 'AI Recommended',
     'super.codeChallenge': 'Collaborative Code Challenge',
     'super.videoMeeting': 'Video Meeting Room',
     'super.achievements': 'Achievement & Gamification',
-    'super.aiAssistant': 'AI Assistant',
     'super.mentor': 'Mentor Connect',
     'super.jobBoard': 'Job Board',
-    
-    // AI Assistant
-    'ai.title': 'AI Assistant',
-    'ai.askQuestion': 'Ask a Question',
-    'ai.suggestions': 'Suggestions',
-    'ai.history': 'History',
-    'ai.clearHistory': 'Clear History',
-    
-    // Achievements
-    'achievement.title': 'Achievements',
-    'achievement.unlocked': 'Unlocked',
-    'achievement.locked': 'Locked',
-    'achievement.progress': 'Progress',
-    'achievement.rewards': 'Rewards',
-    
-    // Messages
+    'landing.feature1.title': 'AI-Powered Matching',
+    'landing.feature1.desc': 'Find perfect teammates based on skills, interests, and compatibility scores',
+    'landing.feature2.title': 'Skill Gap Analysis',
+    'landing.feature2.desc': 'Identify missing skills and get personalized learning paths',
+    'landing.feature3.title': 'Curated Resources',
+    'landing.feature3.desc': 'Access AI-recommended learning materials tailored to your level',
+    'landing.feature4.title': 'Project Ideas',
+    'landing.feature4.desc': 'Generate hackathon-ready project ideas with tech stacks',
+    'landing.feature5.title': 'Analytics Dashboard',
+    'landing.feature5.desc': 'Track your progress and matching journey with insights',
+    'landing.feature6.title': 'Verified Profiles',
+    'landing.feature6.desc': 'Connect with real developers in a trusted community',
+    'landing.stat1.label': 'Active Developers',
+    'landing.stat2.label': 'Successful Matches',
+    'landing.stat3.label': 'Projects Launched',
+    'landing.stat4.label': 'Avg Compatibility',
+    'landing.hero.badge': 'Built for Hackathon Winners',
+    'landing.hero.title1': 'Find Your Perfect',
+    'landing.hero.title2': 'Dev Team',
+    'landing.hero.desc': 'AI-powered platform connecting college developers through intelligent matching, skill analysis, and curated resources. Build winning projects together.',
+    'landing.hero.cta': 'Start Matching',
+    'landing.hero.demo': 'View Demo',
+    'landing.features.title': 'Everything You Need to Build Great Teams',
+    'landing.features.subtitle': 'Powered by AI to make collaboration seamless and effective',
+    'landing.how.title': 'How CollabNest Works',
+    'landing.how.subtitle': 'Get started in minutes and find your dream team',
+    'landing.how.step1.title': 'Create Your Profile',
+    'landing.how.step1.desc': 'Add your skills, interests, and what you\'re looking for',
+    'landing.how.step2.title': 'Get AI Matches',
+    'landing.how.step2.desc': 'Our algorithm finds perfect teammates based on scores',
+    'landing.how.step3.title': 'Build Together',
+    'landing.how.step3.desc': 'Connect, collaborate, and create amazing projects',
+    'landing.social.title': 'Join Thousands of Successful Developers',
+    'landing.social.subtitle': 'Students from top colleges are already building winning projects',
+    'landing.cta.title': 'Ready to Build Your Dream Team?',
+    'landing.cta.subtitle': 'Join CollabNest today and start collaborating',
+    'landing.cta.button': 'Get Started for Free',
+    'landing.footer.desc': 'AI-powered developer intelligence hub for college students',
+    'landing.footer.rights': '© 2026 CollabNest. All rights reserved. Built for hackathon winners.',
     'msg.welcome': 'Welcome to CollabNest!',
     'msg.success': 'Operation completed successfully',
     'msg.error': 'Something went wrong',
@@ -221,7 +243,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.achievements': 'उपलब्धियां',
     'nav.login': 'लॉगिन',
     'nav.signup': 'शुरू करें',
-    
+
     'common.search': 'खोजें',
     'common.filter': 'फ़िल्टर',
     'common.save': 'सहेजें',
@@ -242,7 +264,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'कोई नहीं',
     'common.or': 'या',
     'common.and': 'और',
-    
+
     'home.title': 'कोलैबनेस्ट',
     'home.subtitle': 'एआई-संचालित डेवलपर और रिसोर्स इंटेलिजेंस हब',
     'home.description': 'टीममेट्स से जुड़ें, लर्निंग रिसोर्सेज एक्सेस करें, और एआई-पावर्ड प्रोजेक्ट आइडियाज पाएं',
@@ -254,7 +276,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'बनाए गए प्रोजेक्ट्स',
     'home.resourcesShared': 'साझा किए गए संसाधन',
     'home.eventsHosted': 'आयोजित इवेंट्स',
-    
+
     'team.findTeammates': 'टीममेट्स खोजें',
     'team.skills': 'कौशल',
     'team.location': 'स्थान',
@@ -264,7 +286,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'प्रोफाइल देखें',
     'team.sendMessage': 'संदेश भेजें',
     'team.addToTeam': 'टीम में जोड़ें',
-    
+
     'resources.title': 'लर्निंग रिसोर्सेज',
     'resources.categories': 'श्रेणियां',
     'resources.popular': 'लोकप्रिय',
@@ -274,7 +296,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'प्रीमियम',
     'resources.download': 'डाउनलोड करें',
     'resources.bookmark': 'बुकमार्क करें',
-    
+
     'events.title': 'इवेंट्स',
     'events.upcoming': 'आगामी इवेंट्स',
     'events.past': 'पिछले इवेंट्स',
@@ -291,7 +313,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'ऑनलाइन',
     'events.offline': 'ऑफलाइन',
     'events.hybrid': 'हाइब्रिड',
-    
+
     'organizer.title': 'इवेंट आयोजक डैशबोर्ड',
     'organizer.createEvent': 'इवेंट बनाएं',
     'organizer.myEvents': 'मेरे इवेंट्स',
@@ -315,7 +337,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'वेबसाइट URL',
     'organizer.contactEmail': 'संपर्क ईमेल',
     'organizer.contactPhone': 'संपर्क फोन',
-    
+
     'projects.title': 'एआई प्रोजेक्ट आइडियाज',
     'projects.generate': 'आइडियाज जनरेट करें',
     'projects.myProjects': 'मेरे प्रोजेक्ट्स',
@@ -324,7 +346,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'श्रेणी',
     'projects.startProject': 'प्रोजेक्ट शुरू करें',
     'projects.viewDetails': 'विवरण देखें',
-    
+
     'leaderboard.title': 'लीडरबोर्ड',
     'leaderboard.rank': 'रैंक',
     'leaderboard.name': 'नाम',
@@ -332,7 +354,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'प्रोजेक्ट्स',
     'leaderboard.contributions': 'योगदान',
     'leaderboard.achievements': 'उपलब्धियां',
-    
+
     'profile.title': 'प्रोफाइल',
     'profile.edit': 'प्रोफाइल संपादित करें',
     'profile.bio': 'बायो',
@@ -343,14 +365,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'उपलब्धियां',
     'profile.portfolio': 'पोर्टफोलियो',
     'profile.socialLinks': 'सोशल लिंक्स',
-    
+
     'dashboard.title': 'डैशबोर्ड',
     'dashboard.overview': 'ओवरव्यू',
     'dashboard.activity': 'हाल की गतिविधि',
     'dashboard.notifications': 'सूचनाएं',
     'dashboard.tasks': 'कार्य',
     'dashboard.progress': 'प्रगति',
-    
+
     'super.title': 'सुपर फीचर्स हब',
     'super.aiRecommended': 'एआई अनुशंसित',
     'super.codeChallenge': 'सहयोगी कोड चैलेंज',
@@ -359,19 +381,58 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'super.aiAssistant': 'एआई असिस्टेंट',
     'super.mentor': 'मेंटर कनेक्ट',
     'super.jobBoard': 'जॉब बोर्ड',
-    
+
     'ai.title': 'एआई असिस्टेंट',
     'ai.askQuestion': 'प्रश्न पूछें',
     'ai.suggestions': 'सुझाव',
     'ai.history': 'इतिहास',
     'ai.clearHistory': 'इतिहास साफ़ करें',
-    
+
     'achievement.title': 'उपलब्धियां',
     'achievement.unlocked': 'अनलॉक किया गया',
     'achievement.locked': 'लॉक किया गया',
     'achievement.progress': 'प्रगति',
     'achievement.rewards': 'पुरस्कार',
-    
+
+    'landing.feature1.title': 'एआई-संचालित मिलान',
+    'landing.feature1.desc': 'कौशल, रुचियों और अनुकूलता स्कोर के आधार पर सही टीम के साथी खोजें',
+    'landing.feature2.title': 'स्किल गैप एनालिसिस',
+    'landing.feature2.desc': 'लापता कौशल की पहचान करें और वैयक्तिकृत शिक्षण पथ प्राप्त करें',
+    'landing.feature3.title': 'क्यूरेटेड संसाधन',
+    'landing.feature3.desc': 'अपने स्तर के अनुरूप एआई-अनुशंसित शिक्षण सामग्री तक पहुंचें',
+    'landing.feature4.title': 'प्रोजेक्ट आइडियाज',
+    'landing.feature4.desc': 'टेक स्टैक के साथ हैकाथॉन-तैयार प्रोजेक्ट आइडियाज जनरेट करें',
+    'landing.feature5.title': 'एनालिटिक्स डैशबोर्ड',
+    'landing.feature5.desc': 'अपनी प्रगति और मिलान यात्रा को ट्रैक करें',
+    'landing.feature6.title': 'सत्यापित प्रोफाइल',
+    'landing.feature6.desc': 'एक विश्वसनीय समुदाय में वास्तविक डेवलपर्स से जुड़ें',
+    'landing.stat1.label': 'सक्रिय डेवलपर्स',
+    'landing.stat2.label': 'सफल मिलान',
+    'landing.stat3.label': 'लॉन्च किए गए प्रोजेक्ट',
+    'landing.stat4.label': 'औसत अनुकूलता',
+    'landing.hero.badge': 'हैकाथॉन विजेताओं के लिए निर्मित',
+    'landing.hero.title1': 'अपनी परफेक्ट',
+    'landing.hero.title2': 'देव टीम खोजें',
+    'landing.hero.desc': 'इंटेलिजेंट मैचिंग, स्किल एनालिसिस और क्यूरेटेड संसाधनों के माध्यम से कॉलेज डेवलपर्स को जोड़ने वाला एआई-संचालित प्लेटफॉर्म।',
+    'landing.hero.cta': 'मिलान शुरू करें',
+    'landing.hero.demo': 'डेमो देखें',
+    'landing.features.title': 'शानदार टीमें बनाने के लिए आपको जो कुछ भी चाहिए',
+    'landing.features.subtitle': 'सहयोग को निर्बाध और प्रभावी बनाने के लिए एआई द्वारा संचालित',
+    'landing.how.title': 'कोलैबनेस्ट कैसे काम करता है',
+    'landing.how.subtitle': 'मिनटों में शुरू करें और अपनी सपनों की टीम खोजें',
+    'landing.how.step1.title': 'अपनी प्रोफाइल बनाएं',
+    'landing.how.step1.desc': 'अपने कौशल, रुचियां और जो आप खोज रहे हैं उसे जोड़ें',
+    'landing.how.step2.title': 'एआई मिलान प्राप्त करें',
+    'landing.how.step2.desc': 'हमारा एल्गोरिदम स्कोर के आधार पर सही टीम साथी ढूंढता है',
+    'landing.how.step3.title': 'मिलकर बनाएं',
+    'landing.how.step3.desc': 'जुड़ें, सहयोग करें और अद्भुत प्रोजेक्ट बनाएं',
+    'landing.social.title': 'हजारों सफल डेवलपर्स के साथ जुड़ें',
+    'landing.social.subtitle': 'शीर्ष कॉलेजों के छात्र पहले से ही कोलैबनेस्ट के साथ प्रोजेक्ट बना रहे हैं',
+    'landing.cta.title': 'अपनी सपनों की टीम बनाने के लिए तैयार हैं?',
+    'landing.cta.subtitle': 'आज ही कोलैबनेस्ट में शामिल हों और सहयोग शुरू करें',
+    'landing.cta.button': 'मुफ्त में शुरू करें',
+    'landing.footer.desc': 'कॉलेज के छात्रों के लिए एआई-संचालित डेवलपर इंटेलिजेंस हब',
+    'landing.footer.rights': '© 2026 कोलैबनेस्ट। सर्वाधिकार सुरक्षित।',
     'msg.welcome': 'कोलैबनेस्ट में आपका स्वागत है!',
     'msg.success': 'ऑपरेशन सफलतापूर्वक पूरा हुआ',
     'msg.error': 'कुछ गलत हो गया',
@@ -401,7 +462,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.codeChallenge': 'कोड आव्हान',
     'nav.videoMeeting': 'व्हिडिओ मीटिंग',
     'nav.achievements': 'यश',
-    
+
     'common.search': 'शोधा',
     'common.filter': 'फिल्टर',
     'common.save': 'जतन करा',
@@ -422,7 +483,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'काहीही नाही',
     'common.or': 'किंवा',
     'common.and': 'आणि',
-    
+
     'home.title': 'कोलॅबनेस्ट',
     'home.subtitle': 'एआय-चालित डेव्हलपर आणि संसाधन बुद्धिमत्ता केंद्र',
     'home.description': 'टीममेट्सशी कनेक्ट करा, शिकण्याचे संसाधन मिळवा आणि एआय-पावर्ड प्रकल्प कल्पना मिळवा',
@@ -434,7 +495,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'तयार केलेले प्रकल्प',
     'home.resourcesShared': 'सामायिक केलेली संसाधने',
     'home.eventsHosted': 'आयोजित कार्यक्रम',
-    
+
     'team.findTeammates': 'टीममेट्स शोधा',
     'team.skills': 'कौशल्ये',
     'team.location': 'स्थान',
@@ -444,7 +505,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'प्रोफाइल पहा',
     'team.sendMessage': 'संदेश पाठवा',
     'team.addToTeam': 'टीममध्ये जोडा',
-    
+
     'resources.title': 'शिकण्याचे संसाधन',
     'resources.categories': 'श्रेण्या',
     'resources.popular': 'लोकप्रिय',
@@ -454,7 +515,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'प्रीमियम',
     'resources.download': 'डाउनलोड करा',
     'resources.bookmark': 'बुकमार्क करा',
-    
+
     'events.title': 'कार्यक्रम',
     'events.upcoming': 'आगामी कार्यक्रम',
     'events.past': 'मागील कार्यक्रम',
@@ -471,7 +532,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'ऑनलाइन',
     'events.offline': 'ऑफलाइन',
     'events.hybrid': 'हायब्रिड',
-    
+
     'organizer.title': 'कार्यक्रम आयोजक डॅशबोर्ड',
     'organizer.createEvent': 'कार्यक्रम तयार करा',
     'organizer.myEvents': 'माझे कार्यक्रम',
@@ -495,7 +556,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'वेबसाइट URL',
     'organizer.contactEmail': 'संपर्क ईमेल',
     'organizer.contactPhone': 'संपर्क फोन',
-    
+
     'projects.title': 'एआय प्रकल्प कल्पना',
     'projects.generate': 'कल्पना निर्माण करा',
     'projects.myProjects': 'माझे प्रकल्प',
@@ -504,7 +565,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'श्रेणी',
     'projects.startProject': 'प्रकल्प सुरू करा',
     'projects.viewDetails': 'तपशील पहा',
-    
+
     'leaderboard.title': 'लीडरबोर्ड',
     'leaderboard.rank': 'रँक',
     'leaderboard.name': 'नाव',
@@ -512,7 +573,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'प्रकल्प',
     'leaderboard.contributions': 'योगदान',
     'leaderboard.achievements': 'यश',
-    
+
     'profile.title': 'प्रोफाइल',
     'profile.edit': 'प्रोफाइल संपादित करा',
     'profile.bio': 'बायो',
@@ -523,14 +584,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'यश',
     'profile.portfolio': 'पोर्टफोलिओ',
     'profile.socialLinks': 'सोशल लिंक्स',
-    
+
     'dashboard.title': 'डॅशबोर्ड',
     'dashboard.overview': 'आढावा',
     'dashboard.activity': 'अलीकडील क्रियाकलाप',
     'dashboard.notifications': 'सूचना',
     'dashboard.tasks': 'कार्ये',
     'dashboard.progress': 'प्रगती',
-    
+
     'super.title': 'सुपर वैशिष्ट्ये केंद्र',
     'super.aiRecommended': 'एआय शिफारशीत',
     'super.codeChallenge': 'सहयोगी कोड आव्हान',
@@ -539,19 +600,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'super.aiAssistant': 'एआय सहाय्यक',
     'super.mentor': 'मेंटर कनेक्ट',
     'super.jobBoard': 'जॉब बोर्ड',
-    
+
     'ai.title': 'एआय सहाय्यक',
     'ai.askQuestion': 'प्रश्न विचारा',
     'ai.suggestions': 'सूचना',
     'ai.history': 'इतिहास',
     'ai.clearHistory': 'इतिहास साफ करा',
-    
+
     'achievement.title': 'यश',
     'achievement.unlocked': 'अनलॉक केले',
     'achievement.locked': 'लॉक केले',
     'achievement.progress': 'प्रगती',
     'achievement.rewards': 'बक्षिसे',
-    
+
     'msg.welcome': 'कोलॅबनेस्टमध्ये आपले स्वागत आहे!',
     'msg.success': 'ऑपरेशन यशस्वीरित्या पूर्ण झाले',
     'msg.error': 'काहीतरी चूक झाली',
@@ -581,7 +642,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.codeChallenge': 'કોડ ચેલેન્જ',
     'nav.videoMeeting': 'વિડિયો મીટિંગ',
     'nav.achievements': 'સિદ્ધિઓ',
-    
+
     'common.search': 'શોધો',
     'common.filter': 'ફિલ્ટર',
     'common.save': 'સાચવો',
@@ -602,7 +663,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'કોઈ નહીં',
     'common.or': 'અથવા',
     'common.and': 'અને',
-    
+
     'home.title': 'કોલેબનેસ્ટ',
     'home.subtitle': 'એઆઈ-સંચાલિત ડેવલપર અને સંસાધન બુદ્ધિમત્તા હબ',
     'home.description': 'ટીમમેટ્સ સાથે જોડાઓ, શીખવાના સંસાધનો મેળવો અને એઆઈ-પાવર્ડ પ્રોજેક્ટ વિચારો મેળવો',
@@ -614,7 +675,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'બનાવેલા પ્રોજેક્ટ્સ',
     'home.resourcesShared': 'શેર કરેલા સંસાધનો',
     'home.eventsHosted': 'આયોજિત ઇવેન્ટ્સ',
-    
+
     'team.findTeammates': 'ટીમમેટ્સ શોધો',
     'team.skills': 'કુશળતા',
     'team.location': 'સ્થાન',
@@ -624,7 +685,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'પ્રોફાઇલ જુઓ',
     'team.sendMessage': 'સંદેશ મોકલો',
     'team.addToTeam': 'ટીમમાં ઉમેરો',
-    
+
     'resources.title': 'શીખવાના સંસાધનો',
     'resources.categories': 'શ્રેણીઓ',
     'resources.popular': 'લોકપ્રિય',
@@ -634,7 +695,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'પ્રીમિયમ',
     'resources.download': 'ડાઉનલોડ કરો',
     'resources.bookmark': 'બુકમાર્ક કરો',
-    
+
     'events.title': 'ઇવેન્ટ્સ',
     'events.upcoming': 'આવનારી ઇવેન્ટ્સ',
     'events.past': 'પાછલી ઇવેન્ટ્સ',
@@ -651,7 +712,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'ઓનલાઇન',
     'events.offline': 'ઓફલાઇન',
     'events.hybrid': 'હાઇબ્રિડ',
-    
+
     'organizer.title': 'ઇવેન્ટ આયોજક ડેશબોર્ડ',
     'organizer.createEvent': 'ઇવેન્ટ બનાવો',
     'organizer.myEvents': 'મારી ઇવેન્ટ્સ',
@@ -675,7 +736,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'વેબસાઇટ URL',
     'organizer.contactEmail': 'સંપર્ક ઇમેઇલ',
     'organizer.contactPhone': 'સંપર્ક ફોન',
-    
+
     'projects.title': 'એઆઈ પ્રોજેક્ટ વિચારો',
     'projects.generate': 'વિચારો બનાવો',
     'projects.myProjects': 'મારા પ્રોજેક્ટ્સ',
@@ -684,7 +745,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'શ્રેણી',
     'projects.startProject': 'પ્રોજેક્ટ શરૂ કરો',
     'projects.viewDetails': 'વિગતો જુઓ',
-    
+
     'leaderboard.title': 'લીડરબોર્ડ',
     'leaderboard.rank': 'ક્રમ',
     'leaderboard.name': 'નામ',
@@ -692,7 +753,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'પ્રોજેક્ટ્સ',
     'leaderboard.contributions': 'યોગદાન',
     'leaderboard.achievements': 'સિદ્ધિઓ',
-    
+
     'profile.title': 'પ્રોફાઇલ',
     'profile.edit': 'પ્રોફાઇલ સંપાદિત કરો',
     'profile.bio': 'બાયો',
@@ -703,14 +764,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'સિદ્ધિઓ',
     'profile.portfolio': 'પોર્ટફોલિયો',
     'profile.socialLinks': 'સોશિયલ લિંક્સ',
-    
+
     'dashboard.title': 'ડેશબોર્ડ',
     'dashboard.overview': 'ઝાંખી',
     'dashboard.activity': 'તાજેતરની પ્રવૃત્તિ',
     'dashboard.notifications': 'સૂચનાઓ',
     'dashboard.tasks': 'કાર્યો',
     'dashboard.progress': 'પ્રગતિ',
-    
+
     'super.title': 'સુપર ફીચર્સ હબ',
     'super.aiRecommended': 'એઆઈ ભલામણ કરેલ',
     'super.codeChallenge': 'સહયોગી કોડ ચેલેન્જ',
@@ -719,19 +780,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'super.aiAssistant': 'એઆઈ સહાયક',
     'super.mentor': 'મેન્ટર કનેક્ટ',
     'super.jobBoard': 'જોબ બોર્ડ',
-    
+
     'ai.title': 'એઆઈ સહાયક',
     'ai.askQuestion': 'પ્રશ્ન પૂછો',
     'ai.suggestions': 'સૂચનો',
     'ai.history': 'ઇતિહાસ',
     'ai.clearHistory': 'ઇતિહાસ સાફ કરો',
-    
+
     'achievement.title': 'સિદ્ધિઓ',
     'achievement.unlocked': 'અનલૉક કર્યું',
     'achievement.locked': 'લૉક કર્યું',
     'achievement.progress': 'પ્રગતિ',
     'achievement.rewards': 'ઇનામો',
-    
+
     'msg.welcome': 'કોલેબનેસ્ટમાં આપનું સ્વાગત છે!',
     'msg.success': 'ઓપરેશન સફળતાપૂર્વક પૂર્ણ થયું',
     'msg.error': 'કંઈક ખોટું થયું',
@@ -761,7 +822,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.codeChallenge': 'குறியீடு சவால்',
     'nav.videoMeeting': 'வீடியோ கூட்டம்',
     'nav.achievements': 'சாதனைகள்',
-    
+
     'common.search': 'தேடுக',
     'common.filter': 'வடிகட்டி',
     'common.save': 'சேமிக்க',
@@ -782,7 +843,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'எதுவுமில்லை',
     'common.or': 'அல்லது',
     'common.and': 'மற்றும்',
-    
+
     'home.title': 'கொலாப்நெஸ்ட்',
     'home.subtitle': 'AI-இயக்கப்படும் டெவலப்பர் மற்றும் வள நுண்ணறிவு மையம்',
     'home.description': 'குழு உறுப்பினர்களுடன் இணைக, கற்றல் வளங்களை அணுகவும், AI-இயக்கப்படும் திட்ட யோசனைகளைப் பெறவும்',
@@ -794,7 +855,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'உருவாக்கப்பட்ட திட்டங்கள்',
     'home.resourcesShared': 'பகிரப்பட்ட வளங்கள்',
     'home.eventsHosted': 'நடத்தப்பட்ட நிகழ்வுகள்',
-    
+
     'team.findTeammates': 'குழு உறுப்பினர்களைக் கண்டுபிடி',
     'team.skills': 'திறன்கள்',
     'team.location': 'இடம்',
@@ -804,7 +865,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'சுயவிவரத்தைக் காண்க',
     'team.sendMessage': 'செய்தி அனுப்பு',
     'team.addToTeam': 'குழுவில் சேர்',
-    
+
     'resources.title': 'கற்றல் வளங்கள்',
     'resources.categories': 'வகைகள்',
     'resources.popular': 'பிரபலமான',
@@ -814,7 +875,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'பிரீமியம்',
     'resources.download': 'பதிவிறக்கு',
     'resources.bookmark': 'புத்தகக்குறி',
-    
+
     'events.title': 'நிகழ்வுகள்',
     'events.upcoming': 'வரவிருக்கும் நிகழ்வுகள்',
     'events.past': 'கடந்த நிகழ்வுகள்',
@@ -831,7 +892,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'ஆன்லைன்',
     'events.offline': 'ஆஃப்லைன்',
     'events.hybrid': 'கலப்பு',
-    
+
     'organizer.title': 'நிகழ்வு அமைப்பாளர் டாஷ்போர்டு',
     'organizer.createEvent': 'நிகழ்வை உருவாக்கு',
     'organizer.myEvents': 'என் நிகழ்வுகள்',
@@ -855,7 +916,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'வலைத்தள URL',
     'organizer.contactEmail': 'தொடர்பு மின்னஞ்சல்',
     'organizer.contactPhone': 'தொடர்பு தொலைபேசி',
-    
+
     'projects.title': 'AI திட்ட யோசனைகள்',
     'projects.generate': 'யோசனைகளை உருவாக்கு',
     'projects.myProjects': 'என் திட்டங்கள்',
@@ -864,7 +925,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'வகை',
     'projects.startProject': 'திட்டத்தைத் தொடங்கு',
     'projects.viewDetails': 'விவரங்களைக் காண்க',
-    
+
     'leaderboard.title': 'லீடர்போர்டு',
     'leaderboard.rank': 'தரவரிசை',
     'leaderboard.name': 'பெயர்',
@@ -872,7 +933,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'திட்டங்கள்',
     'leaderboard.contributions': 'பங்களிப்புகள்',
     'leaderboard.achievements': 'சாதனைகள்',
-    
+
     'profile.title': 'சுயவிவரம்',
     'profile.edit': 'சுயவிவரத்தைத் திருத்து',
     'profile.bio': 'சுயவிவரம்',
@@ -883,14 +944,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'சாதனைகள்',
     'profile.portfolio': 'போர்ட்ஃபோலியோ',
     'profile.socialLinks': 'சமூக இணைப்புகள்',
-    
+
     'dashboard.title': 'டாஷ்போர்டு',
     'dashboard.overview': 'மேலோட்டம்',
     'dashboard.activity': 'சமீபத்திய செயல்பாடு',
     'dashboard.notifications': 'அறிவிப்புகள்',
     'dashboard.tasks': 'பணிகள்',
     'dashboard.progress': 'முன்னேற்றம்',
-    
+
     'super.title': 'சூப்பர் அம்சங்கள் மையம்',
     'super.aiRecommended': 'AI பரிந்துரைக்கப்பட்டது',
     'super.codeChallenge': 'ஒத்துழைப்பு குறியீடு சவால்',
@@ -899,19 +960,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'super.aiAssistant': 'AI உதவியாளர்',
     'super.mentor': 'வழிகாட்டி இணைப்பு',
     'super.jobBoard': 'வேலை பலகை',
-    
+
     'ai.title': 'AI உதவியாளர்',
     'ai.askQuestion': 'கேள்வி கேளுங்கள்',
     'ai.suggestions': 'பரிந்துரைகள்',
     'ai.history': 'வரலாறு',
     'ai.clearHistory': 'வரலாற்றை அழி',
-    
+
     'achievement.title': 'சாதனைகள்',
     'achievement.unlocked': 'திறக்கப்பட்டது',
     'achievement.locked': 'பூட்டப்பட்டது',
     'achievement.progress': 'முன்னேற்றம்',
     'achievement.rewards': 'வெகுமதிகள்',
-    
+
     'msg.welcome': 'கொலாப்நெஸ்ட் க்கு வரவேற்கிறோம்!',
     'msg.success': 'செயல்பாடு வெற்றிகரமாக முடிந்தது',
     'msg.error': 'ஏதோ தவறு நடந்துவிட்டது',
@@ -941,7 +1002,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'nav.codeChallenge': 'కోడ్ ఛాలెంజ్',
     'nav.videoMeeting': 'వీడియో మీటింగ్',
     'nav.achievements': 'సాధనలు',
-    
+
     'common.search': 'వెతకండి',
     'common.filter': 'ఫిల్టర్',
     'common.save': 'సేవ్ చేయండి',
@@ -962,7 +1023,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'common.none': 'ఏదీ లేదు',
     'common.or': 'లేదా',
     'common.and': 'మరియు',
-    
+
     'home.title': 'కొలాబ్‌నెస్ట్',
     'home.subtitle': 'AI-ఆధారిత డెవలపర్ మరియు వనరుల హబ్',
     'home.description': 'టీమ్‌మేట్స్‌తో కనెక్ట్ అవ్వండి, లెర్నింగ్ రిసోర్స్‌లను యాక్సెస్ చేయండి',
@@ -974,7 +1035,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'home.projectsCreated': 'సృష్టించిన ప్రాజెక్ట్‌లు',
     'home.resourcesShared': 'షేర్ చేసిన వనరులు',
     'home.eventsHosted': 'నిర్వహించిన ఈవెంట్‌లు',
-    
+
     'team.findTeammates': 'టీమ్‌మేట్స్ కనుగొనండి',
     'team.skills': 'నైపుణ్యాలు',
     'team.location': 'స్థానం',
@@ -984,7 +1045,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'team.viewProfile': 'ప్రొఫైల్ వీక్షించండి',
     'team.sendMessage': 'సందేశం పంపండి',
     'team.addToTeam': 'టీమ్‌కు జోడించండి',
-    
+
     'resources.title': 'లెర్నింగ్ వనరులు',
     'resources.categories': 'వర్గాలు',
     'resources.popular': 'జనాదరణ పొందిన',
@@ -994,7 +1055,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'resources.premium': 'ప్రీమియం',
     'resources.download': 'డౌన్‌లోడ్',
     'resources.bookmark': 'బుక్‌మార్క్',
-    
+
     'events.title': 'ఈవెంట్‌లు',
     'events.upcoming': 'రాబోయే ఈవెంట్‌లు',
     'events.past': 'గత ఈవెంట్‌లు',
@@ -1011,7 +1072,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'events.online': 'ఆన్‌లైన్',
     'events.offline': 'ఆఫ్‌లైన్',
     'events.hybrid': 'హైబ్రిడ్',
-    
+
     'organizer.title': 'ఈవెంట్ ఆర్గనైజర్ డాష్‌బోర్డ్',
     'organizer.createEvent': 'ఈవెంట్ సృష్టించండి',
     'organizer.myEvents': 'నా ఈవెంట్‌లు',
@@ -1035,7 +1096,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'organizer.websiteUrl': 'వెబ్‌సైట్ URL',
     'organizer.contactEmail': 'సంప్రదింపు ఇమెయిల్',
     'organizer.contactPhone': 'సంప్రదింపు ఫోన్',
-    
+
     'projects.title': 'AI ప్రాజెక్ట్ ఆలోచనలు',
     'projects.generate': 'ఆలోచనలు రూపొందించండి',
     'projects.myProjects': 'నా ప్రాజెక్ట్‌లు',
@@ -1044,7 +1105,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'projects.category': 'వర్గం',
     'projects.startProject': 'ప్రాజెక్ట్ ప్రారంభించండి',
     'projects.viewDetails': 'వివరాలు చూడండి',
-    
+
     'leaderboard.title': 'లీడర్‌బోర్డ్',
     'leaderboard.rank': 'ర్యాంక్',
     'leaderboard.name': 'పేరు',
@@ -1052,7 +1113,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'leaderboard.projects': 'ప్రాజెక్ట్‌లు',
     'leaderboard.contributions': 'సహకారాలు',
     'leaderboard.achievements': 'సాధనలు',
-    
+
     'profile.title': 'ప్రొఫైల్',
     'profile.edit': 'ప్రొఫైల్ సవరించండి',
     'profile.bio': 'బయో',
@@ -1063,14 +1124,14 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'profile.achievements': 'సాధనలు',
     'profile.portfolio': 'పోర్ట్‌ఫోలియో',
     'profile.socialLinks': 'సోషల్ లింక్‌లు',
-    
+
     'dashboard.title': 'డాష్‌బోర్డ్',
     'dashboard.overview': 'అవలోకనం',
     'dashboard.activity': 'ఇటీవలి కార్యాచరణ',
     'dashboard.notifications': 'నోటిఫికేషన్‌లు',
     'dashboard.tasks': 'విధులు',
     'dashboard.progress': 'పురోగతి',
-    
+
     'super.title': 'సూపర్ ఫీచర్ల హబ్',
     'super.aiRecommended': 'AI సిఫార్సు చేయబడింది',
     'super.codeChallenge': 'సహకార కోడ్ ఛాలెంజ్',
@@ -1079,19 +1140,19 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
     'super.aiAssistant': 'AI అసిస్టెంట్',
     'super.mentor': 'మెంటార్ కనెక్ట్',
     'super.jobBoard': 'జాబ్ బోర్డ్',
-    
+
     'ai.title': 'AI అసిస్టెంట్',
     'ai.askQuestion': 'ప్రశ్న అడగండి',
     'ai.suggestions': 'సూచనలు',
     'ai.history': 'చరిత్ర',
     'ai.clearHistory': 'చరిత్రను క్లియర్ చేయండి',
-    
+
     'achievement.title': 'సాధనలు',
     'achievement.unlocked': 'అన్‌లాక్ చేయబడింది',
     'achievement.locked': 'లాక్ చేయబడింది',
     'achievement.progress': 'పురోగతి',
     'achievement.rewards': 'బహుమతులు',
-    
+
     'msg.welcome': 'కొలాబ్‌నెస్ట్‌కు స్వాగతం!',
     'msg.success': 'కార్యాచరణ విజయవంతంగా పూర్తయింది',
     'msg.error': 'ఏదో తప్పు జరిగింది',
@@ -1104,7 +1165,7 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
 
   // Kannada, Malayalam, Bengali, Punjabi, Urdu, Odia - Similar structure with native scripts
   // For brevity, I'll add simplified versions. In production, these would be fully translated.
-  
+
   kn: {
     'nav.home': 'ಮುಖಪುಟ',
     'nav.findTeam': 'ತಂಡ ಹುಡುಕಿ',
