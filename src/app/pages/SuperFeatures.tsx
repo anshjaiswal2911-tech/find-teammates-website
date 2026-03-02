@@ -978,25 +978,40 @@ function LiveStudyRooms() {
 
   const [activeRoom, setActiveRoom] = useState<any>(null);
   const [isJoining, setIsJoining] = useState(false);
+  const [isAsking, setIsAsking] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
+  const [currentRequestRoom, setCurrentRequestRoom] = useState<any>(null);
 
   const joinRoom = (room: any) => {
     if (room.live) {
-      setIsJoining(true);
-      // Simulate connection delay
-      setTimeout(() => {
-        setRooms(rooms.map(r =>
-          r.id === room.id ? { ...r, participants: r.participants + 1 } : r
-        ));
+      setCurrentRequestRoom(room);
+      setIsAsking(true);
 
-        addActivity(
-          user?.email || 'default',
-          'project',
-          `Joined study room: ${room.topic}`,
-          25
-        );
-        setActiveRoom(room);
-        setIsJoining(false);
-      }, 1500);
+      // Stage 1: Ask to Join (Wait for simulated host)
+      setTimeout(() => {
+        setIsAsking(false);
+        setIsAccepted(true);
+
+        // Stage 2: Host accepted (Wait 2.5 seconds before full entry)
+        setTimeout(() => {
+          setRooms(rooms.map(r =>
+            r.id === room.id ? { ...r, participants: r.participants + 1 } : r
+          ));
+
+          addActivity(
+            user?.email || 'default',
+            'project',
+            `Joined study room: ${room.topic}`,
+            25
+          );
+
+          setActiveRoom(room);
+          setIsAccepted(false);
+          setCurrentRequestRoom(null);
+          setIsJoining(false);
+        }, 2500);
+      }, 3000);
+
     } else {
       alert(`📅 This room is scheduled for later.\n\n✉️ We'll notify you when it starts!`);
     }
@@ -1057,10 +1072,13 @@ function LiveStudyRooms() {
                     : 'bg-white border-2 border-gray-100 text-gray-400 hover:text-gray-600'
                     }`}
                   onClick={() => joinRoom(room)}
-                  disabled={isJoining}
+                  disabled={isAsking || isAccepted || (isJoining && activeRoom?.id !== room.id)}
                 >
-                  {isJoining && activeRoom?.id !== room.id ? (
-                    'CONNECTING...'
+                  {(isAsking || isAccepted) && currentRequestRoom?.id === room.id ? (
+                    <span className="flex items-center gap-2">
+                      <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {isAsking ? 'ASKING TO JOIN...' : 'REQUEST ACCEPTED!'}
+                    </span>
                   ) : room.live ? (
                     <>
                       <Play className="h-4 w-4 mr-2" />
@@ -1078,6 +1096,75 @@ function LiveStudyRooms() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Request to Join Modal */}
+      <AnimatePresence>
+        {(isAsking || isAccepted) && currentRequestRoom && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-white rounded-[40px] max-w-sm w-full p-8 text-center"
+            >
+              <div className="relative mx-auto w-24 h-24 mb-6">
+                <div className={`absolute inset-0 rounded-full border-4 border-dashed animate-[spin_10s_linear_infinite] ${isAccepted ? 'border-green-500' : 'border-pink-500'}`} />
+                <div className="absolute inset-2 rounded-full overflow-hidden bg-gray-100">
+                  <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${currentRequestRoom.host}`} alt="host" className="w-full h-full object-cover" />
+                </div>
+                {isAccepted && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -bottom-2 -right-2 h-10 w-10 bg-green-500 rounded-full border-4 border-white flex items-center justify-center text-white"
+                  >
+                    <CheckCircle className="h-5 w-5" />
+                  </motion.div>
+                )}
+              </div>
+
+              <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-2">
+                {isAsking ? 'Requesting Access' : 'Access Granted!'}
+              </h3>
+              <p className="text-gray-500 text-sm font-medium mb-8">
+                {isAsking
+                  ? `Sending your request to ${currentRequestRoom.host}...`
+                  : `${currentRequestRoom.host} accepted your request. Joining in 2 seconds...`
+                }
+              </p>
+
+              {isAsking && (
+                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 3 }}
+                    className="h-full bg-pink-500"
+                  />
+                </div>
+              )}
+
+              {isAccepted && (
+                <div className="flex justify-center gap-1">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                      className="h-2 w-2 rounded-full bg-green-500"
+                    />
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Real Working Room Modal */}
       <AnimatePresence>
