@@ -28,6 +28,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { mockUsers, mockCurrentUser } from '../lib/mockData';
 import { generateMatches, simulateMutualLike } from '../lib/matchingAlgorithm';
 import { Match as MatchType, User as UserType } from '../lib/types';
+import { addActivity } from '../lib/userStats';
 
 // ─────────────────────────────────────────────
 // Confetti Particle
@@ -276,7 +277,13 @@ export function Match() {
     useEffect(() => {
         const queue = generateMatches(currentUser, mockUsers);
         setMatchQueue(queue);
-    }, []);
+
+        // Load saved matches from localStorage
+        const storedMatches = localStorage.getItem(`savedMatches_${currentUser.id}`);
+        if (storedMatches) {
+            setSavedMatches(JSON.parse(storedMatches));
+        }
+    }, [currentUser.id]);
 
     // Filtered queue based on search/skill
     const filteredQueue = useMemo(() => {
@@ -302,9 +309,20 @@ export function Match() {
                 const isMutualMatch = simulateMutualLike(candidate.compatibilityScore);
                 if (isMutualMatch) {
                     setCelebrationMatch(candidate);
-                    setSavedMatches(prev =>
-                        prev.find(m => m.id === candidate.id) ? prev : [candidate, ...prev]
-                    );
+                    setSavedMatches(prev => {
+                        const exists = prev.find(m => m.id === candidate.id);
+                        const updated = exists ? prev : [candidate, ...prev];
+
+                        // Persist to localStorage
+                        localStorage.setItem(`savedMatches_${currentUser.id}`, JSON.stringify(updated));
+
+                        // Update user stats if new match
+                        if (!exists) {
+                            addActivity(currentUser.id, 'match', `Matched with ${candidate.user.name}! 🎉`, 50);
+                        }
+
+                        return updated;
+                    });
                 }
             }
             setCurrentIndex(prev => prev + 1);

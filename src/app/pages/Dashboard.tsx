@@ -96,6 +96,19 @@ export function Dashboard() {
     const handleStatsUpdate = (e: any) => {
       if (e.detail?.userId === user?.email) {
         setUserStats(e.detail);
+
+        // Refresh matches list from localStorage
+        const stored = localStorage.getItem(`savedMatches_${user?.email}`);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setRecentMatches(parsed.slice(0, 4).map((m: any) => ({
+            name: m.user.name,
+            college: m.user.college,
+            compatibility: m.compatibilityScore,
+            avatar: m.user.name.charAt(0),
+            status: Math.random() > 0.5 ? 'online' : 'offline'
+          })));
+        }
       }
     };
 
@@ -172,7 +185,7 @@ export function Dashboard() {
   const statCards = [
     {
       title: 'Total Matches',
-      value: analytics.totalMatches,
+      value: userStats.matches,
       change: '+12%',
       icon: Users,
       color: 'text-blue-600',
@@ -291,12 +304,26 @@ export function Dashboard() {
     },
   ];
 
-  const recentMatches = [
-    { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online' },
-    { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline' },
-    { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online' },
-    { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline' },
-  ];
+  const [recentMatches, setRecentMatches] = useState<any[]>(() => {
+    const stored = localStorage.getItem(`savedMatches_${user?.email}`);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Map MatchType to the format expected by the dashboard list
+      return parsed.slice(0, 4).map((m: any) => ({
+        name: m.user.name,
+        college: m.user.college,
+        compatibility: m.compatibilityScore,
+        avatar: m.user.name.charAt(0),
+        status: Math.random() > 0.5 ? 'online' : 'offline' // Status is simulated online/offline
+      }));
+    }
+    return [
+      { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online' },
+      { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline' },
+      { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online' },
+      { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline' },
+    ];
+  });
 
   const skillProgressData = [
     { skill: 'React', current: 85, target: 100 },
@@ -352,7 +379,7 @@ export function Dashboard() {
                   <div className="p-4 border-b border-gray-200">
                     <div className="flex items-center justify-between">
                       <h3 className="font-bold text-gray-900">Notifications</h3>
-                      <Badge variant="destructive" className="text-xs">
+                      <Badge variant="warning" className="text-xs">
                         {notifications.filter(n => n.unread).length}
                       </Badge>
                     </div>
@@ -362,8 +389,8 @@ export function Dashboard() {
                       <div
                         key={index}
                         className={`flex gap-3 p-3 rounded-lg mb-2 ${notification.unread
-                            ? 'bg-blue-50 border border-blue-200'
-                            : 'bg-white border border-gray-200'
+                          ? 'bg-blue-50 border border-blue-200'
+                          : 'bg-white border border-gray-200'
                           }`}
                       >
                         <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${notification.bgColor} flex-shrink-0`}>
@@ -758,8 +785,8 @@ export function Dashboard() {
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: index * 0.1 }}
                           className={`relative flex flex-col items-center justify-center p-3 rounded-lg border-2 ${achievement.unlocked
-                              ? 'bg-white border-yellow-300'
-                              : 'bg-gray-100 border-gray-300 opacity-50'
+                            ? 'bg-white border-yellow-300'
+                            : 'bg-gray-100 border-gray-300 opacity-50'
                             }`}
                           title={achievement.description}
                         >
