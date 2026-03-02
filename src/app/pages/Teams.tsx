@@ -329,7 +329,7 @@ export function Teams() {
                   className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-6 rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
                   {isInviting ? (
-                    <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    'Submitting...'
                   ) : (
                     'Submit'
                   )}
@@ -369,7 +369,7 @@ export function Teams() {
                   <p className="text-sm text-gray-500 font-medium">Tracking progress and milestones</p>
                 </div>
               </div>
-              <Button variant="ghost" onClick={() => setShowProjectsModal(false)} className="rounded-full h-10 w-10 p-0">
+              <Button variant="ghost" onClick={() => setShowProjectsModal(false)} className="rounded-full h-10 w-10 p-0 text-gray-400 hover:text-gray-900 transition-colors">
                 ✕
               </Button>
             </div>
@@ -455,7 +455,7 @@ export function Teams() {
                     </div>
                     <div className="p-4 bg-blue-50/50 rounded-3xl border border-blue-100/50 text-center">
                       <div className="text-2xl font-black text-blue-600">{team.projects}</div>
-                      <div className="text-[10px] uppercase font-bold text-blue-400 tracking-widest mt-1">Projects</div>
+                      <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-1">Projects</div>
                     </div>
                     <div className="p-4 bg-emerald-50/50 rounded-3xl border border-emerald-100/50 text-center">
                       <div className="text-2xl font-black text-emerald-600">
