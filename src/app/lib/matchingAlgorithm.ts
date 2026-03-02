@@ -1,237 +1,166 @@
-// ============================================================
-// 🧠 DATING-STYLE TEAMMATE MATCHING ALGORITHM
-// CollabNest Smart Matching Engine v2.0
-//
-// Inspired by Tinder/Hinge matching logic but for hackathon teammates.
-// Scoring Dimensions:
-//  1. Skill Complementarity (35%) — fills YOUR skill gaps
-//  2. Skill Overlap (20%)         — shared foundation for collaboration
-//  3. Interest Alignment (20%)    — common goals & domains
-//  4. Experience Balance (15%)    — productive pairing, not duplicates
-//  5. Availability Match (10%)    — can actually work together
-// ============================================================
+// Dating-style Matching Algorithm for CollabNest
+// Inspired by Tinder/Hinge ELO-based matching — matches are NOT guaranteed every swipe
+// They happen probabilistically based on mutual interest simulation
 
 import { User, Match } from './types';
 
-// ── Types ────────────────────────────────────────────────────
-export interface ScoredMatch extends Match {
-  scoreBreakdown: ScoreBreakdown;
-  matchTier: 'Legendary' | 'Epic' | 'Great' | 'Good' | 'Potential';
-  icebreaker: string;
-  mutualConnections: number;
-  timeAdvantage: string;
-  superLikeBonus: boolean; // was this a mutual super-like?
+// ─────────────────────────────────────────────
+// SCORE CALCULATION
+// ─────────────────────────────────────────────
+
+/** Calculate shared skills between two users */
+export function getSkillOverlap(a: User, b: User): string[] {
+    return a.skills.filter(s => b.skills.includes(s));
 }
 
-export interface ScoreBreakdown {
-  complementarity: number; // /35
-  skillOverlap: number;    // /20
-  interests: number;       // /20
-  experience: number;      // /15
-  availability: number;    // /10
-  total: number;           // /100
+/** Calculate complementary skills (what b has that a doesn't) */
+export function getComplementarySkills(a: User, b: User): string[] {
+    return b.skills.filter(s => !a.skills.includes(s)).slice(0, 4);
 }
 
-// ── Skill Category Map (to detect cross-domain complementarity) ──
-const SKILL_CATEGORIES: Record<string, string> = {
-  // Frontend
-  'React': 'frontend', 'Vue': 'frontend', 'Angular': 'frontend',
-  'TypeScript': 'frontend', 'JavaScript': 'frontend', 'HTML': 'frontend',
-  'CSS': 'frontend', 'Tailwind CSS': 'frontend', 'Next.js': 'frontend',
-  'Svelte': 'frontend', 'Figma': 'design', 'Adobe XD': 'design',
-  'Framer Motion': 'design', 'UI/UX Design': 'design',
-  // Backend
-  'Node.js': 'backend', 'Python': 'backend', 'Django': 'backend',
-  'Flask': 'backend', 'FastAPI': 'backend', 'Go': 'backend',
-  'Rust': 'backend', 'Ruby on Rails': 'backend', 'Spring Boot': 'backend',
-  'Java': 'backend', 'PHP': 'backend',
-  // Data / AI
-  'Machine Learning': 'ai', 'TensorFlow': 'ai', 'PyTorch': 'ai',
-  'Deep Learning': 'ai', 'NLP': 'ai', 'Computer Vision': 'ai',
-  'Data Science': 'ai', 'Pandas': 'ai', 'Scikit-learn': 'ai',
-  'Tableau': 'ai', 'Data Viz': 'ai',
-  // Mobile
-  'Flutter': 'mobile', 'React Native': 'mobile', 'Swift': 'mobile',
-  'iOS': 'mobile', 'Android': 'mobile', 'Kotlin': 'mobile',
-  'Dart': 'mobile', 'Firebase': 'mobile',
-  // DevOps / Cloud
-  'Docker': 'devops', 'Kubernetes': 'devops', 'AWS': 'devops',
-  'Azure': 'devops', 'GCP': 'devops', 'CI/CD': 'devops',
-  'MongoDB': 'database', 'PostgreSQL': 'database', 'MySQL': 'database',
-  'Redis': 'database', 'GraphQL': 'backend',
-  // Other
-  'Blockchain': 'web3', 'Solidity': 'web3', 'Web3.js': 'web3',
-  'Cybersecurity': 'security', 'Ethical Hacking': 'security',
-};
-
-function getCategory(skill: string): string {
-  return SKILL_CATEGORIES[skill] || 'other';
+/** Calculate shared interests */
+export function getInterestOverlap(a: User, b: User): string[] {
+    return a.interests.filter(i => b.interests.includes(i));
 }
 
-// ── Experience Scoring Matrix ──────────────────────────────────
-// Best pairs: Intermediate+Advanced (mentor dynamic) or same level
-const EXPERIENCE_SCORE: Record<string, Record<string, number>> = {
-  'Beginner': { 'Beginner': 8, 'Intermediate': 15, 'Advanced': 10 },
-  'Intermediate': { 'Beginner': 10, 'Intermediate': 15, 'Advanced': 15 },
-  'Advanced': { 'Beginner': 8, 'Intermediate': 15, 'Advanced': 13 },
-};
-
-// ── Availability Scoring ────────────────────────────────────────
-const AVAILABILITY_SCORE: Record<string, Record<string, number>> = {
-  'Full-time': { 'Full-time': 10, 'Part-time': 6, 'Weekends': 5 },
-  'Part-time': { 'Full-time': 6, 'Part-time': 10, 'Weekends': 8 },
-  'Weekends': { 'Full-time': 5, 'Part-time': 8, 'Weekends': 10 },
-};
-
-// ── Time Advantage (simulated timezone overlap) ────────────────
-function computeTimeAdvantage(userA: User, userB: User): string {
-  const hash = (userB.id.charCodeAt(0) + userA.id.charCodeAt(0)) % 4;
-  return ['18h', '20h', '22h', '16h'][hash];
+/** Experience compatibility score (0–25) */
+function experienceScore(a: User, b: User): number {
+    const levels = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+    const diff = Math.abs(levels[a.experience] - levels[b.experience]);
+    if (diff === 0) return 25;
+    if (diff === 1) return 15;
+    return 5;
 }
 
-// ── Mutual Connections (simulated) ──────────────────────────────
-function computeMutualConnections(userA: User, userB: User): number {
-  // Simulate based on college & skill overlap
-  const sameCollege = userA.college === userB.college ? 5 : 0;
-  const sharedSkillCount = userA.skills.filter(s => userB.skills.includes(s)).length;
-  return Math.min(sameCollege + sharedSkillCount * 2 + 3, 20);
+/** Availability compatibility score (0–20) */
+function availabilityScore(a: User, b: User): number {
+    if (a.availability === b.availability) return 20;
+    if (
+        (a.availability === 'Full-time' && b.availability === 'Part-time') ||
+        (a.availability === 'Part-time' && b.availability === 'Full-time')
+    ) return 12;
+    return 6;
 }
 
-// ── Icebreaker Generator ────────────────────────────────────────
-function generateIcebreaker(userA: User, userB: User, sharedInterests: string[]): string {
-  const templates = [
-    `You both love ${sharedInterests[0] || 'building cool things'} — start there!`,
-    `Ask ${userB.name.split(' ')[0]} about their experience with ${userB.skills[0]}!`,
-    `You and ${userB.name.split(' ')[0]} could build something amazing in ${sharedInterests[0] || 'your shared domain'}.`,
-    `Share your latest ${userA.interests[0] || 'project'} idea — ${userB.name.split(' ')[0]} would love it!`,
-    `Talk about how ${userB.name.split(' ')[0]}'s ${userB.skills[0]} skills could power your next project.`,
-  ];
-  const idx = (userA.id.charCodeAt(0) + userB.id.charCodeAt(0)) % templates.length;
-  return templates[idx];
+/** Skill overlap score (0–35) */
+function skillScore(a: User, b: User): number {
+    const overlap = getSkillOverlap(a, b).length;
+    const complementary = getComplementarySkills(a, b).length;
+    // Overlap adds value, complementary adds MORE value (you fill each other's gaps)
+    const raw = overlap * 4 + complementary * 5;
+    return Math.min(35, raw);
 }
 
-// ── Match Tier ──────────────────────────────────────────────────
-function getMatchTier(score: number): ScoredMatch['matchTier'] {
-  if (score >= 90) return 'Legendary';
-  if (score >= 75) return 'Epic';
-  if (score >= 60) return 'Great';
-  if (score >= 45) return 'Good';
-  return 'Potential';
+/** Interest score (0–20) */
+function interestScore(a: User, b: User): number {
+    const overlap = getInterestOverlap(a, b).length;
+    return Math.min(20, overlap * 7);
 }
 
-// ── Explanation Builder ─────────────────────────────────────────
-function buildExplanation(breakdown: ScoreBreakdown, skillOverlap: string[], complementary: string[], interests: string[]): string {
-  const parts: string[] = [];
-  if (breakdown.total >= 90) parts.push('🔥 Legendary match!');
-  else if (breakdown.total >= 75) parts.push('⚡ Epic compatibility!');
-  else if (breakdown.total >= 60) parts.push('✨ Great potential!');
-  else parts.push('💡 Interesting perspective!');
-
-  if (skillOverlap.length > 0)
-    parts.push(`${skillOverlap.length} shared skills (${skillOverlap.slice(0, 2).join(', ')})`);
-  if (complementary.length > 0)
-    parts.push(`${complementary.length} complementary skills`);
-  if (interests.length > 0)
-    parts.push(`${interests.length} common interests`);
-  return parts.join(' • ');
+/**
+ * Compute a raw compatibility score (0–100) between two users
+ * based on skills, interests, experience, and availability.
+ */
+export function computeCompatibility(a: User, b: User): number {
+    const score =
+        skillScore(a, b) +
+        interestScore(a, b) +
+        experienceScore(a, b) +
+        availabilityScore(a, b);
+    return Math.min(100, Math.round(score));
 }
 
-// ── 🌟 CORE ALGORITHM: calculateCompatibility ───────────────────
-export function calculateCompatibility(userA: User, userB: User): ScoredMatch {
-  // 1. COMPLEMENTARITY (35pts)
-  // How much does userB fill YOUR gaps?
-  const userACategories = new Set(userA.skills.map(getCategory));
-  const userBCategories = new Set(userB.skills.map(getCategory));
-  const newCategoriesForA = [...userBCategories].filter(c => !userACategories.has(c) && c !== 'other');
-  const complementarySkills = userB.skills.filter(s => !userA.skills.includes(s));
-  const uniqueNewCats = new Set(newCategoriesForA);
-  // Award up to 35 pts: 8 pts per new category unlocked, capped at 35
-  const complementarityScore = Math.min(uniqueNewCats.size * 8 + Math.min(complementarySkills.length, 5) * 2, 35);
+// ─────────────────────────────────────────────
+// DATING-STYLE: MUTUAL INTEREST SIMULATION
+// ─────────────────────────────────────────────
 
-  // 2. SKILL OVERLAP (20pts)
-  // Shared skills = foundation = team sync
-  const skillOverlap = userA.skills.filter(s => userB.skills.includes(s));
-  const maxSkills = Math.max(userA.skills.length, userB.skills.length, 1);
-  const skillOverlapScore = Math.round((skillOverlap.length / maxSkills) * 20);
-
-  // 3. INTEREST ALIGNMENT (20pts)
-  const interestOverlap = userA.interests.filter(i => userB.interests.includes(i));
-  const maxInterests = Math.max(userA.interests.length, userB.interests.length, 1);
-  const interestScore = Math.round((interestOverlap.length / maxInterests) * 20);
-
-  // 4. EXPERIENCE BALANCE (15pts) — uses the scoring matrix
-  const expScore = EXPERIENCE_SCORE[userA.experience]?.[userB.experience] ?? 8;
-
-  // 5. AVAILABILITY MATCH (10pts)
-  const availScore = AVAILABILITY_SCORE[userA.availability]?.[userB.availability] ?? 5;
-
-  // TOTAL
-  const total = Math.min(
-    complementarityScore + skillOverlapScore + interestScore + expScore + availScore,
-    100
-  );
-
-  const breakdown: ScoreBreakdown = {
-    complementarity: complementarityScore,
-    skillOverlap: skillOverlapScore,
-    interests: interestScore,
-    experience: expScore,
-    availability: availScore,
-    total,
-  };
-
-  const explanation = buildExplanation(breakdown, skillOverlap, complementarySkills, interestOverlap);
-  const icebreaker = generateIcebreaker(userA, userB, interestOverlap);
-  const matchTier = getMatchTier(total);
-
-  return {
-    id: `match-${userB.id}`,
-    user: userB,
-    compatibilityScore: total,
-    explanation,
-    skillOverlap,
-    complementarySkills: complementarySkills.slice(0, 5),
-    matchTier,
-    icebreaker,
-    mutualConnections: computeMutualConnections(userA, userB),
-    timeAdvantage: computeTimeAdvantage(userA, userB),
-    superLikeBonus: false,
-    scoreBreakdown: breakdown,
-  };
+/**
+ * Simulate whether the OTHER person "likes" you back.
+ * Like dating apps — not every right swipe is a match.
+ *
+ * Probability formula (inspired by ELO):
+ *   P(match) = 0.20 + (compatibility / 100) * 0.55 + random_noise
+ *
+ * This means:
+ *   - Score 50% → ~48% chance of mutual match
+ *   - Score 80% → ~64% chance of mutual match
+ *   - Score 95% → ~72% chance of mutual match
+ *   - There is ALWAYS some uncertainty — like real life!
+ */
+export function simulateMutualLike(compatibilityScore: number): boolean {
+    const baseProbability = 0.20;
+    const skillBonus = (compatibilityScore / 100) * 0.55;
+    const randomNoise = (Math.random() - 0.5) * 0.15; // ±7.5% noise
+    const probability = Math.max(0.05, Math.min(0.85, baseProbability + skillBonus + randomNoise));
+    return Math.random() < probability;
 }
 
-// ── generateMatches: Full sorted & filtered queue ──────────────
-export function generateMatches(
-  currentUser: User,
-  allUsers: User[],
-  options?: {
-    minScore?: number;
-    excludeIds?: string[];
-    limit?: number;
-  }
-): ScoredMatch[] {
-  const { minScore = 0, excludeIds = [], limit } = options ?? {};
+// ─────────────────────────────────────────────
+// GENERATE SORTED + SHUFFLED MATCH QUEUE
+// ─────────────────────────────────────────────
 
-  const results = allUsers
-    .filter(u => u.id !== currentUser.id && !excludeIds.includes(u.id))
-    .map(u => calculateCompatibility(currentUser, u))
-    .filter(m => m.compatibilityScore >= minScore)
-    .sort((a, b) => {
-      // Primary: score
-      if (b.compatibilityScore !== a.compatibilityScore)
-        return b.compatibilityScore - a.compatibilityScore;
-      // Secondary: more complementary skills = better
-      return b.complementarySkills.length - a.complementarySkills.length;
+/**
+ * Generate a discovery queue for the current user.
+ * Uses a weighted shuffle so higher-compatibility users appear more often
+ * but aren't always first (adds surprise factor like dating apps).
+ */
+export function generateMatches(currentUser: User, allUsers: User[]): Match[] {
+    const candidates = allUsers.filter(u => u.id !== currentUser.id);
+
+    const scored: Match[] = candidates.map(user => {
+        const score = computeCompatibility(currentUser, user);
+        const skillOverlap = getSkillOverlap(currentUser, user);
+        const complementarySkills = getComplementarySkills(currentUser, user);
+
+        const explanation = buildExplanation(currentUser, user, score, skillOverlap, complementarySkills);
+
+        return {
+            id: user.id,
+            user,
+            compatibilityScore: score,
+            explanation,
+            skillOverlap,
+            complementarySkills,
+        };
     });
 
-  return limit ? results.slice(0, limit) : results;
+    // Weighted shuffle: higher scores bubble up but with randomness
+    return weightedShuffle(scored);
 }
 
-// ── Tier color/badge helpers (for UI) ─────────────────────────
-export const TIER_STYLES: Record<ScoredMatch['matchTier'], { bg: string; text: string; border: string; label: string }> = {
-  Legendary: { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-300', label: '🔥 Legendary' },
-  Epic: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-300', label: '⚡ Epic' },
-  Great: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-300', label: '✨ Great' },
-  Good: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-300', label: '👍 Good' },
-  Potential: { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200', label: '💡 Potential' },
-};
+/**
+ * Weighted shuffle — higher-scored items are more likely to appear
+ * earlier in the queue, but there's always randomness.
+ */
+function weightedShuffle(matches: Match[]): Match[] {
+    return matches
+        .map(m => ({
+            match: m,
+            sortKey: m.compatibilityScore + Math.random() * 30, // 30-point randomness window
+        }))
+        .sort((a, b) => b.sortKey - a.sortKey)
+        .map(item => item.match);
+}
+
+// ─────────────────────────────────────────────
+// EXPLANATION GENERATOR
+// ─────────────────────────────────────────────
+
+function buildExplanation(
+    a: User,
+    b: User,
+    score: number,
+    skillOverlap: string[],
+    complementary: string[]
+): string {
+    if (score >= 80) {
+        return `You and ${b.name} are a stellar team match! You share ${skillOverlap.length} core skills and ${b.name} brings ${complementary.slice(0, 2).join(' & ')} to complement your stack.`;
+    }
+    if (score >= 60) {
+        return `Strong match! ${b.name} shares your passion for ${getInterestOverlap(a, b)[0] || 'building products'} and your combined skills cover the full stack.`;
+    }
+    if (score >= 40) {
+        return `${b.name} has a different but complementary skillset — together you'd fill important gaps on any team.`;
+    }
+    return `${b.name} could be a wild card match — different background, fresh perspective, and new skills to learn from each other.`;
+}
