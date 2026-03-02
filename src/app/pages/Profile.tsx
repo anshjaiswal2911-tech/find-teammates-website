@@ -85,17 +85,25 @@ export function Profile() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Profile Card */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-6">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="lg:col-span-1"
+          >
+            <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm sticky top-8">
+              <CardContent className="p-8">
                 <div className="text-center">
-                  <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-3xl font-bold text-white overflow-hidden shadow-xl border-2 border-white">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-[2rem] bg-gradient-to-br from-blue-600 to-purple-600 text-4xl font-black text-white overflow-hidden shadow-2xl border-4 border-white"
+                  >
                     {user?.profileImage ? (
                       <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
                     ) : (
                       user?.name.charAt(0).toUpperCase()
                     )}
-                  </div>
+                  </motion.div>
                   <h2 className="text-xl font-bold text-gray-900">{user?.name}</h2>
                   <p className="text-gray-600">{user?.college}</p>
 
@@ -127,77 +135,85 @@ export function Profile() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
 
           {/* Profile Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                  <Input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={!isEditing}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">College/University</label>
-                  <Input
-                    value={college}
-                    onChange={(e) => setCollege(e.target.value)}
-                    disabled={!isEditing}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
-                  <textarea
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    disabled={!isEditing}
-                    rows={4}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
-                    placeholder="Tell us about yourself..."
-                  />
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xl font-black tracking-tight">Basic Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
-                    <select
-                      value={experience}
-                      onChange={(e) => setExperience(e.target.value as any)}
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Name</label>
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       disabled={!isEditing}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
-                    >
-                      <option value="Beginner">Beginner</option>
-                      <option value="Intermediate">Intermediate</option>
-                      <option value="Advanced">Advanced</option>
-                    </select>
+                      className="rounded-xl border-gray-100 py-6"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
-                    <select
-                      value={availability}
-                      onChange={(e) => setAvailability(e.target.value as any)}
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">College/University</label>
+                    <Input
+                      value={college}
+                      onChange={(e) => setCollege(e.target.value)}
                       disabled={!isEditing}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
-                    >
-                      <option value="Full-time">Full-time</option>
-                      <option value="Part-time">Part-time</option>
-                      <option value="Weekends">Weekends</option>
-                    </select>
+                      className="rounded-xl border-gray-100 py-6"
+                    />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Bio</label>
+                    <textarea
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      disabled={!isEditing}
+                      rows={4}
+                      className="w-full rounded-xl border border-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:bg-gray-50/50"
+                      placeholder="Tell us about yourself..."
+                    />
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Experience Level</label>
+                      <select
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value as any)}
+                        disabled={!isEditing}
+                        className="w-full rounded-xl border border-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:bg-gray-50/50 bg-white"
+                      >
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Availability</label>
+                      <select
+                        value={availability}
+                        onChange={(e) => setAvailability(e.target.value as any)}
+                        disabled={!isEditing}
+                        className="w-full rounded-xl border border-gray-100 px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:bg-gray-50/50 bg-white"
+                      >
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Weekends">Weekends</option>
+                      </select>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Skills */}
             <Card>
@@ -296,6 +312,6 @@ export function Profile() {
           </div>
         </div>
       </motion.div>
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
+import Hyperspeed from '../components/Hyperspeed/Hyperspeed';
 import {
   Zap,
   Mail,
@@ -142,8 +143,8 @@ export function Signup() {
         profileImage: profileImage || undefined
       });
 
-      // Force immediate navigation to dashboard
-      window.location.href = '/dashboard';
+      // Force immediate navigation to match
+      window.location.href = '/match';
     } catch (error) {
       console.error('Signup failed:', error);
       alert("Signup failed. Please check your details.");
@@ -335,8 +336,8 @@ export function Signup() {
                     type="button"
                     onClick={() => setExperience(level)}
                     className={`p-4 rounded-2xl border-2 text-xs font-black uppercase tracking-widest transition-all ${experience === level
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg scale-105'
-                        : 'bg-white text-gray-500 border-gray-100 hover:border-blue-200'
+                      ? 'bg-blue-600 text-white border-blue-600 shadow-lg scale-105'
+                      : 'bg-white text-gray-500 border-gray-100 hover:border-blue-200'
                       }`}
                   >
                     {level}
@@ -437,8 +438,8 @@ export function Signup() {
                     type="button"
                     onClick={() => setAvailability(opt)}
                     className={`p-4 rounded-2xl border-2 text-xs font-black uppercase tracking-widest transition-all ${availability === opt
-                        ? 'bg-purple-600 text-white border-purple-600 shadow-lg scale-105'
-                        : 'bg-white text-gray-500 border-gray-100 hover:border-purple-200'
+                      ? 'bg-purple-600 text-white border-purple-600 shadow-lg scale-105'
+                      : 'bg-white text-gray-500 border-gray-100 hover:border-purple-200'
                       }`}
                   >
                     {opt}
@@ -515,19 +516,19 @@ export function Signup() {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Visual Side */}
-      <div className="hidden lg:flex lg:w-[40%] bg-[#0F172A] relative overflow-hidden items-center justify-center p-12">
-        {/* Animated Background Orbs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse delay-1000" />
+      {/* Visual Side with Hyperspeed */}
+      <div className="hidden lg:flex lg:w-[40%] relative bg-black items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Hyperspeed />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 text-white"
+          className="relative z-10 text-white px-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md mb-8">
             <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-300">Join 15,000+ Innovators</span>
           </div>
@@ -539,7 +540,7 @@ export function Signup() {
             STARTS HERE
           </h2>
 
-          <p className="text-lg text-slate-400 font-medium mb-12 max-w-sm tracking-tight">
+          <p className="text-lg text-slate-300 font-medium mb-12 max-w-sm tracking-tight opacity-80">
             Stop coding alone. Find your ideal tech partner and build the future together.
           </p>
 
@@ -556,7 +557,7 @@ export function Signup() {
                 transition={{ delay: 0.5 + i * 0.1 }}
                 className="flex items-center gap-4 text-slate-300"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                   <item.icon className="h-5 w-5 text-blue-400" />
                 </div>
                 <span className="font-bold text-sm tracking-tight">{item.text}</span>

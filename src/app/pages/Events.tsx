@@ -437,46 +437,31 @@ export function Events() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3 mb-6">
-        <Card className="border-2 border-blue-200 bg-blue-50">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Upcoming Events</div>
-                <div className="text-3xl font-bold text-blue-600">{upcomingCount}</div>
-              </div>
-              <Calendar className="h-12 w-12 text-blue-600 opacity-20" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 border-green-200 bg-green-50">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Registered</div>
-                <div className="text-3xl font-bold text-green-600">{registeredCount}</div>
-              </div>
-              <Rocket className="h-12 w-12 text-green-600 opacity-20" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card
-          className={`border-2 cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] ${filterBookmarked ? 'border-purple-500 bg-purple-100 shadow-md' : 'border-purple-200 bg-purple-50'}`}
-          onClick={() => setFilterBookmarked(!filterBookmarked)}
-        >
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Bookmarked</div>
-                <div className="text-3xl font-bold text-purple-600">{bookmarkedCount}</div>
-                {filterBookmarked && <span className="text-[10px] font-bold text-purple-500 uppercase tracking-wider">Active Filter</span>}
-              </div>
-              <Bookmark className={`h-12 w-12 text-purple-600 ${filterBookmarked ? 'fill-purple-600' : 'opacity-20'}`} />
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-3 mb-8">
+        {[
+          { label: 'Upcoming Events', value: upcomingCount, icon: Calendar, color: 'text-blue-600', bgColor: 'bg-blue-50/50' },
+          { label: 'Registered', value: registeredCount, icon: Rocket, color: 'text-green-600', bgColor: 'bg-green-50/50' },
+          { label: 'Bookmarked', value: bookmarkedCount, icon: Bookmark, color: 'text-purple-600', bgColor: 'bg-purple-50/50', active: filterBookmarked, onClick: () => setFilterBookmarked(!filterBookmarked) }
+        ].map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            whileHover={{ y: -5, scale: 1.02 }}
+            onClick={stat.onClick}
+            className={stat.onClick ? 'cursor-pointer' : ''}
+          >
+            <Card className={`premium-shadow border-none bg-white/80 backdrop-blur-sm transition-all ${stat.active ? 'ring-2 ring-purple-500 bg-purple-50/80' : ''}`}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</div>
+                    <div className={`text-3xl font-black ${stat.color}`}>{stat.value}</div>
+                  </div>
+                  <stat.icon className={`h-10 w-10 ${stat.color} opacity-20`} />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
       {/* Search and Filters */}
@@ -554,15 +539,19 @@ export function Events() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
+              whileHover={{ x: 8 }}
             >
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex flex-col md:flex-row gap-6">
+              <Card className="premium-shadow border-none bg-white/80 backdrop-blur-md overflow-hidden transition-all group">
+                <CardContent className="p-8">
+                  <div className="flex flex-col md:flex-row gap-8">
                     {/* Event Icon */}
                     <div className="flex-shrink-0">
-                      <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                        <TypeIcon className="h-8 w-8 text-white" />
-                      </div>
+                      <motion.div
+                        whileHover={{ rotate: 12, scale: 1.1 }}
+                        className="h-20 w-20 rounded-[2rem] bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center shadow-lg"
+                      >
+                        <TypeIcon className="h-10 w-10 text-white" />
+                      </motion.div>
                     </div>
 
                     {/* Event Details */}

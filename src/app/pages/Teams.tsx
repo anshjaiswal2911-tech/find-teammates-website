@@ -221,36 +221,27 @@ export function Teams() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-4 mb-8">
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-sm text-gray-600 mb-1">Total Teams</div>
-            <div className="text-3xl font-bold text-gray-900">{teams.length}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-sm text-gray-600 mb-1">Teams Leading</div>
-            <div className="text-3xl font-bold text-blue-600">
-              {teams.filter(t => t.members.some(m => m.name === 'You' && m.role === 'Leader')).length}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-sm text-gray-600 mb-1">Total Members</div>
-            <div className="text-3xl font-bold text-purple-600">
-              {teams.reduce((acc, team) => acc + team.members.length, 0)}
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-sm text-gray-600 mb-1">Active Projects</div>
-            <div className="text-3xl font-bold text-green-600">
-              {teams.reduce((acc, team) => acc + team.projects, 0)}
-            </div>
-          </CardContent>
-        </Card>
+        {[
+          { label: 'Total Teams', value: teams.length, delay: 0 },
+          { label: 'Teams Leading', value: teams.filter(t => t.members.some(m => m.name === 'You' && m.role === 'Leader')).length, delay: 0.1, color: 'text-blue-600' },
+          { label: 'Total Members', value: teams.reduce((acc, team) => acc + team.members.length, 0), delay: 0.2, color: 'text-purple-600' },
+          { label: 'Active Projects', value: teams.reduce((acc, team) => acc + team.projects, 0), delay: 0.3, color: 'text-green-600' }
+        ].map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: stat.delay }}
+            whileHover={{ y: -5, scale: 1.02 }}
+          >
+            <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
+              <CardContent className="p-6 text-center">
+                <div className="text-xs font-black uppercase tracking-widest text-gray-400 mb-2">{stat.label}</div>
+                <div className={`text-4xl font-black ${stat.color || 'text-gray-900'} tracking-tight`}>{stat.value}</div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </div>
 
       {/* Create Team Modal */}
@@ -510,9 +501,10 @@ export function Teams() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
             >
-              <Card className="hover:shadow-2xl transition-all duration-300 h-full rounded-[2.5rem] border-gray-100 overflow-hidden group">
-                <CardHeader className="bg-white group-hover:bg-gray-50/50 transition-colors">
+              <Card className="premium-shadow transition-all duration-300 h-full rounded-[2.5rem] border-none bg-white/90 backdrop-blur-md overflow-hidden group">
+                <CardHeader className="bg-transparent transition-colors p-8 pb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-2xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-2">

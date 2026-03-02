@@ -150,19 +150,19 @@ export function SuperFeatures() {
             />
 
             {/* Live Feature Simulation Section */}
-            <Card className="lg:col-span-3 border-none bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-sm overflow-hidden relative">
+            <Card className="premium-shadow lg:col-span-3 border-none bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-xl overflow-hidden relative">
               <div className="absolute top-0 right-0 p-8 opacity-5">
                 <Brain className="h-64 w-64 text-indigo-900" />
               </div>
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <CardContent className="p-10">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-12">
                   <div className="max-w-md">
-                    <Badge className="mb-4 bg-indigo-600">NEW: Hub Simulation</Badge>
-                    <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-4">EXPERIENCE THE <span className="text-indigo-600">SUPER HUB</span></h2>
-                    <p className="text-gray-600 font-medium mb-6">Our platform simulates real-world development environments. Click around to see features come to life.</p>
+                    <Badge className="mb-4 bg-indigo-600 px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg shadow-indigo-500/20">NEW: Hub Simulation</Badge>
+                    <h2 className="text-4xl font-black text-gray-900 tracking-tight mb-6 leading-[1.1]">EXPERIENCE THE <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 underline decoration-indigo-200 decoration-4">SUPER HUB</span></h2>
+                    <p className="text-gray-600 font-medium mb-8 leading-relaxed">Our platform simulates real-world development environments. Explore high-performance tools designed for the next generation of builders.</p>
                     <div className="flex gap-4">
-                      <Button className="bg-indigo-600 hover:bg-indigo-700 shadow-lg px-8" onClick={() => setActiveTab('learning')}>Explore Roadmaps</Button>
-                      <Button variant="outline" className="border-indigo-200" onClick={() => setActiveTab('collaboration')}>View Snippets</Button>
+                      <Button className="bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-500/30 px-8 py-6 rounded-2xl font-black tracking-widest text-xs" onClick={() => setActiveTab('learning')}>EXPLORE ROADMAPS</Button>
+                      <Button variant="outline" className="border-indigo-100 bg-white/50 backdrop-blur-sm px-8 py-6 rounded-2xl font-black tracking-widest text-xs" onClick={() => setActiveTab('collaboration')}>VIEW SNIPPETS</Button>
                     </div>
                   </div>
 
@@ -331,23 +331,23 @@ function FeatureCard({
 }) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02, y: -5 }}
+      whileHover={{ scale: 1.04, y: -8 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className="cursor-pointer"
     >
-      <Card className="border-2 hover:shadow-lg transition-all">
-        <CardContent className="p-6">
-          <div className={`${color} h-12 w-12 rounded-lg flex items-center justify-center mb-4`}>
-            <Icon className="h-6 w-6 text-white" />
+      <Card className="premium-shadow border-none bg-white/80 backdrop-blur-md transition-all h-full">
+        <CardContent className="p-8">
+          <div className={`${color} h-14 w-14 rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
+            <Icon className="h-7 w-7 text-white" />
           </div>
-          <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-          <p className="text-sm text-gray-600 mb-4">{description}</p>
-          <div className="grid grid-cols-2 gap-3">
+          <h3 className="text-xl font-black text-gray-900 tracking-tight mb-3">{title}</h3>
+          <p className="text-sm font-medium text-gray-500 mb-6 leading-relaxed">{description}</p>
+          <div className="grid grid-cols-2 gap-4">
             {stats.map((stat, idx) => (
-              <div key={idx} className="bg-gray-50 p-2 rounded">
-                <div className="text-xs text-gray-600">{stat.label}</div>
-                <div className="text-sm font-bold text-gray-900">{stat.value}</div>
+              <div key={idx} className="bg-gray-50/50 p-3 rounded-xl border border-gray-100">
+                <div className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</div>
+                <div className="text-sm font-black text-gray-900">{stat.value}</div>
               </div>
             ))}
           </div>

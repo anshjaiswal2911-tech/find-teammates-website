@@ -426,17 +426,19 @@ export function Dashboard() {
             </div>
 
             {/* Day Streak */}
-            <Card className="bg-gradient-to-r from-orange-500 to-red-500 border-0">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3 text-white">
-                  <Flame className="h-8 w-8" />
-                  <div>
-                    <div className="text-2xl font-bold">{learningStreak}</div>
-                    <div className="text-xs opacity-90">Day Streak 🔥</div>
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Card className="bg-gradient-to-r from-orange-500 to-red-500 border-none premium-shadow">
+                <CardContent className="p-4 px-6">
+                  <div className="flex items-center gap-3 text-white">
+                    <Flame className="h-8 w-8 fill-white/20" />
+                    <div>
+                      <div className="text-2xl font-black">{learningStreak}</div>
+                      <div className="text-[10px] font-black uppercase tracking-widest opacity-80">Day Streak 🔥</div>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
 
@@ -474,21 +476,22 @@ export function Dashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <Card className="hover:shadow-lg transition-all hover:scale-105 cursor-pointer"
+                  <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm cursor-pointer"
                     onClick={() => alert(`Viewing details for: ${stat.title}`)}>
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${stat.bgColor}`}>
+                        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${stat.bgColor}`}>
                           <stat.icon className={`h-6 w-6 ${stat.color}`} />
                         </div>
-                        <div className="flex items-center gap-1 text-sm font-medium text-green-600">
+                        <div className="flex items-center gap-1 text-sm font-black text-green-600">
                           <ArrowUp className="h-4 w-4" />
                           {stat.change}
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                      <div className="text-sm text-gray-600">{stat.title}</div>
+                      <div className="text-3xl font-black text-gray-900 tracking-tight">{stat.value}</div>
+                      <div className="text-[10px] uppercase font-black tracking-widest text-gray-400 mt-1">{stat.title}</div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -503,11 +506,11 @@ export function Dashboard() {
                 <div className="grid gap-6 lg:grid-cols-2">
                   {/* Weekly Activity Chart */}
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                   >
-                    <Card>
+                    <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
                           <Activity className="h-5 w-5 text-blue-600" />
@@ -563,11 +566,11 @@ export function Dashboard() {
 
                   {/* Skill Distribution Chart */}
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
-                    <Card>
+                    <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-base">
                           <TrendingUp className="h-5 w-5 text-purple-600" />
@@ -601,7 +604,7 @@ export function Dashboard() {
                 </div>
 
                 {/* Trending Skills */}
-                <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50">
+                <Card className="premium-shadow border-none bg-gradient-to-br from-orange-50/50 to-yellow-50/50 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <TrendingUp className="h-5 w-5 text-orange-600" />
@@ -646,7 +649,7 @@ export function Dashboard() {
                 </Card>
 
                 {/* Upcoming Hackathons */}
-                <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+                <Card className="premium-shadow border-none bg-gradient-to-br from-purple-50/50 to-pink-50/50 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Calendar className="h-5 w-5 text-purple-600" />
@@ -696,7 +699,7 @@ export function Dashboard() {
                 </Card>
 
                 {/* Skill Progress */}
-                <Card>
+                <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Target className="h-5 w-5 text-blue-600" />
@@ -729,7 +732,7 @@ export function Dashboard() {
               {/* Right Column - 1 col */}
               <div className="space-y-6">
                 {/* Recent Matches */}
-                <Card>
+                <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
                       <Users className="h-5 w-5 text-green-600" />
@@ -775,7 +778,7 @@ export function Dashboard() {
                 </Card>
 
                 {/* Achievements */}
-                <Card className="border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50">
+                <Card className="premium-shadow border-none bg-gradient-to-br from-yellow-50/80 to-orange-50/80 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Trophy className="h-5 w-5 text-yellow-600" />

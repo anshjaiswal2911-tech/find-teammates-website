@@ -151,8 +151,8 @@ export function Landing() {
                 <Zap className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="font-bold text-gray-900">CollabNest</h1>
-                <p className="text-xs text-gray-500">AI Intelligence Hub</p>
+                <h1 className="font-bold text-gray-900">{t('home.title')}</h1>
+                <p className="text-xs text-gray-500">{t('home.subtitle')}</p>
               </div>
             </motion.div>
             <div className="flex items-center gap-4">
