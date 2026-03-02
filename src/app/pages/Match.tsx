@@ -365,8 +365,32 @@ export function Match() {
                 )}
             </AnimatePresence>
 
-            <div className="bg-[#F8FAFC] -m-8 min-h-screen">
-                <main className="p-6 lg:p-12 overflow-x-hidden">
+            <div className="relative bg-[#F8FAFC] -m-8 min-h-screen">
+                {/* Dynamic Background */}
+                <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+                    <AnimatePresence>
+                        {currentMatch && (
+                            <motion.div
+                                key={currentMatch.user.profileImage}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 0.2 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 1.2 }}
+                                className="absolute inset-0"
+                            >
+                                <img
+                                    src={currentMatch.user.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentMatch.user.name)}&background=7C3AED&color=fff&size=512`}
+                                    alt=""
+                                    className="w-full h-full object-cover blur-[100px] scale-110"
+                                />
+                                <div className="absolute inset-0 bg-white/30" />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/40" />
+                </div>
+
+                <main className="relative z-10 p-6 lg:p-12 overflow-x-hidden">
 
                     {/* ── Header ── */}
                     <header className="mb-10 flex items-start justify-between flex-wrap gap-4">

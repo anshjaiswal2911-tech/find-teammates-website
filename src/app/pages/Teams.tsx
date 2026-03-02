@@ -56,9 +56,9 @@ const mockTeams: Team[] = [
     name: 'AI Innovators',
     description: 'Building cutting-edge AI solutions for real-world problems',
     members: [
-      { id: 'm1', name: 'You', role: 'Leader', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'Y', online: true },
-      { id: 'm2', name: 'Priya Patel', role: 'Member', skills: ['Python', 'TensorFlow', 'AI/ML'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya', online: true },
-      { id: 'm3', name: 'Rahul Verma', role: 'Member', skills: ['Backend', 'MongoDB', 'Express'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul', online: false },
+      { id: 'm1', name: 'You', role: 'Leader', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop', online: true },
+      { id: 'm2', name: 'Priya Patel', role: 'Member', skills: ['Python', 'TensorFlow', 'AI/ML'], avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&h=256&auto=format&fit=crop', online: true },
+      { id: 'm3', name: 'Rahul Verma', role: 'Member', skills: ['Backend', 'MongoDB', 'Express'], avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&h=256&auto=format&fit=crop', online: false },
     ],
     projectList: [
       { id: 'p1', title: 'BrainWave AI', status: 'In Progress', tech: ['React', 'Python'] },
@@ -74,9 +74,9 @@ const mockTeams: Team[] = [
     name: 'Web3 Builders',
     description: 'Exploring decentralized applications and blockchain technology',
     members: [
-      { id: 'm1', name: 'You', role: 'Member', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'Y', online: true },
-      { id: 'm4', name: 'Karthik Reddy', role: 'Leader', skills: ['Solidity', 'Ethereum', 'Web3'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karthik', online: true },
-      { id: 'm5', name: 'Sneha Gupta', role: 'Member', skills: ['Smart Contracts', 'DeFi'], avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha', online: true },
+      { id: 'm1', name: 'You', role: 'Member', skills: ['React', 'TypeScript', 'Node.js'], avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop', online: true },
+      { id: 'm4', name: 'Karthik Reddy', role: 'Leader', skills: ['Solidity', 'Ethereum', 'Web3'], avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&h=256&auto=format&fit=crop', online: true },
+      { id: 'm5', name: 'Sneha Gupta', role: 'Member', skills: ['Smart Contracts', 'DeFi'], avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=256&h=256&auto=format&fit=crop', online: true },
     ],
     projectList: [
       { id: 'p4', title: 'DeFi Swap', status: 'Completed', tech: ['Solidity', 'React'] },

@@ -6,7 +6,7 @@ import { mockCurrentUser } from '../lib/mockData';
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  signup: (name: string, email: string, password: string, college: string) => Promise<void>;
+  signup: (name: string, email: string, password: string, college: string, initialData?: Partial<User>) => Promise<void>;
   logout: () => void;
   updateProfile: (updates: Partial<User>) => void;
   isAuthenticated: boolean;
@@ -32,29 +32,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     // Mock login - in production, this would call your backend API
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     // For demo, accept any credentials
     const loggedInUser = { ...mockCurrentUser, email };
     setUser(loggedInUser);
     localStorage.setItem('collabNestUser', JSON.stringify(loggedInUser));
   };
 
-  const signup = async (name: string, email: string, password: string, college: string) => {
+  const signup = async (name: string, email: string, password: string, college: string, initialData?: Partial<User>) => {
     // Mock signup
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     const newUser: User = {
       id: Date.now().toString(),
       name,
       email,
       college,
-      skills: [],
-      interests: [],
-      experience: 'Beginner',
-      bio: '',
-      availability: 'Weekends',
+      skills: initialData?.skills || [],
+      interests: initialData?.interests || [],
+      experience: initialData?.experience || 'Beginner',
+      bio: initialData?.bio || '',
+      availability: initialData?.availability || 'Weekends',
+      profileImage: initialData?.profileImage,
     };
-    
+
     setUser(newUser);
     localStorage.setItem('collabNestUser', JSON.stringify(newUser));
   };

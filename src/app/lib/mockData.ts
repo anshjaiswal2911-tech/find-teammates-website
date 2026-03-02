@@ -25,7 +25,7 @@ export const mockUsers: User[] = [
     experience: 'Advanced',
     bio: 'Backend enthusiast with a passion for scalable systems.',
     availability: 'Part-time',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_1_profile_1772463032372.png',
+    profileImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '3',
@@ -37,7 +37,7 @@ export const mockUsers: User[] = [
     experience: 'Intermediate',
     bio: 'Designer who codes. Creating beautiful user experiences.',
     availability: 'Weekends',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_2_profile_1772463525450.png',
+    profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '4',
@@ -49,7 +49,7 @@ export const mockUsers: User[] = [
     experience: 'Advanced',
     bio: 'AI researcher working on NLP projects. Looking for ML collaborators.',
     availability: 'Full-time',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_3_profile_1772463617413.png',
+    profileImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '5',
@@ -61,7 +61,7 @@ export const mockUsers: User[] = [
     experience: 'Intermediate',
     bio: 'Mobile app developer building the next big thing.',
     availability: 'Part-time',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_4_profile_1772464876953.png',
+    profileImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '6',
@@ -73,7 +73,7 @@ export const mockUsers: User[] = [
     experience: 'Advanced',
     bio: 'Full-stack developer passionate about modern web technologies and decentralized systems.',
     availability: 'Weekends',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_5_profile_1772465018769.png',
+    profileImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '7',
@@ -85,7 +85,7 @@ export const mockUsers: User[] = [
     experience: 'Intermediate',
     bio: 'Backend developer exploring microservices architecture and cloud-native applications.',
     availability: 'Part-time',
-    profileImage: '/Users/priyanjalijaiswal/.gemini/antigravity/brain/48e8622d-eea7-4ceb-8a6c-8a6de95cc5e1/candidate_6_profile_1772465039039.png',
+    profileImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=256&h=256&auto=format&fit=crop',
   },
   {
     id: '8',
@@ -96,6 +96,7 @@ export const mockUsers: User[] = [
     interests: ['Mobile Development', 'UI/UX', 'Hackathons'],
     experience: 'Intermediate',
     bio: 'Mobile developer who loves building cross-platform apps and winning hackathons.',
+    profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Weekends',
   },
   {
@@ -107,6 +108,7 @@ export const mockUsers: User[] = [
     interests: ['Data Analytics', 'Machine Learning', 'Business Intelligence'],
     experience: 'Advanced',
     bio: 'Data scientist passionate about extracting insights from complex datasets.',
+    profileImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Full-time',
   },
   {
@@ -118,6 +120,7 @@ export const mockUsers: User[] = [
     interests: ['Frontend Development', 'Web Design', 'Accessibility'],
     experience: 'Intermediate',
     bio: 'Frontend developer focused on creating accessible and responsive web applications.',
+    profileImage: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Part-time',
   },
   {
@@ -129,6 +132,7 @@ export const mockUsers: User[] = [
     interests: ['Backend Development', 'Performance Optimization', 'Cloud Native'],
     experience: 'Advanced',
     bio: 'Systems programmer interested in high-performance backend services.',
+    profileImage: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Weekends',
   },
   {
@@ -140,6 +144,7 @@ export const mockUsers: User[] = [
     interests: ['Frontend Development', 'Design Systems', 'Animation'],
     experience: 'Intermediate',
     bio: 'Frontend developer with an eye for design and smooth animations.',
+    profileImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Part-time',
   },
   {
@@ -151,6 +156,7 @@ export const mockUsers: User[] = [
     interests: ['Competitive Programming', 'Problem Solving', 'Hackathons'],
     experience: 'Advanced',
     bio: 'Competitive programmer with multiple ICPC medals. Love solving complex algorithmic challenges.',
+    profileImage: 'https://images.unsplash.com/photo-1504257404462-db0960dccde5?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Weekends',
   },
   {
@@ -162,6 +168,7 @@ export const mockUsers: User[] = [
     interests: ['Blockchain', 'Web3', 'DeFi'],
     experience: 'Intermediate',
     bio: 'Blockchain developer building the future of decentralized applications.',
+    profileImage: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Part-time',
   },
   {
@@ -173,6 +180,7 @@ export const mockUsers: User[] = [
     interests: ['Security', 'CTF Competitions', 'Bug Bounty'],
     experience: 'Advanced',
     bio: 'Security enthusiast passionate about finding vulnerabilities and making software secure.',
+    profileImage: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=256&h=256&auto=format&fit=crop',
     availability: 'Weekends',
   },
 ];

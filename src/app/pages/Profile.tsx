@@ -89,12 +89,16 @@ export function Profile() {
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
-                  <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-3xl font-bold text-white">
-                    {user?.name.charAt(0).toUpperCase()}
+                  <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-3xl font-bold text-white overflow-hidden shadow-xl border-2 border-white">
+                    {user?.profileImage ? (
+                      <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      user?.name.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <h2 className="text-xl font-bold text-gray-900">{user?.name}</h2>
                   <p className="text-gray-600">{user?.college}</p>
-                  
+
                   <div className="mt-6 space-y-3">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Mail className="h-4 w-4" />
@@ -141,7 +145,7 @@ export function Profile() {
                     disabled={!isEditing}
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">College/University</label>
                   <Input
@@ -168,7 +172,7 @@ export function Profile() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
                     <select
                       value={experience}
-                      onChange={(e) => setExperience(e.target.value)}
+                      onChange={(e) => setExperience(e.target.value as any)}
                       disabled={!isEditing}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
                     >
@@ -182,7 +186,7 @@ export function Profile() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
                     <select
                       value={availability}
-                      onChange={(e) => setAvailability(e.target.value)}
+                      onChange={(e) => setAvailability(e.target.value as any)}
                       disabled={!isEditing}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
                     >
@@ -229,7 +233,7 @@ export function Profile() {
                       )}
                     </div>
                   )}
-                  
+
                   <div className="flex flex-wrap gap-2">
                     {skills.length === 0 ? (
                       <p className="text-sm text-gray-500">No skills added yet</p>
@@ -269,7 +273,7 @@ export function Profile() {
                       }}
                     />
                   )}
-                  
+
                   <div className="flex flex-wrap gap-2">
                     {interests.length === 0 ? (
                       <p className="text-sm text-gray-500">No interests added yet</p>

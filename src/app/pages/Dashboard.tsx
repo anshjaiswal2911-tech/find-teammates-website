@@ -320,10 +320,10 @@ export function Dashboard() {
       }));
     }
     return [
-      { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya' },
-      { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul' },
-      { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha' },
-      { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline', image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karthik' },
+      { name: 'Priya Patel', college: 'BITS Pilani', compatibility: 92, avatar: 'P', status: 'online', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&h=256&auto=format&fit=crop' },
+      { name: 'Rahul Verma', college: 'NIT Trichy', compatibility: 88, avatar: 'R', status: 'offline', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&h=256&auto=format&fit=crop' },
+      { name: 'Sneha Gupta', college: 'IIT Bombay', compatibility: 85, avatar: 'S', status: 'online', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=256&h=256&auto=format&fit=crop' },
+      { name: 'Karthik Reddy', college: 'VIT Vellore', compatibility: 82, avatar: 'K', status: 'offline', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&h=256&auto=format&fit=crop' },
     ];
   });
 
