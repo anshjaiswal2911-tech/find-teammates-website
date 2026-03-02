@@ -17,6 +17,7 @@ import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { DashboardLayout } from '../components/DashboardLayout';
 import { useAuth } from '../contexts/AuthContext';
+import { generateMessageReply } from '../lib/aiService';
 
 interface Message {
   id: string;
@@ -166,28 +167,17 @@ export function Messages() {
       lastMessageTime: new Date(),
     });
 
+    const userQuery = messageText;
     setMessageText('');
 
     // --- Simulated Auto-Reply ---
     setTimeout(() => {
-      const replies = [
-        "That sounds like a great idea! Let's work on it tomorrow.",
-        "Got it! I'm really excited to collaborate with you. 🚀",
-        "Perfect! Should we set up a quick meeting to discuss details?",
-        "I was thinking the same thing actually. Let's make it happen!",
-        "Thanks for reaching out! I've been looking for someone with your skills.",
-        "Love the energy! I'm definitely in for this project.",
-        "Sounds like a plan! I'll look into some resources and get back to you.",
-        "Hey! That's awesome. Do you have a rough timeline in mind?",
-        "Absolutely! Let's build something amazing together."
-      ];
-
-      const randomReply = replies[Math.floor(Math.random() * replies.length)];
+      const contextualReply = generateMessageReply(userQuery, selectedConversation.userName);
 
       const replyMessage: Message = {
         id: `reply_${Date.now()}`,
         senderId: currentConvUserId, // Other person's ID
-        text: randomReply,
+        text: contextualReply,
         timestamp: new Date(),
         read: false,
       };
@@ -197,7 +187,7 @@ export function Messages() {
           return {
             ...conv,
             messages: [...conv.messages, replyMessage],
-            lastMessage: randomReply,
+            lastMessage: contextualReply,
             lastMessageTime: new Date(),
           };
         }
@@ -209,7 +199,7 @@ export function Messages() {
           return {
             ...prev,
             messages: [...prev.messages, replyMessage],
-            lastMessage: randomReply,
+            lastMessage: contextualReply,
             lastMessageTime: new Date(),
           };
         }

@@ -30,7 +30,7 @@ const roleSkillMap: Record<string, string[]> = {
 
 export function analyzeSkillGap(currentSkills: string[], targetRole: string): SkillGapAnalysis {
   const requiredSkills = roleSkillMap[targetRole] || [];
-  const missingSkills = requiredSkills.filter(skill => 
+  const missingSkills = requiredSkills.filter(skill =>
     !currentSkills.some(cs => cs.toLowerCase() === skill.toLowerCase())
   );
 
@@ -55,26 +55,26 @@ function generateLearningPath(missingSkills: string[], role: string): string[] {
   // Prioritize foundational skills
   const foundational = ['JavaScript', 'Python', 'HTML', 'CSS', 'Git'];
   const foundationalMissing = missingSkills.filter(skill => foundational.includes(skill));
-  
+
   if (foundationalMissing.length > 0) {
     path.push(`Start with fundamentals: ${foundationalMissing.slice(0, 2).join(', ')}`);
   }
 
   // Framework and tools
-  const frameworks = missingSkills.filter(skill => 
-    !foundational.includes(skill) && 
+  const frameworks = missingSkills.filter(skill =>
+    !foundational.includes(skill) &&
     (skill.includes('React') || skill.includes('Node') || skill.includes('TensorFlow'))
   );
-  
+
   if (frameworks.length > 0) {
     path.push(`Learn key frameworks: ${frameworks.slice(0, 2).join(', ')}`);
   }
 
   // Advanced topics
-  const advanced = missingSkills.filter(skill => 
+  const advanced = missingSkills.filter(skill =>
     skill.includes('Advanced') || skill.includes('Architecture') || skill.includes('Security')
   );
-  
+
   if (missingSkills.length > 0 && path.length < 3) {
     path.push(`Build projects using: ${missingSkills.slice(0, 3).join(', ')}`);
   }
@@ -169,13 +169,92 @@ export function getAIResourceRecommendations(userSkills: string[], allResources:
     const matchingTags = resource.tags.filter((tag: string) =>
       userSkills.some(skill => skill.toLowerCase().includes(tag.toLowerCase()) || tag.toLowerCase().includes(skill.toLowerCase()))
     );
-    
+
     const score = matchingTags.length * 10 + resource.upvotes * 0.1;
-    
+
     return { ...resource, aiScore: score };
   });
 
   return scoredResources
     .sort((a, b) => b.aiScore - a.aiScore)
     .slice(0, 6);
+}
+export function generateMessageReply(userInput: string, partnerName: string): string {
+  const input = userInput.toLowerCase();
+
+  const rules = [
+    {
+      keywords: ['hackathon', 'competition', 'event'],
+      responses: [
+        `That's a great idea! Which hackathon are you looking at? I've heard there's one coming up next month.`,
+        `I'm definitely down for a hackathon. Do you have a specific project idea in mind for it?`,
+        `Count me in! What's the registration deadline?`
+      ]
+    },
+    {
+      keywords: ['react', 'frontend', 'ui', 'ux', 'css', 'tailwind', 'next.js'],
+      responses: [
+        `I love working with React! Are we thinking of using Tailwind for the styling?`,
+        `Next.js would be perfect for this! It handles SEO and routing so well.`,
+        `I've been playing around with Framer Motion lately, we could add some cool animations to the UI.`
+      ]
+    },
+    {
+      keywords: ['node', 'backend', 'api', 'database', 'sql', 'python', 'django', 'express'],
+      responses: [
+        `I can help with the backend setup! Should we go with a REST API or GraphQL?`,
+        `For the database, I think PostgreSQL would be a solid choice here.`,
+        `Node.js with Express is usually my go-to for rapid prototyping. What do you think?`
+      ]
+    },
+    {
+      keywords: ['ai', 'ml', 'machine learning', 'tensor', 'nlp', 'vision', 'data'],
+      responses: [
+        `AI integration would be amazing! Should we use a pre-trained model or build something custom?`,
+        `I've been wanting to work more on ML projects. This is a perfect match!`,
+        `We could definitely use some NLP to make the user experience more interactive.`
+      ]
+    },
+    {
+      keywords: ['mobile', 'app', 'flutter', 'ios', 'android', 'native'],
+      responses: [
+        `Building a mobile version sounds like a solid next step. Flutter or React Native?`,
+        `I have some experience with mobile dev! Let's talk about the main features for the app.`,
+        `Making it cross-platform would be the best way to reach more users.`
+      ]
+    },
+    {
+      keywords: ['hi', 'hello', 'hey', 'sup', 'match'],
+      responses: [
+        `Hey there! Excited we matched. What kind of projects are you into right now?`,
+        `Hello! I saw your profile and thought our skills would complement each other's perfectly.`,
+        `Hi! Thanks for reaching out. What's on your mind?`
+      ]
+    },
+    {
+      keywords: ['thanks', 'thank', 'cool', 'great', 'awesome'],
+      responses: [
+        `You're welcome! Let's make this project a reality.`,
+        `No problem at all! I'm really looking forward to collaborating.`,
+        `Absolutely! It's going to be fun working together.`
+      ]
+    }
+  ];
+
+  for (const rule of rules) {
+    if (rule.keywords.some(k => input.includes(k))) {
+      return rule.responses[Math.floor(Math.random() * rule.responses.length)];
+    }
+  }
+
+  // Generic fallback responses
+  const fallbacks = [
+    `That sounds interesting! Could you tell me more about it?`,
+    `I'm on board with that! How should we divide the tasks?`,
+    `I like that direction. When do you want to sync up and discuss further?`,
+    `That's a solid point. I'm excited to see where we can take this!`,
+    `Let me think about that for a bit, but I'm definitely interested in collaborating.`
+  ];
+
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
 }
