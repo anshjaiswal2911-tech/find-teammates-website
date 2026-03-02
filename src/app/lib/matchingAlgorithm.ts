@@ -77,21 +77,20 @@ export function computeCompatibility(a: User, b: User): number {
 /**
  * Simulate whether the OTHER person "likes" you back.
  * Like dating apps — not every right swipe is a match.
- *
- * Probability formula (inspired by ELO):
- *   P(match) = 0.20 + (compatibility / 100) * 0.55 + random_noise
- *
+ * 
+ * New "Rarity" formula:
+ *   P(match) = 0.12 + (compatibility / 100) * 0.38 + random_noise
+ * 
  * This means:
- *   - Score 50% → ~48% chance of mutual match
- *   - Score 80% → ~64% chance of mutual match
- *   - Score 95% → ~72% chance of mutual match
- *   - There is ALWAYS some uncertainty — like real life!
+ *   - Score 50% → ~31% chance (Rare)
+ *   - Score 80% → ~42% chance (Uncommon)
+ *   - Score 95% → ~48% chance (Coin flip for best matches)
  */
 export function simulateMutualLike(compatibilityScore: number): boolean {
-    const baseProbability = 0.20;
-    const skillBonus = (compatibilityScore / 100) * 0.55;
-    const randomNoise = (Math.random() - 0.5) * 0.15; // ±7.5% noise
-    const probability = Math.max(0.05, Math.min(0.85, baseProbability + skillBonus + randomNoise));
+    const baseProbability = 0.12;
+    const skillBonus = (compatibilityScore / 100) * 0.38;
+    const randomNoise = (Math.random() - 0.5) * 0.20; // Increased to ±10% noise
+    const probability = Math.max(0.05, Math.min(0.65, baseProbability + skillBonus + randomNoise));
     return Math.random() < probability;
 }
 
@@ -136,7 +135,7 @@ function weightedShuffle(matches: Match[]): Match[] {
     return matches
         .map(m => ({
             match: m,
-            sortKey: m.compatibilityScore + Math.random() * 30, // 30-point randomness window
+            sortKey: m.compatibilityScore + Math.random() * 50, // Increased randomness window from 30 to 50
         }))
         .sort((a, b) => b.sortKey - a.sortKey)
         .map(item => item.match);
