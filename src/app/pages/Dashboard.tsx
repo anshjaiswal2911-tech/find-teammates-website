@@ -344,8 +344,8 @@ export function Dashboard() {
         {/* Header */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Welcome back, {user?.name}! 👋
+            <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">
+              Welcome back, {user?.name.split(' ')[0]} ⚡️
             </h1>
             <p className="mt-2 text-gray-600">
               Here's your collaboration intelligence dashboard
@@ -469,7 +469,7 @@ export function Dashboard() {
             transition={{ duration: 0.3 }}
           >
             {/* Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div className="grid gap-4 md:gap-6 grid-cols-2 lg:grid-cols-4 mb-8">
               {statCards.map((stat, index) => (
                 <motion.div
                   key={stat.title}
@@ -860,108 +860,108 @@ export function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-4">
+              <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
                 <a
                   href="/match"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-blue-600 hover:bg-blue-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-blue-600 hover:bg-blue-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
-                    <Users className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                    <Users className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Find Teammates</div>
-                    <div className="text-sm text-gray-600">Browse matches</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Find Teammates</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Browse matches</div>
                   </div>
                 </a>
 
                 <a
                   href="/resources"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-purple-600 hover:bg-purple-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-purple-600 hover:bg-purple-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
-                    <BookOpen className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
+                    <BookOpen className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Resources</div>
-                    <div className="text-sm text-gray-600">Learn skills</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Resources</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Learn skills</div>
                   </div>
                 </a>
 
                 <a
                   href="/ai-tools"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-green-600 hover:bg-green-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-green-600 hover:bg-green-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 text-green-600">
-                    <Sparkles className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-green-100 text-green-600">
+                    <Sparkles className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">AI Tools</div>
-                    <div className="text-sm text-gray-600">Get ideas</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">AI Tools</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Get ideas</div>
                   </div>
                 </a>
 
                 <a
                   href="/code-challenge"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-indigo-600 hover:bg-indigo-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-indigo-600 hover:bg-indigo-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
-                    <Code2 className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                    <Code2 className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Code Challenge</div>
-                    <div className="text-sm text-gray-600">Practice coding</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Code Challenge</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Practice coding</div>
                   </div>
                 </a>
 
                 <a
                   href="/meeting-room"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-pink-600 hover:bg-pink-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-pink-600 hover:bg-pink-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-pink-100 text-pink-600">
-                    <Video className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-pink-100 text-pink-600">
+                    <Video className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Meeting Room</div>
-                    <div className="text-sm text-gray-600">Join calls</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Meeting Room</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Join calls</div>
                   </div>
                 </a>
 
                 <a
                   href="/achievements"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-yellow-600 hover:bg-yellow-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-yellow-600 hover:bg-yellow-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-100 text-yellow-600">
-                    <Trophy className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-yellow-100 text-yellow-600">
+                    <Trophy className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Achievements</div>
-                    <div className="text-sm text-gray-600">Track progress</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Achievements</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Track progress</div>
                   </div>
                 </a>
 
                 <a
                   href="/super-features"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-red-600 hover:bg-red-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-red-600 hover:bg-red-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100 text-red-600">
-                    <Rocket className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-red-100 text-red-600">
+                    <Rocket className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Super Features</div>
-                    <div className="text-sm text-gray-600">Explore all</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Super Features</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Explore all</div>
                   </div>
                 </a>
 
                 <a
                   href="/profile"
-                  className="flex items-center gap-4 rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-orange-600 hover:bg-orange-50 hover:scale-105"
+                  className="flex items-center gap-3 md:gap-4 rounded-lg border-2 border-gray-200 p-3 md:p-4 transition-all hover:border-orange-600 hover:bg-orange-50 hover:scale-105"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
-                    <Award className="h-6 w-6" />
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
+                    <Award className="h-5 w-5 md:h-6 md:w-6" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">Profile</div>
-                    <div className="text-sm text-gray-600">Update info</div>
+                    <div className="font-bold text-xs md:text-sm text-gray-900">Profile</div>
+                    <div className="text-[10px] md:text-sm text-gray-600">Update info</div>
                   </div>
                 </a>
               </div>

@@ -398,7 +398,7 @@ export function Match() {
                             <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-4xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-gray-900"
+                                className="text-2xl md:text-4xl lg:text-6xl font-black tracking-tighter leading-[0.9] text-gray-900"
                             >
                                 FIND THE BEST<br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] via-[#A855F7] to-[#EC4899] uppercase">
@@ -650,7 +650,7 @@ export function Match() {
                                                 rotate: direction === 'left' ? -22 : 22,
                                             }}
                                             transition={{ type: 'spring', damping: 20, stiffness: 120 }}
-                                            className="w-full bg-white rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[12px] border-gray-100 relative overflow-hidden h-[700px] flex flex-col"
+                                            className="w-full bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-[8px] md:border-[12px] border-gray-100 relative overflow-hidden h-[550px] md:h-[700px] flex flex-col"
                                         >
                                             {/* Card Header */}
                                             <div className="flex items-center justify-between px-6 py-4 shrink-0 bg-white/90 backdrop-blur-md z-20">

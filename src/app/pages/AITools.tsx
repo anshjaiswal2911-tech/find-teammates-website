@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Sparkles, 
-  Target, 
-  Lightbulb, 
+import {
+  Sparkles,
+  Target,
+  Lightbulb,
   TrendingUp,
   CheckCircle2,
   Circle,
@@ -31,11 +31,11 @@ const targetRoles = [
 export function AITools() {
   const { user } = useAuth();
   const [selectedTool, setSelectedTool] = useState<'skillGap' | 'projectIdea' | null>(null);
-  
+
   // Skill Gap State
   const [selectedRole, setSelectedRole] = useState('Frontend Developer');
   const [skillGapResult, setSkillGapResult] = useState<SkillGapAnalysis | null>(null);
-  
+
   // Project Idea State
   const [projectTheme, setProjectTheme] = useState('');
   const [projectIdea, setProjectIdea] = useState<ProjectIdea | null>(null);
@@ -64,10 +64,10 @@ export function AITools() {
     }
     console.log('Generating project with skills:', user.skills, 'theme:', projectTheme);
     setGenerating(true);
-    
+
     // Simulate AI generation delay
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     const idea = generateProjectIdea(user.skills, projectTheme || undefined);
     console.log('Generated project idea:', idea);
     setProjectIdea(idea);
@@ -77,8 +77,8 @@ export function AITools() {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">AI Tools</h1>
-        <p className="mt-2 text-gray-600">
+        <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">AI Tools</h1>
+        <p className="mt-1 text-sm md:text-base text-gray-600 font-medium">
           Powered by AI to accelerate your development journey
         </p>
       </div>
@@ -96,11 +96,11 @@ export function AITools() {
                 <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                   <Target className="h-8 w-8" />
                 </div>
-                
+
                 <h2 className="mb-3 text-2xl font-bold text-gray-900">
                   Skill Gap Analysis
                 </h2>
-                
+
                 <p className="mb-6 text-gray-600">
                   Compare your current skills with your target role and get a personalized learning roadmap
                 </p>
@@ -140,11 +140,11 @@ export function AITools() {
                 <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 text-white">
                   <Lightbulb className="h-8 w-8" />
                 </div>
-                
+
                 <h2 className="mb-3 text-2xl font-bold text-gray-900">
                   Project Idea Generator
                 </h2>
-                
+
                 <p className="mb-6 text-gray-600">
                   Generate hackathon-ready project ideas tailored to your skills with complete tech stacks
                 </p>
@@ -379,8 +379,8 @@ export function AITools() {
                       />
                     </div>
 
-                    <Button 
-                      onClick={handleGenerateProject} 
+                    <Button
+                      onClick={handleGenerateProject}
                       className="w-full bg-purple-600 hover:bg-purple-700"
                       disabled={generating}
                     >

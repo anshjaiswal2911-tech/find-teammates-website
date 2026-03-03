@@ -10,7 +10,8 @@ import {
   Smile,
   CheckCheck,
   Circle,
-  Star
+  Star,
+  ArrowLeft
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -95,6 +96,14 @@ export function Messages() {
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(conversations[0]);
   const [messageText, setMessageText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileView, setMobileView] = useState<'list' | 'chat'>('list');
+
+  // Switch to chat view on mobile when a conversation is selected
+  useEffect(() => {
+    if (selectedConversation) {
+      setMobileView('chat');
+    }
+  }, [selectedConversation]);
 
   // Check for newly matched partner from localStorage
   useEffect(() => {
@@ -228,15 +237,17 @@ export function Messages() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Messages</h1>
-        <p className="mt-2 text-gray-600">Chat with your teammates</p>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Messages</h1>
+          <p className="hidden md:block mt-1 text-sm text-gray-600">Chat with your teammates</p>
+        </div>
       </div>
 
-      <Card className="h-[calc(100vh-200px)] overflow-hidden">
-        <CardContent className="p-0 h-full flex">
+      <Card className="h-[calc(100vh-180px)] md:h-[calc(100vh-200px)] overflow-hidden border-none md:border shadow-xl">
+        <CardContent className="p-0 h-full flex relative">
           {/* Conversations List */}
-          <div className="w-80 border-r border-gray-200 flex flex-col">
+          <div className={`${mobileView === 'chat' ? 'hidden' : 'flex'} md:flex w-full md:w-80 border-r border-gray-200 flex-col bg-white shadow-sm z-10`}>
             {/* Search */}
             <div className="p-4 border-b border-gray-200">
               <div className="relative">
@@ -309,10 +320,20 @@ export function Messages() {
 
           {/* Chat Area */}
           {selectedConversation ? (
-            <div className="flex-1 flex flex-col">
+            <div className={`${mobileView === 'list' ? 'hidden' : 'flex'} md:flex flex-1 flex flex-col bg-white absolute inset-0 md:relative`}>
               {/* Chat Header */}
-              <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="p-3 md:p-4 border-b border-gray-200 flex items-center justify-between bg-white/80 backdrop-blur-sm z-20">
+                <div className="flex items-center gap-2 md:gap-3">
+                  {/* Back button for mobile */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden"
+                    onClick={() => setMobileView('list')}
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </Button>
+
                   <div className="relative">
                     {selectedConversation.userAvatar && (selectedConversation.userAvatar.startsWith('http') || selectedConversation.userAvatar.startsWith('/') || selectedConversation.userAvatar.includes('data:image')) ? (
                       <img

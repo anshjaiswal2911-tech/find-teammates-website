@@ -203,24 +203,24 @@ export function Teams() {
 
   return (
     <DashboardLayout>
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <Users className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">My Teams</h1>
+            <Users className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
+            <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">My Teams</h1>
           </div>
-          <p className="text-gray-600">
+          <p className="text-sm md:text-base text-gray-600">
             Manage and collaborate with your teams
           </p>
         </div>
-        <Button onClick={() => setShowCreateModal(true)} size="lg">
+        <Button onClick={() => setShowCreateModal(true)} size="lg" className="w-full sm:w-auto">
           <Plus className="h-5 w-5 mr-2" />
           Create Team
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-4 mb-8">
+      <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-4 mb-8">
         {[
           { label: 'Total Teams', value: teams.length, delay: 0 },
           { label: 'Teams Leading', value: teams.filter(t => t.members.some(m => m.name === 'You' && m.role === 'Leader')).length, delay: 0.1, color: 'text-blue-600' },
@@ -235,9 +235,9 @@ export function Teams() {
             whileHover={{ y: -5, scale: 1.02 }}
           >
             <Card className="premium-shadow border-none bg-white/80 backdrop-blur-sm">
-              <CardContent className="p-6 text-center">
-                <div className="text-xs font-black uppercase tracking-widest text-gray-400 mb-2">{stat.label}</div>
-                <div className={`text-4xl font-black ${stat.color || 'text-gray-900'} tracking-tight`}>{stat.value}</div>
+              <CardContent className="p-4 md:p-6 text-center">
+                <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{stat.label}</div>
+                <div className={`text-2xl md:text-4xl font-black ${stat.color || 'text-gray-900'} tracking-tight`}>{stat.value}</div>
               </CardContent>
             </Card>
           </motion.div>
@@ -491,7 +491,7 @@ export function Teams() {
       )}
 
       {/* Teams Grid */}
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-4 md:gap-8 md:grid-cols-2">
         {teams.map((team, index) => {
           const isLeader = team.members.some(m => m.name === 'You' && m.role === 'Leader');
 
@@ -502,58 +502,59 @@ export function Teams() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -8 }}
+              className="h-full"
             >
-              <Card className="premium-shadow transition-all duration-300 h-full rounded-[2.5rem] border-none bg-white/90 backdrop-blur-md overflow-hidden group">
-                <CardHeader className="bg-transparent transition-colors p-8 pb-4">
+              <Card className="premium-shadow transition-all duration-300 h-full rounded-[2rem] md:rounded-[2.5rem] border-none bg-white/90 backdrop-blur-md overflow-hidden group">
+                <CardHeader className="p-6 md:p-8 pb-3 md:pb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-2xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-2">
+                      <CardTitle className="text-xl md:text-2xl font-black text-gray-900 tracking-tight mb-1 md:mb-2 flex items-center gap-2">
                         {team.name}
                         {isLeader && (
                           <div className="bg-yellow-50 p-1 rounded-lg">
-                            <Crown className="h-5 w-5 text-yellow-600" />
+                            <Crown className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" />
                           </div>
                         )}
                       </CardTitle>
-                      <p className="text-sm text-gray-500 font-medium leading-relaxed">{team.description}</p>
+                      <p className="text-xs md:text-sm text-gray-500 font-medium leading-relaxed line-clamp-2 md:line-clamp-none">{team.description}</p>
                     </div>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" className="rounded-xl hover:bg-gray-100">
+                      <Button variant="ghost" size="sm" className="rounded-xl hover:bg-gray-100 h-8 w-8 md:h-10 md:w-10 p-0">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="p-8">
+                <CardContent className="p-6 md:p-8 pt-0">
                   {/* Team Stats */}
-                  <div className="grid grid-cols-3 gap-4 mb-8">
-                    <div className="p-4 bg-gray-50 rounded-3xl border border-gray-100 text-center">
-                      <div className="text-2xl font-black text-gray-900">{team.members.length}</div>
-                      <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-1">Members</div>
+                  <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6 md:mb-8">
+                    <div className="p-3 md:p-4 bg-gray-50 rounded-2xl md:rounded-3xl border border-gray-100 text-center">
+                      <div className="text-lg md:text-2xl font-black text-gray-900">{team.members.length}</div>
+                      <div className="text-[8px] md:text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-0.5 md:mt-1">Members</div>
                     </div>
-                    <div className="p-4 bg-blue-50/50 rounded-3xl border border-blue-100/50 text-center">
-                      <div className="text-2xl font-black text-blue-600">{team.projects}</div>
-                      <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-1">Projects</div>
+                    <div className="p-3 md:p-4 bg-blue-50/50 rounded-2xl md:rounded-3xl border border-blue-100/50 text-center">
+                      <div className="text-lg md:text-2xl font-black text-blue-600">{team.projects}</div>
+                      <div className="text-[8px] md:text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-0.5 md:mt-1">Projects</div>
                     </div>
-                    <div className="p-4 bg-emerald-50/50 rounded-3xl border border-emerald-100/50 text-center">
-                      <div className="text-2xl font-black text-emerald-600">
+                    <div className="p-3 md:p-4 bg-emerald-50/50 rounded-2xl md:rounded-3xl border border-emerald-100/50 text-center">
+                      <div className="text-lg md:text-2xl font-black text-emerald-600">
                         {Math.floor((Date.now() - team.createdAt.getTime()) / (1000 * 60 * 60 * 24))}
                       </div>
-                      <div className="text-[10px] uppercase font-bold text-emerald-400 tracking-widest mt-1">Days Up</div>
+                      <div className="text-[8px] md:text-[10px] uppercase font-bold text-emerald-400 tracking-widest mt-0.5 md:mt-1">Days Up</div>
                     </div>
                   </div>
 
                   {/* Members */}
-                  <div className="mb-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Team Roster</h4>
-                      <Badge variant="outline" className="rounded-full px-3 py-0.5 border-gray-200 text-gray-500 font-bold">{team.members.length} Active</Badge>
+                  <div className="mb-6 md:mb-8">
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
+                      <h4 className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Team Roster</h4>
+                      <Badge variant="outline" className="rounded-full px-2 py-0 md:px-3 md:py-0.5 border-gray-200 text-gray-500 font-bold text-[9px] md:text-xs">{team.members.length} Active</Badge>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-3">
                       {team.members.map((member) => (
-                        <div key={member.id} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
+                        <div key={member.id} className="flex items-center gap-3 md:gap-4 p-2 md:p-3 rounded-xl md:rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100">
                           <div className="relative">
-                            <div className={`h-12 w-12 rounded-2xl ${member.role === 'Pending' ? 'bg-gray-100' : 'bg-gradient-to-br from-blue-500 to-purple-600'} flex items-center justify-center text-white font-black text-lg shadow-inner overflow-hidden border-2 border-white`}>
+                            <div className={`h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl ${member.role === 'Pending' ? 'bg-gray-100' : 'bg-gradient-to-br from-blue-500 to-purple-600'} flex items-center justify-center text-white font-black text-base md:text-lg shadow-inner overflow-hidden border-2 border-white`}>
                               {member.avatar.startsWith('http') ? (
                                 <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                               ) : (
@@ -561,26 +562,21 @@ export function Teams() {
                               )}
                             </div>
                             {member.online && (
-                              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-[3px] border-white shadow-sm" />
+                              <div className="absolute -bottom-0.5 -right-0.5 md:-bottom-1 md:-right-1 h-3 w-3 md:h-4 md:w-4 rounded-full bg-emerald-500 border-2 md:border-[3px] border-white shadow-sm" />
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-gray-900 tracking-tight">{member.name}</span>
+                            <div className="flex items-center gap-1.5 md:gap-2">
+                              <span className="font-bold text-sm md:text-base text-gray-900 tracking-tight truncate">{member.name}</span>
                               {member.role === 'Leader' && (
-                                <span className="bg-yellow-50 text-yellow-700 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-yellow-100">
+                                <span className="bg-yellow-50 text-yellow-700 text-[8px] md:text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full border border-yellow-100 flex-shrink-0">
                                   Lead
                                 </span>
                               )}
-                              {member.role === 'Pending' && (
-                                <span className="bg-gray-50 text-gray-500 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-gray-100 animate-pulse">
-                                  Pending
-                                </span>
-                              )}
                             </div>
-                            <div className="flex flex-wrap gap-2 mt-1">
+                            <div className="flex flex-wrap gap-1 md:gap-2 mt-0.5 md:mt-1">
                               {member.skills.slice(0, 2).map((skill) => (
-                                <span key={skill} className="text-[10px] font-bold text-gray-400 bg-gray-100/50 px-2 py-0.5 rounded-lg border border-gray-200/30">
+                                <span key={skill} className="text-[8px] md:text-[10px] font-bold text-gray-400 bg-gray-100/50 px-1.5 py-0.5 rounded-md md:rounded-lg border border-gray-200/30">
                                   {skill}
                                 </span>
                               ))}
@@ -592,15 +588,15 @@ export function Teams() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-3 mt-auto">
+                  <div className="flex gap-2 md:gap-3 mt-auto">
                     <Button
                       onClick={() => {
                         setSelectedTeam(team);
                         setShowInviteModal(true);
                       }}
-                      className="flex-1 bg-white border-2 border-gray-100 text-gray-900 font-black rounded-2xl py-6 hover:bg-gray-50 hover:border-blue-100 hover:text-blue-600 transition-all shadow-sm"
+                      className="flex-1 bg-white border-2 border-gray-100 text-gray-900 font-black rounded-xl md:rounded-2xl py-4 md:py-6 hover:bg-gray-50 hover:border-blue-100 hover:text-blue-600 transition-all shadow-sm text-xs md:text-sm"
                     >
-                      <UserPlus className="h-5 w-5 mr-2" />
+                      <UserPlus className="h-4 w-4 md:h-5 md:w-5 mr-1.5 md:mr-2" />
                       Invite
                     </Button>
                     <Button
@@ -609,7 +605,7 @@ export function Teams() {
                         setShowProjectsModal(true);
                       }}
                       variant="outline"
-                      className="rounded-2xl px-6 border-2 border-gray-100 text-gray-500 hover:text-gray-900 hover:border-gray-200 font-bold"
+                      className="rounded-xl md:rounded-2xl px-3 md:px-6 border-2 border-gray-100 text-gray-500 hover:text-gray-900 hover:border-gray-200 font-bold text-xs md:text-sm h-auto py-2 md:py-3"
                     >
                       View Projects
                     </Button>
@@ -617,9 +613,9 @@ export function Teams() {
                       <Button
                         variant="outline"
                         onClick={() => handleDeleteTeam(team.id)}
-                        className="rounded-2xl px-6 border-2 border-red-50 text-red-100 hover:text-red-600 hover:border-red-100 hover:bg-red-50/30 group"
+                        className="rounded-xl md:rounded-2xl px-3 md:px-6 border-2 border-red-50 text-red-100 hover:text-red-600 hover:border-red-100 hover:bg-red-50/30 group h-auto py-2 md:py-3"
                       >
-                        <Trash2 className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                        <Trash2 className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform" />
                       </Button>
                     )}
                   </div>

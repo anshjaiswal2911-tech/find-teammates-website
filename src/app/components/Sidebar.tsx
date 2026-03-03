@@ -45,12 +45,14 @@ const navigation = [
   { nameKey: 'nav.profile', href: '/profile', icon: User },
 ];
 
-export function Sidebar() {
+export function Sidebar({ forceExpanded = false }: { forceExpanded?: boolean }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { t } = useLanguage();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const isExpanded = forceExpanded || isHovered;
 
   const handleLogout = () => {
     logout();
@@ -68,8 +70,8 @@ export function Sidebar() {
     <motion.div
       initial={false}
       animate={{ width: isExpanded ? 280 : 88 }}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="flex h-screen flex-col border-r border-gray-200/50 bg-white/70 backdrop-blur-xl shadow-xl relative z-40 transition-shadow duration-300 group/sidebar overflow-hidden"
     >
       {/* Decorative Gradient Glow */}

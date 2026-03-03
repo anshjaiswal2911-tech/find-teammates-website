@@ -45,21 +45,21 @@ export function SuperFeatures() {
     <DashboardLayout>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <Rocket className="h-8 w-8 text-purple-600" />
-          <h1 className="text-3xl font-bold text-gray-900">Super Features Hub</h1>
+          <Rocket className="h-6 w-6 md:h-8 md:w-8 text-purple-600" />
+          <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">Super Features Hub</h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-sm md:text-base text-gray-600 font-medium">
           Explore all premium features in one place
         </p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="learning">Learning</TabsTrigger>
-          <TabsTrigger value="collaboration">Collaboration</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="mentorship">Mentorship</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 h-auto p-1 gap-1 md:gap-2">
+          <TabsTrigger value="overview" className="text-xs md:text-sm py-2">Overview</TabsTrigger>
+          <TabsTrigger value="learning" className="text-xs md:text-sm py-2">Learning</TabsTrigger>
+          <TabsTrigger value="collaboration" className="text-xs md:text-sm py-2">Collaboration</TabsTrigger>
+          <TabsTrigger value="analytics" className="text-xs md:text-sm py-2">Analytics</TabsTrigger>
+          <TabsTrigger value="mentorship" className="text-xs md:text-sm py-2">Mentorship</TabsTrigger>
         </TabsList>
 
         {/* OVERVIEW TAB */}
@@ -154,15 +154,15 @@ export function SuperFeatures() {
               <div className="absolute top-0 right-0 p-8 opacity-5">
                 <Brain className="h-64 w-64 text-indigo-900" />
               </div>
-              <CardContent className="p-10">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-                  <div className="max-w-md">
+              <CardContent className="p-6 md:p-10">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+                  <div className="max-w-md text-center md:text-left">
                     <Badge className="mb-4 bg-indigo-600 px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg shadow-indigo-500/20">NEW: Hub Simulation</Badge>
-                    <h2 className="text-4xl font-black text-gray-900 tracking-tight mb-6 leading-[1.1]">EXPERIENCE THE <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 underline decoration-indigo-200 decoration-4">SUPER HUB</span></h2>
-                    <p className="text-gray-600 font-medium mb-8 leading-relaxed">Our platform simulates real-world development environments. Explore high-performance tools designed for the next generation of builders.</p>
-                    <div className="flex gap-4">
-                      <Button className="bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-500/30 px-8 py-6 rounded-2xl font-black tracking-widest text-xs" onClick={() => setActiveTab('learning')}>EXPLORE ROADMAPS</Button>
-                      <Button variant="outline" className="border-indigo-100 bg-white/50 backdrop-blur-sm px-8 py-6 rounded-2xl font-black tracking-widest text-xs" onClick={() => setActiveTab('collaboration')}>VIEW SNIPPETS</Button>
+                    <h2 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight mb-4 md:mb-6 leading-tight">EXPERIENCE THE <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 underline decoration-indigo-200 decoration-4">SUPER HUB</span></h2>
+                    <p className="text-sm md:text-base text-gray-600 font-medium mb-6 md:mb-8 leading-relaxed">Our platform simulates real-world development environments. Explore high-performance tools designed for the next generation of builders.</p>
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
+                      <Button className="bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-500/30 px-6 py-5 md:px-8 md:py-6 rounded-2xl font-black tracking-widest text-[10px] md:text-xs" onClick={() => setActiveTab('learning')}>EXPLORE ROADMAPS</Button>
+                      <Button variant="outline" className="border-indigo-100 bg-white/50 backdrop-blur-sm px-6 py-5 md:px-8 md:py-6 rounded-2xl font-black tracking-widest text-[10px] md:text-xs" onClick={() => setActiveTab('collaboration')}>VIEW SNIPPETS</Button>
                     </div>
                   </div>
 
@@ -337,17 +337,17 @@ function FeatureCard({
       className="cursor-pointer"
     >
       <Card className="premium-shadow border-none bg-white/80 backdrop-blur-md transition-all h-full">
-        <CardContent className="p-8">
-          <div className={`${color} h-14 w-14 rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
-            <Icon className="h-7 w-7 text-white" />
+        <CardContent className="p-6 md:p-8">
+          <div className={`${color} h-12 w-12 md:h-14 md:w-14 rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-lg`}>
+            <Icon className="h-6 w-6 md:h-7 md:w-7 text-white" />
           </div>
-          <h3 className="text-xl font-black text-gray-900 tracking-tight mb-3">{title}</h3>
-          <p className="text-sm font-medium text-gray-500 mb-6 leading-relaxed">{description}</p>
-          <div className="grid grid-cols-2 gap-4">
+          <h3 className="text-lg md:text-xl font-black text-gray-900 tracking-tight mb-2 md:mb-3">{title}</h3>
+          <p className="text-xs md:text-sm font-medium text-gray-500 mb-4 md:mb-6 leading-relaxed line-clamp-2 md:line-clamp-none">{description}</p>
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             {stats.map((stat, idx) => (
-              <div key={idx} className="bg-gray-50/50 p-3 rounded-xl border border-gray-100">
-                <div className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</div>
-                <div className="text-sm font-black text-gray-900">{stat.value}</div>
+              <div key={idx} className="bg-gray-50/50 p-2 md:p-3 rounded-xl border border-gray-100">
+                <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</div>
+                <div className="text-xs md:text-sm font-black text-gray-900">{stat.value}</div>
               </div>
             ))}
           </div>

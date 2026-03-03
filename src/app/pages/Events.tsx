@@ -428,16 +428,16 @@ export function Events() {
     <DashboardLayout>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <Calendar className="h-8 w-8 text-blue-600" />
-          <h1 className="text-3xl font-bold text-gray-900">Events & Hackathons</h1>
+          <Calendar className="h-6 w-6 md:h-8 md:w-8 text-blue-600" />
+          <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">Events & Hackathons</h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-sm md:text-base text-gray-600">
           Discover and participate in exciting tech events
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3 mb-8">
+      <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 mb-8">
         {[
           { label: 'Upcoming Events', value: upcomingCount, icon: Calendar, color: 'text-blue-600', bgColor: 'bg-blue-50/50' },
           { label: 'Registered', value: registeredCount, icon: Rocket, color: 'text-green-600', bgColor: 'bg-green-50/50' },
@@ -447,16 +447,16 @@ export function Events() {
             key={stat.label}
             whileHover={{ y: -5, scale: 1.02 }}
             onClick={stat.onClick}
-            className={stat.onClick ? 'cursor-pointer' : ''}
+            className={`${stat.onClick ? 'cursor-pointer' : ''} ${i === 2 ? 'col-span-2 md:col-span-1' : ''}`}
           >
-            <Card className={`premium-shadow border-none bg-white/80 backdrop-blur-sm transition-all ${stat.active ? 'ring-2 ring-purple-500 bg-purple-50/80' : ''}`}>
-              <CardContent className="p-6">
+            <Card className={`premium-shadow border-none bg-white/80 backdrop-blur-sm transition-all h-full ${stat.active ? 'ring-2 ring-purple-500 bg-purple-50/80' : ''}`}>
+              <CardContent className="p-4 md:p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</div>
-                    <div className={`text-3xl font-black ${stat.color}`}>{stat.value}</div>
+                    <div className={`text-2xl md:text-3xl font-black ${stat.color}`}>{stat.value}</div>
                   </div>
-                  <stat.icon className={`h-10 w-10 ${stat.color} opacity-20`} />
+                  <stat.icon className={`h-8 w-8 md:h-10 md:w-10 ${stat.color} opacity-20`} />
                 </div>
               </CardContent>
             </Card>
@@ -542,15 +542,15 @@ export function Events() {
               whileHover={{ x: 8 }}
             >
               <Card className="premium-shadow border-none bg-white/80 backdrop-blur-md overflow-hidden transition-all group">
-                <CardContent className="p-8">
-                  <div className="flex flex-col md:flex-row gap-8">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex flex-col md:flex-row gap-4 md:gap-8">
                     {/* Event Icon */}
                     <div className="flex-shrink-0">
                       <motion.div
                         whileHover={{ rotate: 12, scale: 1.1 }}
-                        className="h-20 w-20 rounded-[2rem] bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center shadow-lg"
+                        className="h-16 w-16 md:h-20 md:w-20 rounded-2xl md:rounded-[2rem] bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center shadow-lg"
                       >
-                        <TypeIcon className="h-10 w-10 text-white" />
+                        <TypeIcon className="h-8 w-8 md:h-10 md:w-10 text-white" />
                       </motion.div>
                     </div>
 
@@ -558,8 +558,8 @@ export function Events() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-1">{event.title}</h3>
-                          <div className="text-sm text-gray-600">by {event.organizer}</div>
+                          <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">{event.title}</h3>
+                          <div className="text-xs md:text-sm text-gray-600">by {event.organizer}</div>
                         </div>
                         <Badge className={`${getStatusColor(event.status || 'Upcoming')} border`}>
                           {event.status}

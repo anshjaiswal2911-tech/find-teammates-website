@@ -155,13 +155,15 @@ export function Landing() {
                 <p className="text-xs text-gray-500">{t('home.subtitle')}</p>
               </div>
             </motion.div>
-            <div className="flex items-center gap-4">
-              <LanguageSelector />
+            <div className="flex items-center gap-2 md:gap-4">
+              <div className="hidden xs:block">
+                <LanguageSelector />
+              </div>
               <Link to="/login">
-                <Button variant="ghost">{t('nav.login')}</Button>
+                <Button variant="ghost" size="sm" className="hidden xs:inline-flex">{t('nav.login')}</Button>
               </Link>
               <Link to="/signup">
-                <Button>{t('nav.signup')}</Button>
+                <Button size="sm">{t('nav.signup')}</Button>
               </Link>
             </div>
           </div>
@@ -197,7 +199,7 @@ export function Landing() {
             </motion.div>
 
             <motion.h1
-              className="mb-6 text-6xl font-bold tracking-tight text-gray-900"
+              className="mb-6 text-4xl md:text-6xl font-black tracking-tight text-gray-900 leading-[1.1]"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}

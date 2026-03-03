@@ -568,7 +568,7 @@ export function Signup() {
       </div>
 
       {/* Form Side */}
-      <div className="flex w-full items-center justify-center px-6 lg:w-[60%] py-12 bg-slate-50/30">
+      <div className="flex w-full items-center justify-center px-6 lg:w-[60%] py-12 lg:py-16 bg-slate-50/30">
         <div className="w-full max-w-xl">
           <div className="mb-12">
             <div className="flex items-center gap-6 mb-10">

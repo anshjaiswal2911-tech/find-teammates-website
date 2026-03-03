@@ -68,17 +68,17 @@ export function Profile() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-            <p className="mt-2 text-gray-600">Manage your personal information and preferences</p>
+            <h1 className="text-2xl md:text-4xl font-black text-gray-900 tracking-tight">Profile</h1>
+            <p className="mt-1 text-sm md:text-base text-gray-600 font-medium">Manage your personal information and preferences</p>
           </div>
           {!isEditing ? (
-            <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
+            <Button onClick={() => setIsEditing(true)} className="w-full sm:w-auto px-8">Edit Profile</Button>
           ) : (
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
-              <Button onClick={handleSave}>Save Changes</Button>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button variant="outline" onClick={() => setIsEditing(false)} className="flex-1 sm:flex-none">Cancel</Button>
+              <Button onClick={handleSave} className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700">Save Changes</Button>
             </div>
           )}
         </div>
