@@ -83,7 +83,7 @@ const generateAIResponse = (userMessage: string): { content: string; suggestions
 
     const project = projects[Math.floor(Math.random() * projects.length)];
     return {
-      content: `Here's an exciting hackathon project idea:\n\n${project.title}\n\n📝 Description:\n${project.description}\n\n🛠️ Tech Stack:\n${project.tech}\n\n⚡ Difficulty: ${project.difficulty}\n💡 Impact: ${project.impact}\n\n🎯 Why this works:\n• Solves a real problem\n• Uses trending technologies\n• Can be built in 24-48 hours\n• Great portfolio piece`,
+      content: `🧠 *Consulting the innovation oracle...* \n\nFound a high-potential concept for you:\n\n${project.title}\n\n📝 **The Vision:**\n${project.description}\n\n🛠️ **Suggested Stack:**\n${project.tech}\n\n⚡ **Success Index:** ${project.difficulty === 'Advanced' ? 'High Risk, High Reward' : 'Solid MVP Potential'}\n💡 **Impact Quotient:** 98.4/100\n\n🚀 *Antigravity Insight:* This isn't just a project; it's a startup in the making. Focus on the ${project.tech.split(',')[0]} implementation first to win the "Best Tech" category!`,
       suggestions: ["How to start building this?", "Suggest a team structure", "More project ideas"]
     };
   }
@@ -91,7 +91,7 @@ const generateAIResponse = (userMessage: string): { content: string; suggestions
   // Teammate matching advice
   if (msg.includes('teammate') || msg.includes('team') || msg.includes('match') || msg.includes('partner')) {
     return {
-      content: `🤝 Finding the Perfect Teammate - Expert Tips:\n\n1. 🎯 Look Beyond Just Skills\n   • Check compatibility score (aim for 80%+)\n   • Review their past projects on GitHub\n\n2. 💬 Communication is Key\n   • Start with a casual chat\n   • Discuss work style preferences\n\n3. 🔍 Red Flags to Watch\n   • No response within 48 hours\n   • Vague answers about availability\n\n🚀 Pro Tip: Use our AI matching feature! It analyzes 50+ data points for you.`,
+      content: `🤝 *Scanning the global developer network...* \n\nI've calculated your optimal collaboration matrix. Finding the right partner is 40% skills and 60% "vibe check".\n\n1. 🎯 **Look Beyond the Code**\n   • Check compatibility (aim for 85%+ for long-term projects).\n   • GitHub commit frequency shows consistency, not just skill.\n\n2. 💬 **The "3-Message" Rule**\n   • If they don't respond with high energy within 3 messages, their commitment might be low. Move on!\n\n3. 🔍 **Simulated Future Prediction**\n   • I predict your best match will likely be someone with complementary skills (e.g., if you are Backend, look for a UI wizard).\n\n🚀 *Calculated Advice:* Don't settle for "good enough". Your project deserves a co-founder, not just a helper.`,
       suggestions: ["Who is my best match?", "How to invite someone to a team?", "Improve my profile"]
     };
   }
@@ -146,7 +146,7 @@ const generateAIResponse = (userMessage: string): { content: string; suggestions
 
   // Default responses with variety
   return {
-    content: `👋 Hey! I'm your AI assistant at CollabNest. I can help you with project ideas, finding teammates, or career roadmaps.\n\nWhat's on your mind today?`,
+    content: `👋 *Neural handshake established.* \n\nI'm processing at peak efficiency. I can help you architect your next startup, find your technical soulmate, or just debug that one stubborn semicolon.\n\nWhat high-impact objective are we tackling today?`,
     suggestions: ["Suggest a hackathon idea", "How to improve my rank?", "Resources for React"]
   };
 };
@@ -158,7 +158,24 @@ export function AIAssistant() {
   const [isTyping, setIsTyping] = useState(false);
   const [thinkingStage, setThinkingStage] = useState(thinkingStages[0]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [aiStats, setAiStats] = useState({ latency: 0.4, wisdom: 99, context: 128 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic AI Stats Simulation
+  useEffect(() => {
+    if (isTyping) {
+      const interval = setInterval(() => {
+        setAiStats({
+          latency: Number((0.3 + Math.random() * 0.4).toFixed(2)),
+          wisdom: 95 + Math.floor(Math.random() * 5),
+          context: 128 + Math.floor(Math.random() * 4)
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    } else {
+      setAiStats({ latency: 0.32, wisdom: 99, context: 128 });
+    }
+  }, [isTyping]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -168,7 +185,7 @@ export function AIAssistant() {
       {
         id: '1',
         role: 'assistant',
-        content: `👋 ${greeting}, ${user?.name || 'there'}! I'm your personalized AI Assistant.\n\nI'm ready to help you find teammates, brainstorm project ideas, or map out your dev career. What are we working on today?`,
+        content: `👋 ${greeting}, ${user?.name || 'there'}! *Neural Core v2 system check: 100% OK.*\n\nI'm your personalized silicon-based consultant. Whether you need a billion-dollar hackathon idea or a teammate who won't ghost you, I've got the data. \n\nWhat's on the roadmap today?`,
         timestamp: new Date(),
       },
     ]);
@@ -383,15 +400,20 @@ export function AIAssistant() {
                   <div className="flex items-center gap-12 md:gap-16">
                     <div className="text-center">
                       <div className="text-[10px] uppercase tracking-widest text-indigo-200/60 font-black mb-1">Latency</div>
-                      <div className="text-3xl font-black tracking-tighter">0.4<span className="text-indigo-300 text-lg">s</span></div>
+                      <motion.div
+                        animate={{ opacity: [1, 0.7, 1] }}
+                        className="text-3xl font-black tracking-tighter"
+                      >
+                        {aiStats.latency}<span className="text-indigo-300 text-lg">s</span>
+                      </motion.div>
                     </div>
                     <div className="text-center">
                       <div className="text-[10px] uppercase tracking-widest text-indigo-200/60 font-black mb-1">Wisdom</div>
-                      <div className="text-3xl font-black tracking-tighter">99<span className="text-indigo-300 text-lg">%</span></div>
+                      <div className="text-3xl font-black tracking-tighter">{aiStats.wisdom}<span className="text-indigo-300 text-lg">%</span></div>
                     </div>
                     <div className="text-center">
                       <div className="text-[10px] uppercase tracking-widest text-indigo-200/60 font-black mb-1">Context</div>
-                      <div className="text-3xl font-black tracking-tighter">128<span className="text-indigo-300 text-lg">k</span></div>
+                      <div className="text-3xl font-black tracking-tighter">{aiStats.context}<span className="text-indigo-300 text-lg">k</span></div>
                     </div>
                   </div>
                 </div>
@@ -424,8 +446,8 @@ export function AIAssistant() {
                     <div className={`max-w-[85%] md:max-w-[70%] flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
                       <div
                         className={`rounded-[2rem] px-8 py-5 shadow-sm relative group ${message.role === 'user'
-                            ? 'bg-indigo-600 text-white rounded-tr-none'
-                            : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none shadow-md shadow-gray-100/50'
+                          ? 'bg-indigo-600 text-white rounded-tr-none'
+                          : 'bg-white text-gray-800 border border-gray-100 rounded-tl-none shadow-md shadow-gray-100/50'
                           }`}
                       >
                         <p className="text-[15px] md:text-[16px] font-medium whitespace-pre-wrap leading-relaxed">
