@@ -36,10 +36,12 @@ import { DashboardLayout } from '../components/DashboardLayout';
 import { Progress } from '../components/ui/progress';
 import { addActivity } from '../lib/userStats';
 import { useAuth } from '../contexts/AuthContext';
+import { VirtualDemo } from '../components/VirtualDemo';
 
 export function SuperFeatures() {
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
 
   return (
     <DashboardLayout>
@@ -201,7 +203,7 @@ export function SuperFeatures() {
                 </div>
               </CardContent>
             </Card>
-            <ProjectShowcase />
+            <ProjectShowcase onDemoOpen={() => setIsDemoOpen(true)} />
           </div>
         </TabsContent>
 
@@ -228,12 +230,13 @@ export function SuperFeatures() {
           <LiveStudyRooms />
         </TabsContent>
       </Tabs>
+      <VirtualDemo isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
     </DashboardLayout>
   );
 }
 
 // Project Showcase Component
-function ProjectShowcase() {
+function ProjectShowcase({ onDemoOpen }: { onDemoOpen: () => void }) {
   const [projects, setProjects] = useState([
     { id: 1, title: 'AI Code Assistant', author: 'Arjun', likes: 45, image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=400&h=250&auto=format&fit=crop' },
     { id: 2, title: 'Blockchain Wallet', author: 'Sneha', likes: 32, image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=400&h=250&auto=format&fit=crop' },
@@ -300,7 +303,12 @@ function ProjectShowcase() {
                   </div>
                   <p className="text-gray-600 leading-relaxed font-medium mb-8">This project demonstrates advanced implementation of modern web standards. Built with performance and scalability in mind, it serves as a benchmark for the CollabNest community.</p>
                   <div className="flex gap-4">
-                    <Button className="flex-1 h-14 rounded-2xl bg-gray-900 text-white font-black tracking-widest shadow-xl hover:bg-gray-800" onClick={() => alert('Opening live demo...')}>LIVE DEMO</Button>
+                    <Button
+                      className="flex-1 h-14 rounded-2xl bg-gray-900 text-white font-black tracking-widest shadow-xl hover:bg-gray-800"
+                      onClick={() => onDemoOpen()}
+                    >
+                      LIVE DEMO
+                    </Button>
                     <Button variant="outline" className="flex-1 h-14 rounded-2xl border-gray-200 font-black tracking-widest" onClick={() => setSelectedProject(null)}>CLOSE</Button>
                   </div>
                 </div>

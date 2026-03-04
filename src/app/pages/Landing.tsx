@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import {
   Zap,
   Users,
@@ -24,6 +24,7 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { useLanguage } from '../contexts/LanguageContext';
+import { VirtualDemo } from '../components/VirtualDemo';
 
 const getFeatures = (t: (key: string) => string) => [
   {
@@ -102,6 +103,7 @@ export function Landing() {
   const { t } = useLanguage();
   const features = getFeatures(t);
   const stats = getStats(t);
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
 
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden relative">
@@ -249,7 +251,7 @@ export function Landing() {
                 whileTap={{ scale: 0.95 }}
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" onClick={() => setIsDemoOpen(true)}>
                   {t('landing.hero.demo')}
                 </Button>
               </motion.div>
@@ -531,7 +533,7 @@ export function Landing() {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li><a href="#" className="hover:text-blue-600">Features</a></li>
                 <li><a href="#" className="hover:text-blue-600">Pricing</a></li>
-                <li><a href="#" className="hover:text-blue-600">Demo</a></li>
+                <li><button onClick={() => setIsDemoOpen(true)} className="hover:text-blue-600 transition-colors">Demo</button></li>
               </ul>
             </div>
 
@@ -559,6 +561,7 @@ export function Landing() {
           </div>
         </div>
       </footer>
+      <VirtualDemo isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
     </div>
   );
 }
