@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { motion } from 'motion/react';
 import {
   Search,
@@ -92,6 +93,7 @@ const mockConversations: Conversation[] = [
 
 export function Messages() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [conversations, setConversations] = useState(mockConversations);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(conversations[0]);
   const [messageText, setMessageText] = useState('');
@@ -237,7 +239,15 @@ export function Messages() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex items-center gap-4">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => navigate('/dashboard')}
+          className="rounded-full hover:bg-gray-100 border-gray-200"
+        >
+          <ArrowLeft className="h-5 w-5 text-gray-600" />
+        </Button>
         <div>
           <h1 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Messages</h1>
           <p className="hidden md:block mt-1 text-sm text-gray-600">Chat with your teammates</p>
